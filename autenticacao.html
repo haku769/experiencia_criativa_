@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="AutoElite - Faça login ou crie sua conta." />
+  <title>Login | AutoElite</title>
+  <link rel="stylesheet" href="/pages/styles.css" />
+  <link rel="stylesheet" href="/pages/autenticacao.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+</head>
+
+<body>
+  <!-- Cabeçalho e Navegação -->
+  <header>
+    <h1>AutoElite</h1>
+    <nav class="fundo">
+      <ul>
+        <li><a href="/pages/index.html">Início</a></li>
+        <li><a href="/pages/veiculos.html">Veículos</a></li>
+        <li><a href="/pages/financiamento.html">Financiamento</a></li>
+        <li><a href="/pages/contato.html">Contato</a></li>
+        <li><a href="/pages/admin.html">Área do Vendedor</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Conteúdo Principal -->
+  <main>
+    <div class="auth-container">
+      <div class="auth-box">
+        <div class="tabs">
+          <button class="tab-btn active" data-tab="login">Login</button>
+          <button class="tab-btn" data-tab="register">Criar Conta</button>
+        </div>
+
+        <!-- Formulário de Login -->
+        <div class="form-container active" id="login-form">
+          <h2>Acessar minha conta</h2>
+          
+          <form>
+            <div class="form-group">
+              <label for="login-email">E-mail</label>
+              <input type="email" id="login-email" placeholder="Seu e-mail" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="login-password">Senha</label>
+              <input type="password" id="login-password" placeholder="Sua senha" required>
+            </div>
+            
+            <div class="form-options">
+              <label class="remember-me">
+                <input type="checkbox" id="remember">
+                <span>Lembrar-me</span>
+              </label>
+              <a href="#" class="forgot-password" id="forgot-password-link">Esqueci minha senha</a>
+            </div>
+            
+            <button type="submit" class="btn-submit">Entrar</button>
+          </form>
+        </div>
+
+        <!-- Formulário de Registro -->
+        <div class="form-container" id="register-form">
+          <h2>Criar nova conta</h2>
+          
+          <form>
+            <div class="form-group">
+              <label for="register-name">Nome completo</label>
+              <input type="text" id="register-name" placeholder="Seu nome completo" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="register-email">E-mail</label>
+              <input type="email" id="register-email" placeholder="Seu e-mail" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="register-phone">Telefone</label>
+              <input type="tel" id="register-phone" placeholder="(00) 00000-0000" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="register-password">Senha</label>
+              <input type="password" id="register-password" placeholder="Crie uma senha" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="register-confirm-password">Confirmar Senha</label>
+              <input type="password" id="register-confirm-password" placeholder="Confirme sua senha" required>
+            </div>
+            
+            <div class="form-options">
+              <label class="terms-checkbox">
+                <input type="checkbox" id="terms" required>
+                <span>Concordo com os <a href="#">Termos de Uso</a> e <a href="#">Política de Privacidade</a></span>
+              </label>
+            </div>
+            
+            <button type="submit" class="btn-submit">Criar Conta</button>
+          </form>
+        </div>
+
+        <!-- Formulário de Recuperação de Senha -->
+        <div class="form-container" id="forgot-password-form">
+          <h2>Recuperar Senha</h2>
+          <p class="form-description">
+            Digite seu e-mail para receber um link de recuperação.
+          </p>
+          
+          <form>
+            <div class="form-group">
+              <label for="recovery-email">E-mail</label>
+              <input type="email" id="recovery-email" placeholder="Seu e-mail" required>
+            </div>
+            
+            <button type="submit" class="btn-submit">Enviar Link</button>
+            <button type="button" class="btn-secondary" id="back-to-login">Voltar para o Login</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Rodapé -->
+  <footer>
+    <div class="footer-content">
+      <div class="footer-section">
+        <h3>AutoElite</h3>
+        <p>Sua concessionária de confiança desde 2010</p>
+      </div>
+      <div class="footer-section">
+        <h3>Contato</h3>
+        <p><i class="fas fa-phone"></i> (11) 3456-7890</p>
+        <p><i class="fas fa-envelope"></i> contato@autoelite.com.br</p>
+      </div>
+      <div class="footer-section">
+        <h3>Horário de Funcionamento</h3>
+        <p><i class="fas fa-clock"></i> Segunda a Sexta: 8h às 19h</p>
+        <p><i class="fas fa-calendar"></i> Sábados: 9h às 16h</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2024 AutoElite. Todos os direitos reservados.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Alternar entre formulários
+    const tabBtns = document.querySelectorAll('.tab-btn');
+    const formContainers = document.querySelectorAll('.form-container');
+    const forgotPasswordLink = document.getElementById('forgot-password-link');
+    const backToLogin = document.getElementById('back-to-login');
+
+    // Função para mostrar um formulário específico
+    function showForm(formId) {
+      formContainers.forEach(form => {
+        form.classList.remove('active');
+      });
+      document.getElementById(formId).classList.add('active');
+    }
+
+    // Alternar entre abas
+    tabBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        tabBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        
+        const tab = btn.getAttribute('data-tab');
+        if (tab === 'login') {
+          showForm('login-form');
+        } else if (tab === 'register') {
+          showForm('register-form');
+        }
+      });
+    });
+
+    // Recuperação de senha
+    if (forgotPasswordLink) {
+      forgotPasswordLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        showForm('forgot-password-form');
+      });
+    }
+
+    if (backToLogin) {
+      backToLogin.addEventListener('click', () => {
+        tabBtns.forEach(b => b.classList.remove('active'));
+        document.querySelector('[data-tab="login"]').classList.add('active');
+        showForm('login-form');
+      });
+    }
+
+    // Validação de formulário
+    const loginForm = document.querySelector('#login-form form');
+    const registerForm = document.querySelector('#register-form form');
+    const recoveryForm = document.querySelector('#forgot-password-form form');
+
+    if (loginForm) {
+      loginForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        // Aqui você adicionaria a lógica de autenticação
+        alert('Login realizado com sucesso!');
+      });
+    }
+
+    if (registerForm) {
+      registerForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        
+        // Verificar se as senhas coincidem
+        const password = document.getElementById('register-password').value;
+        const confirmPassword = document.getElementById('register-confirm-password').value;
+        
+        if (password !== confirmPassword) {
+          alert('As senhas não coincidem!');
+          return;
+        }
+        
+        // Aqui você adicionaria a lógica de registro
+        alert('Conta criada com sucesso!');
+      });
+    }
+
+    if (recoveryForm) {
+      recoveryForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        // Aqui você adicionaria a lógica de recuperação de senha
+        alert('E-mail de recuperação enviado com sucesso!');
+        showForm('login-form');
+      });
+    }
+  </script>
+</body>
+</html>

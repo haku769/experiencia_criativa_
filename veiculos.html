@@ -1,0 +1,1052 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="AutoElite - Explore nossa seleção de veículos novos e seminovos." />
+  <title>Veículos | AutoElite</title>
+  <link rel="stylesheet" href="/pages/styles.css" />
+  <link rel="stylesheet" href="/pages/veiculos.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+</head>
+
+<body>
+  <!-- Cabeçalho e Navegação -->
+  <header>
+    <h1>AutoElite</h1>
+    <nav class="fundo">
+      <ul>
+        <li><a href="/pages/index.html">Início</a></li>
+        <li><a href="/pages/veiculos.html" class="active">Veículos</a></li>
+        <li><a href="/pages/financiamento.html">Financiamento</a></li>
+        <li><a href="/pages/contato.html">Contato</a></li>
+        <li><a href="/pages/admin.html">Área do Vendedor</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Conteúdo Principal -->
+  <main>
+    <!-- Banner da página -->
+    <div class="page-banner" style="background-image: linear-gradient(rgba(29, 53, 87, 0.8), rgba(29, 53, 87, 0.8)), url('https://images.unsplash.com/photo-1567899378494-47b22a2ae96a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');">
+      <h1>Nossos Veículos</h1>
+      <p>Encontre o carro ideal para você entre nossa seleção premium</p>
+      <div class="search-container">
+        <input type="text" placeholder="Busque por marca, modelo ou ano..." class="search-input">
+        <button class="search-button"><i class="fas fa-search"></i></button>
+      </div>
+    </div>
+
+    <!-- Estatísticas rápidas -->
+    <div class="quick-stats">
+      <div class="stat-item">
+        <i class="fas fa-car"></i>
+        <div class="stat-info">
+          <span class="stat-number">250+</span>
+          <span class="stat-label">Veículos disponíveis</span>
+        </div>
+      </div>
+      <div class="stat-item">
+        <i class="fas fa-star"></i>
+        <div class="stat-info">
+          <span class="stat-number">4.8/5</span>
+          <span class="stat-label">Avaliação dos clientes</span>
+        </div>
+      </div>
+      <div class="stat-item">
+        <i class="fas fa-shield-alt"></i>
+        <div class="stat-info">
+          <span class="stat-number">100%</span>
+          <span class="stat-label">Veículos revisados</span>
+        </div>
+      </div>
+      <div class="stat-item">
+        <i class="fas fa-sync-alt"></i>
+        <div class="stat-info">
+          <span class="stat-number">30 dias</span>
+          <span class="stat-label">Garantia de troca</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="vehicles-container">
+      <!-- Filtros -->
+      <aside class="filters">
+        <div class="filter-header">
+          <h2>Filtros</h2>
+          <button id="clear-filters"><i class="fas fa-times"></i> Limpar</button>
+        </div>
+
+        <div class="filter-group">
+          <h3><i class="fas fa-tags"></i> Categoria</h3>
+          <div class="filter-options">
+            <label class="custom-checkbox">
+              <input type="checkbox" name="category" value="novos">
+              <span class="checkmark"></span>
+              Novos <span class="count">(45)</span>
+            </label>
+            <label class="custom-checkbox">
+              <input type="checkbox" name="category" value="seminovos">
+              <span class="checkmark"></span>
+              Seminovos <span class="count">(78)</span>
+            </label>
+            <label class="custom-checkbox">
+              <input type="checkbox" name="category" value="suvs">
+              <span class="checkmark"></span>
+              SUVs <span class="count">(32)</span>
+            </label>
+            <label class="custom-checkbox">
+              <input type="checkbox" name="category" value="picapes">
+              <span class="checkmark"></span>
+              Picapes <span class="count">(18)</span>
+            </label>
+            <label class="custom-checkbox">
+              <input type="checkbox" name="category" value="sedan">
+              <span class="checkmark"></span>
+              Sedans <span class="count">(42)</span>
+            </label>
+            <label class="custom-checkbox">
+              <input type="checkbox" name="category" value="hatch">
+              <span class="checkmark"></span>
+              Hatchbacks <span class="count">(31)</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="filter-group">
+          <h3><i class="fas fa-industry"></i> Marca</h3>
+          <div class="brand-filter">
+            <input type="text" placeholder="Buscar marca..." class="brand-search">
+            <div class="filter-options scrollable">
+              <label class="custom-checkbox">
+                <input type="checkbox" name="brand" value="toyota">
+                <span class="checkmark"></span>
+                Toyota <span class="count">(35)</span>
+              </label>
+              <label class="custom-checkbox">
+                <input type="checkbox" name="brand" value="honda">
+                <span class="checkmark"></span>
+                Honda <span class="count">(28)</span>
+              </label>
+              <label class="custom-checkbox">
+                <input type="checkbox" name="brand" value="volkswagen">
+                <span class="checkmark"></span>
+                Volkswagen <span class="count">(22)</span>
+              </label>
+              <label class="custom-checkbox">
+                <input type="checkbox" name="brand" value="chevrolet">
+                <span class="checkmark"></span>
+                Chevrolet <span class="count">(19)</span>
+              </label>
+              <label class="custom-checkbox">
+                <input type="checkbox" name="brand" value="ford">
+                <span class="checkmark"></span>
+                Ford <span class="count">(15)</span>
+              </label>
+              <label class="custom-checkbox">
+                <input type="checkbox" name="brand" value="hyundai">
+                <span class="checkmark"></span>
+                Hyundai <span class="count">(12)</span>
+              </label>
+              <label class="custom-checkbox">
+                <input type="checkbox" name="brand" value="jeep">
+                <span class="checkmark"></span>
+                Jeep <span class="count">(10)</span>
+              </label>
+              <label class="custom-checkbox">
+                <input type="checkbox" name="brand" value="bmw">
+                <span class="checkmark"></span>
+                BMW <span class="count">(8)</span>
+              </label>
+              <label class="custom-checkbox">
+                <input type="checkbox" name="brand" value="mercedes">
+                <span class="checkmark"></span>
+                Mercedes-Benz <span class="count">(7)</span>
+              </label>
+              <label class="custom-checkbox">
+                <input type="checkbox" name="brand" value="audi">
+                <span class="checkmark"></span>
+                Audi <span class="count">(6)</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="filter-group">
+          <h3><i class="fas fa-calendar-alt"></i> Ano</h3>
+          <div class="year-range">
+            <div class="year-inputs">
+              <div class="year-field">
+                <label>De</label>
+                <select id="year-from">
+                  <option value="2015">2015</option>
+                  <option value="2016">2016</option>
+                  <option value="2017">2017</option>
+                  <option value="2018">2018</option>
+                  <option value="2019">2019</option>
+                  <option value="2020">2020</option>
+                  <option value="2021">2021</option>
+                  <option value="2022">2022</option>
+                  <option value="2023">2023</option>
+                  <option value="2024" selected>2024</option>
+                </select>
+              </div>
+              <div class="year-field">
+                <label>Até</label>
+                <select id="year-to">
+                  <option value="2015">2015</option>
+                  <option value="2016">2016</option>
+                  <option value="2017">2017</option>
+                  <option value="2018">2018</option>
+                  <option value="2019">2019</option>
+                  <option value="2020">2020</option>
+                  <option value="2021">2021</option>
+                  <option value="2022">2022</option>
+                  <option value="2023">2023</option>
+                  <option value="2024" selected>2024</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="filter-group">
+          <h3><i class="fas fa-dollar-sign"></i> Preço</h3>
+          <div class="price-range">
+            <div class="range-slider">
+              <input type="range" id="price-range" min="30000" max="300000" step="10000" value="300000">
+              <div class="range-progress"></div>
+            </div>
+            <div class="price-labels">
+              <span>R$ 30.000</span>
+              <span id="price-value">R$ 300.000</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="filter-group">
+          <h3><i class="fas fa-cogs"></i> Características</h3>
+          <div class="filter-options">
+            <label class="custom-checkbox">
+              <input type="checkbox" name="features" value="automatic">
+              <span class="checkmark"></span>
+              Automático
+            </label>
+            <label class="custom-checkbox">
+              <input type="checkbox" name="features" value="manual">
+              <span class="checkmark"></span>
+              Manual
+            </label>
+            <label class="custom-checkbox">
+              <input type="checkbox" name="features" value="leather">
+              <span class="checkmark"></span>
+              Bancos em Couro
+            </label>
+            <label class="custom-checkbox">
+              <input type="checkbox" name="features" value="sunroof">
+              <span class="checkmark"></span>
+              Teto Solar
+            </label>
+            <label class="custom-checkbox">
+              <input type="checkbox" name="features" value="camera">
+              <span class="checkmark"></span>
+              Câmera de Ré
+            </label>
+            <label class="custom-checkbox">
+              <input type="checkbox" name="features" value="sensors">
+              <span class="checkmark"></span>
+              Sensores de Estacionamento
+            </label>
+          </div>
+          <button class="show-more-btn" id="show-more-features">
+            <span class="show-text">Ver mais</span>
+            <span class="hide-text">Ver menos</span>
+            <i class="fas fa-chevron-down"></i>
+          </button>
+          <div class="hidden-options">
+            <label class="custom-checkbox">
+              <input type="checkbox" name="features" value="bluetooth">
+              <span class="checkmark"></span>
+              Bluetooth
+            </label>
+            <label class="custom-checkbox">
+              <input type="checkbox" name="features" value="keyless">
+              <span class="checkmark"></span>
+              Partida sem Chave
+            </label>
+            <label class="custom-checkbox">
+              <input type="checkbox" name="features" value="cruise">
+              <span class="checkmark"></span>
+              Piloto Automático
+            </label>
+            <label class="custom-checkbox">
+              <input type="checkbox" name="features" value="airbags">
+              <span class="checkmark"></span>
+              Airbags
+            </label>
+          </div>
+        </div>
+
+        <div class="filter-group">
+          <h3><i class="fas fa-gas-pump"></i> Combustível</h3>
+          <div class="filter-options">
+            <label class="custom-checkbox">
+              <input type="checkbox" name="fuel" value="flex">
+              <span class="checkmark"></span>
+              Flex
+            </label>
+            <label class="custom-checkbox">
+              <input type="checkbox" name="fuel" value="gasoline">
+              <span class="checkmark"></span>
+              Gasolina
+            </label>
+            <label class="custom-checkbox">
+              <input type="checkbox" name="fuel" value="diesel">
+              <span class="checkmark"></span>
+              Diesel
+            </label>
+            <label class="custom-checkbox">
+              <input type="checkbox" name="fuel" value="electric">
+              <span class="checkmark"></span>
+              Elétrico
+            </label>
+            <label class="custom-checkbox">
+              <input type="checkbox" name="fuel" value="hybrid">
+              <span class="checkmark"></span>
+              Híbrido
+            </label>
+          </div>
+        </div>
+
+        <div class="filter-actions">
+          <button class="apply-filters"><i class="fas fa-filter"></i> Aplicar Filtros</button>
+          <button class="save-search"><i class="fas fa-bell"></i> Salvar Busca</button>
+        </div>
+      </aside>
+
+      <!-- Lista de Veículos -->
+      <section class="vehicles-list">
+        <div class="vehicles-header">
+          <div class="results-count">
+            <p>Exibindo <span>12</span> de <span>48</span> veículos</p>
+          </div>
+          <div class="view-options">
+            <button class="view-btn active" data-view="grid"><i class="fas fa-th-large"></i></button>
+            <button class="view-btn" data-view="list"><i class="fas fa-list"></i></button>
+          </div>
+          <div class="sort-options">
+            <label for="sort">Ordenar por:</label>
+            <select id="sort">
+              <option value="relevance">Relevância</option>
+              <option value="price-asc">Menor Preço</option>
+              <option value="price-desc">Maior Preço</option>
+              <option value="year-desc">Mais Novos</option>
+              <option value="year-asc">Mais Antigos</option>
+              <option value="km-asc">Menor Quilometragem</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="vehicles-grid" id="vehicles-container">
+          <!-- Veículo 1 -->
+          <div class="vehicle-card">
+            <div class="vehicle-image">
+              <div class="image-slider">
+                <img src="https://images.unsplash.com/photo-1590362891991-f776e747a588?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Honda Civic 2023">
+                <img src="https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Honda Civic 2023 Interior">
+                <img src="https://images.unsplash.com/photo-1542362567-b07e54358753?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Honda Civic 2023 Traseira">
+              </div>
+              <div class="slider-controls">
+                <button class="prev-slide"><i class="fas fa-chevron-left"></i></button>
+                <div class="slide-dots">
+                  <span class="dot active"></span>
+                  <span class="dot"></span>
+                  <span class="dot"></span>
+                </div>
+                <button class="next-slide"><i class="fas fa-chevron-right"></i></button>
+              </div>
+              <span class="vehicle-tag new">Novo</span>
+              <button class="favorite-btn"><i class="far fa-heart"></i></button>
+              <button class="compare-btn" data-id="civic-2023"><i class="fas fa-exchange-alt"></i></button>
+            </div>
+            <div class="vehicle-details">
+              <div class="vehicle-title">
+                <h3>Honda Civic 2023</h3>
+                <div class="vehicle-subtitle">Touring Turbo</div>
+              </div>
+              <p class="vehicle-price">R$ 149.900,00</p>
+              <div class="financing-example">
+                <span>Financiamento: R$ 1.899/mês</span>
+                <i class="fas fa-info-circle" title="Entrada de R$ 45.000 + 60x"></i>
+              </div>
+              <ul class="vehicle-specs">
+                <li><i class="fas fa-road"></i> 15.000 km</li>
+                <li><i class="fas fa-cog"></i> Automático</li>
+                <li><i class="fas fa-gas-pump"></i> Flex</li>
+                <li><i class="fas fa-map-marker-alt"></i> São Paulo</li>
+              </ul>
+              <div class="vehicle-features">
+                <span class="feature-tag">Teto Solar</span>
+                <span class="feature-tag">Couro</span>
+                <span class="feature-tag">Câmera 360°</span>
+                <span class="feature-tag">+5</span>
+              </div>
+              <div class="vehicle-actions">
+                <button class="btn-details"><i class="fas fa-search-plus"></i> Ver Detalhes</button>
+                <button class="btn-contact"><i class="fas fa-comment"></i> Contato</button>
+                <button class="btn-test-drive"><i class="fas fa-car"></i> Agendar Test Drive</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Veículo 2 -->
+          <div class="vehicle-card">
+            <div class="vehicle-image">
+              <div class="image-slider">
+                <img src="https://images.unsplash.com/photo-1621007947382-bb3c3994e3fb?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Toyota Corolla 2022">
+                <img src="https://images.unsplash.com/photo-1550355291-bbee04a92027?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Toyota Corolla 2022 Interior">
+                <img src="https://images.unsplash.com/photo-1606152421802-db97b9c7a11b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Toyota Corolla 2022 Traseira">
+              </div>
+              <div class="slider-controls">
+                <button class="prev-slide"><i class="fas fa-chevron-left"></i></button>
+                <div class="slide-dots">
+                  <span class="dot active"></span>
+                  <span class="dot"></span>
+                  <span class="dot"></span>
+                </div>
+                <button class="next-slide"><i class="fas fa-chevron-right"></i></button>
+              </div>
+              <span class="vehicle-tag used">Seminovo</span>
+              <span class="vehicle-tag promo">Oferta</span>
+              <button class="favorite-btn"><i class="far fa-heart"></i></button>
+              <button class="compare-btn" data-id="corolla-2022"><i class="fas fa-exchange-alt"></i></button>
+            </div>
+            <div class="vehicle-details">
+              <div class="vehicle-title">
+                <h3>Toyota Corolla 2022</h3>
+                <div class="vehicle-subtitle">Altis Premium</div>
+              </div>
+              <div class="price-container">
+                <p class="vehicle-price-old">R$ 149.900,00</p>
+                <p class="vehicle-price">R$ 139.900,00</p>
+              </div>
+              <div class="financing-example">
+                <span>Financiamento: R$ 1.799/mês</span>
+                <i class="fas fa-info-circle" title="Entrada de R$ 42.000 + 60x"></i>
+              </div>
+              <ul class="vehicle-specs">
+                <li><i class="fas fa-road"></i> 32.000 km</li>
+                <li><i class="fas fa-cog"></i> Automático</li>
+                <li><i class="fas fa-gas-pump"></i> Flex</li>
+                <li><i class="fas fa-map-marker-alt"></i> São Paulo</li>
+              </ul>
+              <div class="vehicle-features">
+                <span class="feature-tag">Teto Solar</span>
+                <span class="feature-tag">Couro</span>
+                <span class="feature-tag">Multimídia</span>
+                <span class="feature-tag">+6</span>
+              </div>
+              <div class="vehicle-actions">
+                <button class="btn-details"><i class="fas fa-search-plus"></i> Ver Detalhes</button>
+                <button class="btn-contact"><i class="fas fa-comment"></i> Contato</button>
+                <button class="btn-test-drive"><i class="fas fa-car"></i> Agendar Test Drive</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Veículo 3 -->
+          <div class="vehicle-card featured">
+            <div class="vehicle-image">
+              <div class="image-slider">
+                <img src="https://images.unsplash.com/photo-1661078488626-d2cd26d7463f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Jeep Compass 2023">
+                <img src="https://images.unsplash.com/photo-1669128386400-21b9c4fd1c3c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Jeep Compass 2023 Interior">
+                <img src="https://images.unsplash.com/photo-1669128386400-21b9c4fd1c3c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Jeep Compass 2023 Traseira">
+              </div>
+              <div class="slider-controls">
+                <button class="prev-slide"><i class="fas fa-chevron-left"></i></button>
+                <div class="slide-dots">
+                  <span class="dot active"></span>
+                  <span class="dot"></span>
+                  <span class="dot"></span>
+                </div>
+                <button class="next-slide"><i class="fas fa-chevron-right"></i></button>
+              </div>
+              <span class="vehicle-tag new">Novo</span>
+              <span class="vehicle-tag featured">Destaque</span>
+              <button class="favorite-btn"><i class="far fa-heart"></i></button>
+              <button class="compare-btn" data-id="compass-2023"><i class="fas fa-exchange-alt"></i></button>
+            </div>
+            <div class="vehicle-details">
+              <div class="vehicle-title">
+                <h3>Jeep Compass 2023</h3>
+                <div class="vehicle-subtitle">Trailhawk 4x4 Diesel</div>
+              </div>
+              <p class="vehicle-price">R$ 189.900,00</p>
+              <div class="financing-example">
+                <span>Financiamento: R$ 2.399/mês</span>
+                <i class="fas fa-info-circle" title="Entrada de R$ 57.000 + 60x"></i>
+              </div>
+              <ul class="vehicle-specs">
+                <li><i class="fas fa-road"></i> 0 km</li>
+                <li><i class="fas fa-cog"></i> Automático</li>
+                <li><i class="fas fa-gas-pump"></i> Diesel</li>
+                <li><i class="fas fa-map-marker-alt"></i> São Paulo</li>
+              </ul>
+              <div class="vehicle-features">
+                <span class="feature-tag">4x4</span>
+                <span class="feature-tag">Teto Solar</span>
+                <span class="feature-tag">Couro</span>
+                <span class="feature-tag">+8</span>
+              </div>
+              <div class="vehicle-actions">
+                <button class="btn-details"><i class="fas fa-search-plus"></i> Ver Detalhes</button>
+                <button class="btn-contact"><i class="fas fa-comment"></i> Contato</button>
+                <button class="btn-test-drive"><i class="fas fa-car"></i> Agendar Test Drive</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Veículo 4 -->
+          <div class="vehicle-card">
+            <div class="vehicle-image">
+              <div class="image-slider">
+                <img src="https://images.unsplash.com/photo-1614200179396-2bdb77ebf81b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Volkswagen Golf GTI 2022">
+                <img src="https://images.unsplash.com/photo-1542362567-b07e54358753?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Volkswagen Golf GTI 2022 Interior">
+                <img src="https://images.unsplash.com/photo-1542282088-fe8426682b8f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Volkswagen Golf GTI 2022 Traseira">
+              </div>
+              <div class="slider-controls">
+                <button class="prev-slide"><i class="fas fa-chevron-left"></i></button>
+                <div class="slide-dots">
+                  <span class="dot active"></span>
+                  <span class="dot"></span>
+                  <span class="dot"></span>
+                </div>
+                <button class="next-slide"><i class="fas fa-chevron-right"></i></button>
+              </div>
+              <span class="vehicle-tag used">Seminovo</span>
+              <button class="favorite-btn"><i class="far fa-heart"></i></button>
+              <button class="compare-btn" data-id="golf-2022"><i class="fas fa-exchange-alt"></i></button>
+            </div>
+            <div class="vehicle-details">
+              <div class="vehicle-title">
+                <h3>Volkswagen Golf GTI 2022</h3>
+                <div class="vehicle-subtitle">2.0 TSI</div>
+              </div>
+              <p class="vehicle-price">R$ 229.900,00</p>
+              <div class="financing-example">
+                <span>Financiamento: R$ 2.899/mês</span>
+                <i class="fas fa-info-circle" title="Entrada de R$ 69.000 + 60x"></i>
+              </div>
+              <ul class="vehicle-specs">
+                <li><i class="fas fa-road"></i> 18.000 km</li>
+                <li><i class="fas fa-cog"></i> Automático</li>
+                <li><i class="fas fa-gas-pump"></i> Gasolina</li>
+                <li><i class="fas fa-map-marker-alt"></i> São Paulo</li>
+              </ul>
+              <div class="vehicle-features">
+                <span class="feature-tag">Teto Solar</span>
+                <span class="feature-tag">Couro</span>
+                <span class="feature-tag">Turbo</span>
+                <span class="feature-tag">+7</span>
+              </div>
+              <div class="vehicle-actions">
+                <button class="btn-details"><i class="fas fa-search-plus"></i> Ver Detalhes</button>
+                <button class="btn-contact"><i class="fas fa-comment"></i> Contato</button>
+                <button class="btn-test-drive"><i class="fas fa-car"></i> Agendar Test Drive</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Veículo 5 -->
+          <div class="vehicle-card">
+            <div class="vehicle-image">
+              <div class="image-slider">
+                <img src="https://images.unsplash.com/photo-1612544448445-b8232cff3b6a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Ford Ranger 2023">
+                <img src="https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Ford Ranger 2023 Interior">
+                <img src="https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Ford Ranger 2023 Traseira">
+              </div>
+              <div class="slider-controls">
+                <button class="prev-slide"><i class="fas fa-chevron-left"></i></button>
+                <div class="slide-dots">
+                  <span class="dot active"></span>
+                  <span class="dot"></span>
+                  <span class="dot"></span>
+                </div>
+                <button class="next-slide"><i class="fas fa-chevron-right"></i></button>
+              </div>
+              <span class="vehicle-tag new">Novo</span>
+              <button class="favorite-btn"><i class="far fa-heart"></i></button>
+              <button class="compare-btn" data-id="ranger-2023"><i class="fas fa-exchange-alt"></i></button>
+            </div>
+            <div class="vehicle-details">
+              <div class="vehicle-title">
+                <h3>Ford Ranger 2023</h3>
+                <div class="vehicle-subtitle">Limited 3.2 Diesel 4x4</div>
+              </div>
+              <p class="vehicle-price">R$ 249.900,00</p>
+              <div class="financing-example">
+                <span>Financiamento: R$ 3.199/mês</span>
+                <i class="fas fa-info-circle" title="Entrada de R$ 75.000 + 60x"></i>
+              </div>
+              <ul class="vehicle-specs">
+                <li><i class="fas fa-road"></i> 0 km</li>
+                <li><i class="fas fa-cog"></i> Automático</li>
+                <li><i class="fas fa-gas-pump"></i> Diesel</li>
+                <li><i class="fas fa-map-marker-alt"></i> São Paulo</li>
+              </ul>
+              <div class="vehicle-features">
+                <span class="feature-tag">4x4</span>
+                <span class="feature-tag">Couro</span>
+                <span class="feature-tag">Multimídia</span>
+                <span class="feature-tag">+6</span>
+              </div>
+              <div class="vehicle-actions">
+                <button class="btn-details"><i class="fas fa-search-plus"></i> Ver Detalhes</button>
+                <button class="btn-contact"><i class="fas fa-comment"></i> Contato</button>
+                <button class="btn-test-drive"><i class="fas fa-car"></i> Agendar Test Drive</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Veículo 6 -->
+          <div class="vehicle-card">
+            <div class="vehicle-image">
+              <div class="image-slider">
+                <img src="https://images.unsplash.com/photo-1619682817481-e994891cd1f5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Hyundai HB20 2023">
+                <img src="https://images.unsplash.com/photo-1550355291-bbee04a92027?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Hyundai HB20 2023 Interior">
+                <img src="https://images.unsplash.com/photo-1550355291-bbee04a92027?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Hyundai HB20 2023 Traseira">
+              </div>
+              <div class="slider-controls">
+                <button class="prev-slide"><i class="fas fa-chevron-left"></i></button>
+                <div class="slide-dots">
+                  <span class="dot active"></span>
+                  <span class="dot"></span>
+                  <span class="dot"></span>
+                </div>
+                <button class="next-slide"><i class="fas fa-chevron-right"></i></button>
+              </div>
+              <span class="vehicle-tag used">Seminovo</span>
+              <span class="vehicle-tag promo">Oferta</span>
+              <button class="favorite-btn"><i class="far fa-heart"></i></button>
+              <button class="compare-btn" data-id="hb20-2023"><i class="fas fa-exchange-alt"></i></button>
+            </div>
+            <div class="vehicle-details">
+              <div class="vehicle-title">
+                <h3>Hyundai HB20 2023</h3>
+                <div class="vehicle-subtitle">Diamond Plus 1.0 Turbo</div>
+              </div>
+              <div class="price-container">
+                <p class="vehicle-price-old">R$ 94.900,00</p>
+                <p class="vehicle-price">R$ 89.900,00</p>
+              </div>
+              <div class="financing-example">
+                <span>Financiamento: R$ 1.199/mês</span>
+                <i class="fas fa-info-circle" title="Entrada de R$ 27.000 + 60x"></i>
+              </div>
+              <ul class="vehicle-specs">
+                <li><i class="fas fa-road"></i> 12.000 km</li>
+                <li><i class="fas fa-cog"></i> Manual</li>
+                <li><i class="fas fa-gas-pump"></i> Flex</li>
+                <li><i class="fas fa-map-marker-alt"></i> São Paulo</li>
+              </ul>
+              <div class="vehicle-features">
+                <span class="feature-tag">Multimídia</span>
+                <span class="feature-tag">Turbo</span>
+                <span class="feature-tag">Câmera</span>
+                <span class="feature-tag">+4</span>
+              </div>
+              <div class="vehicle-actions">
+                <button class="btn-details"><i class="fas fa-search-plus"></i> Ver Detalhes</button>
+                <button class="btn-contact"><i class="fas fa-comment"></i> Contato</button>
+                <button class="btn-test-drive"><i class="fas fa-car"></i> Agendar Test Drive</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Comparação de Veículos -->
+        <div class="comparison-bar" id="comparison-bar">
+          <div class="comparison-header">
+            <h3><i class="fas fa-exchange-alt"></i> Comparar Veículos</h3>
+            <button id="close-comparison"><i class="fas fa-times"></i></button>
+          </div>
+          <div class="comparison-vehicles" id="comparison-vehicles">
+            <!-- Veículos para comparação serão adicionados aqui via JavaScript -->
+          </div>
+          <button class="compare-action" id="compare-action" disabled>
+            <i class="fas fa-balance-scale"></i> Comparar (<span id="compare-count">0</span>/3)
+          </button>
+        </div>
+
+        <!-- Paginação -->
+        <div class="pagination">
+          <button class="page-btn active">1</button>
+          <button class="page-btn">2</button>
+          <button class="page-btn">3</button>
+          <button class="page-btn">4</button>
+          <button class="page-btn next">Próxima <i class="fas fa-chevron-right"></i></button>
+        </div>
+      </section>
+    </div>
+  </main>
+  
+  <!-- Rodapé -->
+  <footer>
+    <div class="footer-content">
+      <div class="footer-section">
+        <h3>AutoElite</h3>
+        <p>Sua concessionária de confiança desde 2010</p>
+      </div>
+      <div class="footer-section">
+        <h3>Contato</h3>
+        <p><i class="fas fa-phone"></i> (11) 3456-7890</p>
+        <p><i class="fas fa-envelope"></i> contato@autoelite.com.br</p>
+      </div>
+      <div class="footer-section">
+        <h3>Horário de Funcionamento</h3>
+        <p><i class="fas fa-clock"></i> Segunda a Sexta: 8h às 19h</p>
+        <p><i class="fas fa-calendar"></i> Sábados: 9h às 16h</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2024 AutoElite. Todos os direitos reservados.</p>
+    </div>
+  </footer>
+
+  <!-- Modal de Agendamento de Test Drive -->
+  <div class="modal" id="test-drive-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Agendar Test Drive</h2>
+        <button class="close-modal"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="modal-body">
+        <div class="selected-vehicle">
+          <img src="/placeholder.svg" alt="Veículo selecionado" id="test-drive-vehicle-img">
+          <div class="vehicle-info">
+            <h3 id="test-drive-vehicle-name"></h3>
+            <p id="test-drive-vehicle-price"></p>
+          </div>
+        </div>
+        <form id="test-drive-form">
+          <div class="form-group">
+            <label for="name">Nome Completo</label>
+            <input type="text" id="name" required>
+          </div>
+          <div class="form-group">
+            <label for="email">E-mail</label>
+            <input type="email" id="email" required>
+          </div>
+          <div class="form-group">
+            <label for="phone">Telefone</label>
+            <input type="tel" id="phone" required>
+          </div>
+          <div class="form-group">
+            <label for="date">Data Preferencial</label>
+            <input type="date" id="date" required>
+          </div>
+          <div class="form-group">
+            <label for="time">Horário Preferencial</label>
+            <select id="time" required>
+              <option value="">Selecione um horário</option>
+              <option value="09:00">09:00</option>
+              <option value="10:00">10:00</option>
+              <option value="11:00">11:00</option>
+              <option value="14:00">14:00</option>
+              <option value="15:00">15:00</option>
+              <option value="16:00">16:00</option>
+              <option value="17:00">17:00</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="message">Observações</label>
+            <textarea id="message" rows="3"></textarea>
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="btn-submit">Agendar Test Drive</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Script para atualizar o valor do filtro de preço
+    document.getElementById('price-range').addEventListener('input', function() {
+      document.getElementById('price-value').textContent = 'R$ ' + this.value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+      
+      // Atualizar a barra de progresso
+      const percentage = ((this.value - this.min) / (this.max - this.min)) * 100;
+      document.querySelector('.range-progress').style.width = percentage + '%';
+    });
+
+    // Inicializar a barra de progresso
+    const priceRange = document.getElementById('price-range');
+    const percentage = ((priceRange.value - priceRange.min) / (priceRange.max - priceRange.min)) * 100;
+    document.querySelector('.range-progress').style.width = percentage + '%';
+
+    // Mostrar/ocultar opções adicionais
+    document.getElementById('show-more-features').addEventListener('click', function() {
+      const hiddenOptions = document.querySelector('.hidden-options');
+      hiddenOptions.classList.toggle('show');
+      this.classList.toggle('active');
+    });
+
+    // Alternar entre visualização em grade e lista
+    document.querySelectorAll('.view-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        
+        const viewType = this.getAttribute('data-view');
+        const container = document.getElementById('vehicles-container');
+        
+        if (viewType === 'list') {
+          container.classList.add('vehicles-list-view');
+          container.classList.remove('vehicles-grid');
+        } else {
+          container.classList.add('vehicles-grid');
+          container.classList.remove('vehicles-list-view');
+        }
+      });
+    });
+
+    // Controles do slider de imagens
+    document.querySelectorAll('.vehicle-card').forEach(card => {
+      const prevBtn = card.querySelector('.prev-slide');
+      const nextBtn = card.querySelector('.next-slide');
+      const dots = card.querySelectorAll('.dot');
+      const slides = card.querySelectorAll('.image-slider img');
+      let currentSlide = 0;
+
+      // Função para mostrar o slide atual
+      function showSlide(n) {
+        // Resetar o índice se necessário
+        if (n >= slides.length) currentSlide = 0;
+        if (n < 0) currentSlide = slides.length - 1;
+        
+        // Esconder todos os slides
+        slides.forEach(slide => slide.style.display = 'none');
+        
+        // Remover a classe active de todos os dots
+        dots.forEach(dot => dot.classList.remove('active'));
+        
+        // Mostrar o slide atual e ativar o dot correspondente
+        slides[currentSlide].style.display = 'block';
+        dots[currentSlide].classList.add('active');
+      }
+
+      // Inicializar o primeiro slide
+      showSlide(currentSlide);
+
+      // Event listeners para os botões
+      prevBtn.addEventListener('click', () => {
+        showSlide(--currentSlide);
+      });
+
+      nextBtn.addEventListener('click', () => {
+        showSlide(++currentSlide);
+      });
+
+      // Event listeners para os dots
+      dots.forEach((dot, index) => {
+        dot.addEventListener('click', () => {
+          currentSlide = index;
+          showSlide(currentSlide);
+        });
+      });
+    });
+
+    // Sistema de comparação de veículos
+    const compareButtons = document.querySelectorAll('.compare-btn');
+    const comparisonBar = document.getElementById('comparison-bar');
+    const comparisonVehicles = document.getElementById('comparison-vehicles');
+    const compareAction = document.getElementById('compare-action');
+    const compareCount = document.getElementById('compare-count');
+    const closeComparison = document.getElementById('close-comparison');
+    let selectedVehicles = [];
+
+    // Adicionar/remover veículo da comparação
+    compareButtons.forEach(btn => {
+      btn.addEventListener('click', function() {
+        const vehicleId = this.getAttribute('data-id');
+        const vehicleCard = this.closest('.vehicle-card');
+        const vehicleImg = vehicleCard.querySelector('.image-slider img').src;
+        const vehicleName = vehicleCard.querySelector('h3').textContent;
+        
+        // Verificar se o veículo já está na comparação
+        const index = selectedVehicles.findIndex(v => v.id === vehicleId);
+        
+        if (index === -1) {
+          // Adicionar se não estiver e houver espaço
+          if (selectedVehicles.length < 3) {
+            selectedVehicles.push({
+              id: vehicleId,
+              name: vehicleName,
+              img: vehicleImg
+            });
+            this.classList.add('active');
+            this.innerHTML = '<i class="fas fa-check"></i>';
+          } else {
+            alert('Você pode comparar no máximo 3 veículos.');
+            return;
+          }
+        } else {
+          // Remover se já estiver
+          selectedVehicles.splice(index, 1);
+          this.classList.remove('active');
+          this.innerHTML = '<i class="fas fa-exchange-alt"></i>';
+        }
+        
+        // Atualizar a barra de comparação
+        updateComparisonBar();
+      });
+    });
+
+    // Atualizar a barra de comparação
+    function updateComparisonBar() {
+      // Limpar a barra
+      comparisonVehicles.innerHTML = '';
+      
+      // Adicionar os veículos selecionados
+      selectedVehicles.forEach(vehicle => {
+        const vehicleElement = document.createElement('div');
+        vehicleElement.className = 'comparison-vehicle';
+        vehicleElement.innerHTML = `
+          <img src="${vehicle.img}" alt="${vehicle.name}">
+          <p>${vehicle.name}</p>
+          <button class="remove-from-comparison" data-id="${vehicle.id}">
+            <i class="fas fa-times"></i>
+          </button>
+        `;
+        comparisonVehicles.appendChild(vehicleElement);
+      });
+      
+      // Adicionar espaços vazios se necessário
+      for (let i = selectedVehicles.length; i < 3; i++) {
+        const emptySlot = document.createElement('div');
+        emptySlot.className = 'comparison-vehicle empty';
+        emptySlot.innerHTML = `
+          <div class="empty-slot">
+            <i class="fas fa-plus"></i>
+            <p>Adicionar veículo</p>
+          </div>
+        `;
+        comparisonVehicles.appendChild(emptySlot);
+      }
+      
+      // Atualizar o contador
+      compareCount.textContent = selectedVehicles.length;
+      
+      // Habilitar/desabilitar o botão de comparar
+      if (selectedVehicles.length >= 2) {
+        compareAction.disabled = false;
+      } else {
+        compareAction.disabled = true;
+      }
+      
+      // Mostrar/ocultar a barra
+      if (selectedVehicles.length > 0) {
+        comparisonBar.classList.add('active');
+      } else {
+        comparisonBar.classList.remove('active');
+      }
+      
+      // Adicionar event listeners para os botões de remover
+      document.querySelectorAll('.remove-from-comparison').forEach(btn => {
+        btn.addEventListener('click', function() {
+          const vehicleId = this.getAttribute('data-id');
+          const index = selectedVehicles.findIndex(v => v.id === vehicleId);
+          
+          if (index !== -1) {
+            // Remover da lista
+            selectedVehicles.splice(index, 1);
+            
+            // Atualizar o botão de comparar no card
+            const compareBtn = document.querySelector(`.compare-btn[data-id="${vehicleId}"]`);
+            if (compareBtn) {
+              compareBtn.classList.remove('active');
+              compareBtn.innerHTML = '<i class="fas fa-exchange-alt"></i>';
+            }
+            
+            // Atualizar a barra
+            updateComparisonBar();
+          }
+        });
+      });
+    }
+
+    // Fechar a barra de comparação
+    closeComparison.addEventListener('click', function() {
+      // Limpar a seleção
+      selectedVehicles = [];
+      
+      // Resetar os botões de comparar
+      compareButtons.forEach(btn => {
+        btn.classList.remove('active');
+        btn.innerHTML = '<i class="fas fa-exchange-alt"></i>';
+      });
+      
+      // Ocultar a barra
+      comparisonBar.classList.remove('active');
+    });
+
+    // Verificar parâmetros da URL para pré-selecionar filtros
+    document.addEventListener('DOMContentLoaded', function() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const categoria = urlParams.get('categoria');
+      
+      if (categoria) {
+        const checkboxes = document.querySelectorAll('input[name="category"]');
+        checkboxes.forEach(checkbox => {
+          if (checkbox.value === categoria) {
+            checkbox.checked = true;
+          }
+        });
+      }
+    });
+
+    // Modal de Test Drive
+    const testDriveButtons = document.querySelectorAll('.btn-test-drive');
+    const testDriveModal = document.getElementById('test-drive-modal');
+    const closeModal = document.querySelector('.close-modal');
+    
+    testDriveButtons.forEach(btn => {
+      btn.addEventListener('click', function() {
+        const vehicleCard = this.closest('.vehicle-card');
+        const vehicleImg = vehicleCard.querySelector('.image-slider img').src;
+        const vehicleName = vehicleCard.querySelector('h3').textContent;
+        const vehiclePrice = vehicleCard.querySelector('.vehicle-price').textContent;
+        
+        // Preencher as informações do veículo no modal
+        document.getElementById('test-drive-vehicle-img').src = vehicleImg;
+        document.getElementById('test-drive-vehicle-name').textContent = vehicleName;
+        document.getElementById('test-drive-vehicle-price').textContent = vehiclePrice;
+        
+        // Mostrar o modal
+        testDriveModal.classList.add('active');
+      });
+    });
+    
+    // Fechar o modal
+    closeModal.addEventListener('click', function() {
+      testDriveModal.classList.remove('active');
+    });
+    
+    // Fechar o modal ao clicar fora dele
+    window.addEventListener('click', function(event) {
+      if (event.target === testDriveModal) {
+        testDriveModal.classList.remove('active');
+      }
+    });
+    
+    // Enviar o formulário de test drive
+    document.getElementById('test-drive-form').addEventListener('submit', function(event) {
+      event.preventDefault();
+      alert('Agendamento realizado com sucesso! Entraremos em contato para confirmar.');
+      testDriveModal.classList.remove('active');
+    });
+  </script>
+</body>
+</html>
+
