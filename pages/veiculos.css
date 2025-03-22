@@ -274,10 +274,63 @@
   padding: 0 15px;
 }
 
+/* Estilos para os botões de autenticação */
+.header-buttons {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.auth-buttons {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: 10px;
+}
+
+.btn-auth {
+  font-size: 14px;
+  padding: 8px 12px;
+  border-radius: 20px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+}
+
+.btn-auth.login {
+  background-color: transparent;
+  color: #0056b3;
+  border: 1px solid #0056b3;
+}
+
+.btn-auth.login:hover {
+  background-color: rgba(0, 86, 179, 0.1);
+}
+
+.btn-auth.login i {
+  margin-right: 5px;
+}
+
+.btn-auth.register {
+  background-color: #0056b3;
+  color: white;
+  border: 1px solid #0056b3;
+}
+
+.btn-auth.register:hover {
+  background-color: #003d82;
+}
+
 /* Responsividade para a página de veículos */
 @media (max-width: 992px) {
   .filters-body {
       grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  }
+
+  /* Responsividade para os botões de autenticação */
+  .header-buttons {
+      gap: 10px;
   }
 }
 
@@ -303,6 +356,20 @@
       width: 100%;
       justify-content: space-between;
   }
+
+  /* Responsividade para os botões de autenticação */
+  .header-buttons {
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: center;
+      width: 100%;
+      margin-top: 15px;
+  }
+  
+  .auth-buttons {
+      margin-left: 0;
+      margin-top: 10px;
+  }
 }
 
 @media (max-width: 576px) {
@@ -318,5 +385,15 @@
       flex-direction: column;
       gap: 5px;
       align-items: flex-start;
+  }
+
+  /* Responsividade para os botões de autenticação */
+  .header-buttons {
+      flex-direction: column;
+      align-items: center;
+  }
+  
+  .auth-buttons {
+      margin-top: 10px;
   }
 }

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Veículos - AutoElite</title>
-    <link rel="stylesheet" href="/pages/styles.css">
+    <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
@@ -24,12 +24,17 @@
                     <li><a href="#">Contato</a></li>
                 </ul>
             </nav>
-            <div class="header-buttons">
+            <div class="header-actions">
                 <a href="#" class="btn btn-outline">Agendar Test Drive</a>
+                <div class="auth-buttons">
+                    <a href="/pages/autenticacao.html" class="btn-auth login"><i class="fas fa-user"></i></a>
+                    <a href="#" class="btn-auth register">Cadastrar</a>
+                </div>
             </div>
         </div>
     </header>
 
+    <!-- Resto do conteúdo permanece igual -->
     <!-- Page Title -->
     <section class="page-title">
         <div class="container">
@@ -216,7 +221,7 @@
                 <div class="car-card">
                     <div class="car-image">
                         <span class="tag">Novo</span>
-                        <img src="https://cdn.motor1.com/images/mgl/P33JGl/s3/2022-mercedes-amg-sl.jpg" alt="Mercedes-Benz SL">
+                        <img src="/fotos/Mercedes-Benz SL.webp" alt="Mercedes-Benz SL">
                         <div class="car-actions">
                             <button class="car-action-btn"><i class="far fa-heart"></i></button>
                             <button class="car-action-btn"><i class="fas fa-exchange-alt"></i></button>
@@ -245,7 +250,7 @@
                 <div class="car-card">
                     <div class="car-image">
                         <span class="tag tag-offer">Oferta</span>
-                        <img src="https://cdn.motor1.com/images/mgl/BYwRJ/s3/bmw-x3-2022.jpg" alt="BMW X3">
+                        <img src="/fotos/BMW-X3-.webp" alt="BMW X3">
                         <div class="car-actions">
                             <button class="car-action-btn"><i class="far fa-heart"></i></button>
                             <button class="car-action-btn"><i class="fas fa-exchange-alt"></i></button>
@@ -273,7 +278,7 @@
                 <!-- Veículo 3 -->
                 <div class="car-card">
                     <div class="car-image">
-                        <img src="https://cdn.motor1.com/images/mgl/kEKjA/s3/volkswagen-golf-gti-2021.jpg" alt="Volkswagen Golf GTI">
+                        <img src="/fotos/Volkswagen Golf GTI.webp" alt="Volkswagen Golf GTI">
                         <div class="car-actions">
                             <button class="car-action-btn"><i class="far fa-heart"></i></button>
                             <button class="car-action-btn"><i class="fas fa-exchange-alt"></i></button>
@@ -302,7 +307,7 @@
                 <div class="car-card">
                     <div class="car-image">
                         <span class="tag tag-sold">Vendido</span>
-                        <img src="https://cdn.motor1.com/images/mgl/mrLJnA/s3/toyota-corolla-cross-2023.jpg" alt="Toyota Corolla Cross">
+                        <img src="/fotos/Toyota Corolla Cross.jpg" alt="Toyota Corolla Cross">
                         <div class="car-actions">
                             <button class="car-action-btn"><i class="far fa-heart"></i></button>
                             <button class="car-action-btn"><i class="fas fa-exchange-alt"></i></button>
@@ -316,7 +321,7 @@
                             <span><i class="fas fa-gas-pump"></i> Híbrido</span>
                         </div>
                         <div class="car-features">
-                            <span><i class="fas fa-cog"></i> CVT</span>
+                            <span><i class="fas fa-cog"></i> Automático</span>
                             <span><i class="fas fa-car"></i> 5 portas</span>
                             <span><i class="fas fa-palette"></i> Prata</span>
                         </div>
@@ -330,7 +335,7 @@
                 <!-- Veículo 5 -->
                 <div class="car-card">
                     <div class="car-image">
-                        <img src="https://cdn.motor1.com/images/mgl/6ZZvv/s1/honda-civic-2022.jpg" alt="Honda Civic">
+                        <img src="/fotos/Honda Civic 22.jpg" alt="Honda Civic">
                         <div class="car-actions">
                             <button class="car-action-btn"><i class="far fa-heart"></i></button>
                             <button class="car-action-btn"><i class="fas fa-exchange-alt"></i></button>
@@ -344,9 +349,9 @@
                             <span><i class="fas fa-gas-pump"></i> Flex</span>
                         </div>
                         <div class="car-features">
-                            <span><i class="fas fa-cog"></i> CVT</span>
+                            <span><i class="fas fa-cog"></i> Automático</span>
                             <span><i class="fas fa-car"></i> 4 portas</span>
-                            <span><i class="fas fa-palette"></i> Preto</span>
+                            <span><i class="fas fa-palette"></i> Cinza</span>
                         </div>
                         <div class="car-price">
                             <span class="price">R$ 145.000</span>
@@ -359,7 +364,7 @@
                 <div class="car-card">
                     <div class="car-image">
                         <span class="tag tag-offer">Oferta</span>
-                        <img src="https://cdn.motor1.com/images/mgl/2NLzP/s1/chevrolet-s10-2023.jpg" alt="Chevrolet S10">
+                        <img src="/fotos/Chevrolet S10.jpg" alt="Chevrolet S10">
                         <div class="car-actions">
                             <button class="car-action-btn"><i class="far fa-heart"></i></button>
                             <button class="car-action-btn"><i class="fas fa-exchange-alt"></i></button>
@@ -375,7 +380,7 @@
                         <div class="car-features">
                             <span><i class="fas fa-cog"></i> Automático</span>
                             <span><i class="fas fa-car"></i> 4 portas</span>
-                            <span><i class="fas fa-palette"></i> Branco</span>
+                            <span><i class="fas fa-palette"></i> Preto</span>
                         </div>
                         <div class="car-price">
                             <span class="price">R$ 230.000</span>
@@ -387,23 +392,24 @@
                 <!-- Veículo 7 -->
                 <div class="car-card">
                     <div class="car-image">
-                        <img src="https://cdn.motor1.com/images/mgl/mrz8e/s1/porsche-911-2022.jpg" alt="Porsche 911">
+                        <span class="tag">Novo</span>
+                        <img src="https://cdn.motor1.com/images/mgl/JOZeA/s3/audi-rs-e-tron-gt.jpg" alt="Audi RS e-tron GT">
                         <div class="car-actions">
                             <button class="car-action-btn"><i class="far fa-heart"></i></button>
                             <button class="car-action-btn"><i class="fas fa-exchange-alt"></i></button>
                         </div>
                     </div>
                     <div class="car-details">
-                        <h3>Porsche 911</h3>
+                        <h3>Audi RS e-tron GT</h3>
                         <div class="car-info">
-                            <span><i class="fas fa-calendar"></i> 2022</span>
-                            <span><i class="fas fa-tachometer-alt"></i> 3.000 km</span>
-                            <span><i class="fas fa-gas-pump"></i> Gasolina</span>
+                            <span><i class="fas fa-calendar"></i> 2023</span>
+                            <span><i class="fas fa-tachometer-alt"></i> 0 km</span>
+                            <span><i class="fas fa-gas-pump"></i> Elétrico</span>
                         </div>
                         <div class="car-features">
-                            <span><i class="fas fa-cog"></i> PDK</span>
-                            <span><i class="fas fa-car"></i> 2 portas</span>
-                            <span><i class="fas fa-palette"></i> Amarelo</span>
+                            <span><i class="fas fa-cog"></i> Automático</span>
+                            <span><i class="fas fa-car"></i> 4 portas</span>
+                            <span><i class="fas fa-palette"></i> Cinza</span>
                         </div>
                         <div class="car-price">
                             <span class="price">R$ 1.250.000</span>
@@ -415,26 +421,26 @@
                 <!-- Veículo 8 -->
                 <div class="car-card">
                     <div class="car-image">
-                        <img src="https://cdn.motor1.com/images/mgl/2NLzB/s1/tesla-model-3-2022.jpg" alt="Tesla Model 3">
+                        <img src="https://cdn.motor1.com/images/mgl/P3GZvL/s3/2022-porsche-911-gt3.jpg" alt="Porsche 911 GT3">
                         <div class="car-actions">
                             <button class="car-action-btn"><i class="far fa-heart"></i></button>
                             <button class="car-action-btn"><i class="fas fa-exchange-alt"></i></button>
                         </div>
                     </div>
                     <div class="car-details">
-                        <h3>Tesla Model 3</h3>
+                        <h3>Porsche 911 GT3</h3>
                         <div class="car-info">
                             <span><i class="fas fa-calendar"></i> 2022</span>
-                            <span><i class="fas fa-tachometer-alt"></i> 8.000 km</span>
-                            <span><i class="fas fa-gas-pump"></i> Elétrico</span>
+                            <span><i class="fas fa-tachometer-alt"></i> 3.500 km</span>
+                            <span><i class="fas fa-gas-pump"></i> Gasolina</span>
                         </div>
                         <div class="car-features">
-                            <span><i class="fas fa-cog"></i> Automático</span>
-                            <span><i class="fas fa-car"></i> 4 portas</span>
-                            <span><i class="fas fa-palette"></i> Branco</span>
+                            <span><i class="fas fa-cog"></i> PDK</span>
+                            <span><i class="fas fa-car"></i> 2 portas</span>
+                            <span><i class="fas fa-palette"></i> Azul</span>
                         </div>
                         <div class="car-price">
-                            <span class="price">R$ 380.000</span>
+                            <span class="price">R$ 1.850.000</span>
                             <a href="#" class="btn btn-sm">Ver Detalhes</a>
                         </div>
                     </div>
@@ -443,26 +449,113 @@
                 <!-- Veículo 9 -->
                 <div class="car-card">
                     <div class="car-image">
-                        <img src="https://cdn.motor1.com/images/mgl/Zn38j/s1/audi-e-tron-2022.jpg" alt="Audi e-tron">
+                        <span class="tag tag-offer">Oferta</span>
+                        <img src="https://cdn.motor1.com/images/mgl/kJWJA/s3/2021-ford-bronco-2-door.jpg" alt="Ford Bronco">
                         <div class="car-actions">
                             <button class="car-action-btn"><i class="far fa-heart"></i></button>
                             <button class="car-action-btn"><i class="fas fa-exchange-alt"></i></button>
                         </div>
                     </div>
                     <div class="car-details">
-                        <h3>Audi e-tron</h3>
+                        <h3>Ford Bronco</h3>
+                        <div class="car-info">
+                            <span><i class="fas fa-calendar"></i> 2023</span>
+                            <span><i class="fas fa-tachometer-alt"></i> 0 km</span>
+                            <span><i class="fas fa-gas-pump"></i> Gasolina</span>
+                        </div>
+                        <div class="car-features">
+                            <span><i class="fas fa-cog"></i> Automático</span>
+                            <span><i class="fas fa-car"></i> 2 portas</span>
+                            <span><i class="fas fa-palette"></i> Verde</span>
+                        </div>
+                        <div class="car-price">
+                            <span class="price">R$ 320.000</span>
+                            <a href="#" class="btn btn-sm">Ver Detalhes</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Veículo 10 -->
+                <div class="car-card">
+                    <div class="car-image">
+                        <img src="https://cdn.motor1.com/images/mgl/qkqvL/s3/2021-toyota-land-cruiser.jpg" alt="Toyota Land Cruiser">
+                        <div class="car-actions">
+                            <button class="car-action-btn"><i class="far fa-heart"></i></button>
+                            <button class="car-action-btn"><i class="fas fa-exchange-alt"></i></button>
+                        </div>
+                    </div>
+                    <div class="car-details">
+                        <h3>Toyota Land Cruiser</h3>
                         <div class="car-info">
                             <span><i class="fas fa-calendar"></i> 2022</span>
-                            <span><i class="fas fa-tachometer-alt"></i> 5.000 km</span>
-                            <span><i class="fas fa-gas-pump"></i> Elétrico</span>
+                            <span><i class="fas fa-tachometer-alt"></i> 18.000 km</span>
+                            <span><i class="fas fa-gas-pump"></i> Diesel</span>
                         </div>
                         <div class="car-features">
                             <span><i class="fas fa-cog"></i> Automático</span>
                             <span><i class="fas fa-car"></i> 5 portas</span>
-                            <span><i class="fas fa-palette"></i> Cinza</span>
+                            <span><i class="fas fa-palette"></i> Branco</span>
                         </div>
                         <div class="car-price">
-                            <span class="price">R$ 520.000</span>
+                            <span class="price">R$ 580.000</span>
+                            <a href="#" class="btn btn-sm">Ver Detalhes</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Veículo 11 -->
+                <div class="car-card">
+                    <div class="car-image">
+                        <span class="tag">Novo</span>
+                        <img src="https://cdn.motor1.com/images/mgl/ZnmOqL/s3/2023-range-rover-sport.jpg" alt="Range Rover Sport">
+                        <div class="car-actions">
+                            <button class="car-action-btn"><i class="far fa-heart"></i></button>
+                            <button class="car-action-btn"><i class="fas fa-exchange-alt"></i></button>
+                        </div>
+                    </div>
+                    <div class="car-details">
+                        <h3>Range Rover Sport</h3>
+                        <div class="car-info">
+                            <span><i class="fas fa-calendar"></i> 2023</span>
+                            <span><i class="fas fa-tachometer-alt"></i> 0 km</span>
+                            <span><i class="fas fa-gas-pump"></i> Diesel</span>
+                        </div>
+                        <div class="car-features">
+                            <span><i class="fas fa-cog"></i> Automático</span>
+                            <span><i class="fas fa-car"></i> 5 portas</span>
+                            <span><i class="fas fa-palette"></i> Preto</span>
+                        </div>
+                        <div class="car-price">
+                            <span class="price">R$ 950.000</span>
+                            <a href="#" class="btn btn-sm">Ver Detalhes</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Veículo 12 -->
+                <div class="car-card">
+                    <div class="car-image">
+                        <span class="tag tag-offer">Oferta</span>
+                        <img src="https://cdn.motor1.com/images/mgl/2NLbZ/s3/2021-hyundai-tucson.jpg" alt="Hyundai Tucson">
+                        <div class="car-actions">
+                            <button class="car-action-btn"><i class="far fa-heart"></i></button>
+                            <button class="car-action-btn"><i class="fas fa-exchange-alt"></i></button>
+                        </div>
+                    </div>
+                    <div class="car-details">
+                        <h3>Hyundai Tucson</h3>
+                        <div class="car-info">
+                            <span><i class="fas fa-calendar"></i> 2022</span>
+                            <span><i class="fas fa-tachometer-alt"></i> 22.000 km</span>
+                            <span><i class="fas fa-gas-pump"></i> Flex</span>
+                        </div>
+                        <div class="car-features">
+                            <span><i class="fas fa-cog"></i> Automático</span>
+                            <span><i class="fas fa-car"></i> 5 portas</span>
+                            <span><i class="fas fa-palette"></i> Vermelho</span>
+                        </div>
+                        <div class="car-price">
+                            <span class="price">R$ 175.000</span>
                             <a href="#" class="btn btn-sm">Ver Detalhes</a>
                         </div>
                     </div>
@@ -535,5 +628,6 @@
             </div>
         </div>
     </footer>
-</body>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script></body>
 </html>
+
