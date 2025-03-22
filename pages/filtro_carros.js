@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
     { marca: "bmw", modelo: "M3", ano: 2023, preco: 500000 },
     { marca: "mercedes", modelo: "C200", ano: 2020, preco: 280000 },
     { marca: "toyota", modelo: "Corolla", ano: 2022, preco: 150000 },
-    { marca: "honda", modelo: "Civic", ano: 2023, preco: 140000 }
+
   ];
 
   const marcaSelect = document.getElementById("marca");
