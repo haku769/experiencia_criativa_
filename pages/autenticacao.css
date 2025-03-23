@@ -105,6 +105,7 @@
     align-items: center;
     margin-bottom: 1.5rem;
     flex-wrap: wrap;
+    min-width: 200px;
   }
   
   .remember-me,
@@ -113,11 +114,14 @@
     align-items: center;
     font-size: 0.9rem;
     color: #555;
+    gap: 8px;
   }
   
   .remember-me input,
   .terms-checkbox input {
-    margin-right: 0.5rem;
+    width: 16px;
+    height: 16px;
+    margin: 0;
   }
   
   .forgot-password {
@@ -134,7 +138,7 @@
   
   .terms-checkbox {
     margin-bottom: 0.5rem;
-    width: 100%;
+    max-width: fit-content;
   }
   
   .terms-checkbox a {
@@ -182,6 +186,7 @@
   
   .btn-secondary:hover {
     background-color: #f0f0f0;
+    border-color: #152a45;
   }
   
   /* Responsividade */
