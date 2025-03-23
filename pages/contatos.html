@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contatos - AutoElite</title>
+    <link rel="stylesheet" href="contatos.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <!-- Cabeçalho Simplificado -->
+    <header>
+        <div class="container">
+            <div class="logo">
+                <h1>Auto<span>Elite</span></h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Início</a></li>
+                    <li><a href="veiculos.html">Veículos</a></li>
+                    <li><a href="#">Serviços</a></li>
+                    <li><a href="contatos.html" class="active">Contato</a></li>
+                </ul>
+            </nav>
+            <div class="login-button">
+                <a href="/pages/autenticacao.html" class="btn-login">
+                    <i class="fas fa-user"></i> Login
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Page Title -->
+    <section class="page-title">
+        <div class="container">
+            <h1>Entre em Contato</h1>
+            <div class="breadcrumb">
+                <a href="index.html">Início</a> / <span>Contato</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Info Section -->
+    <section class="contact-info-section">
+        <div class="container">
+            <div class="contact-info-grid">
+                <div class="contact-info-card">
+                    <div class="icon-circle">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <h3>Endereço</h3>
+                    <p>Av. Brasil, 1500</p>
+                    <p>São Paulo, SP - 01430-001</p>
+                </div>
+                
+                <div class="contact-info-card">
+                    <div class="icon-circle">
+                        <i class="fas fa-phone-alt"></i>
+                    </div>
+                    <h3>Telefone</h3>
+                    <p>Vendas: (11) 3456-7890</p>
+                    <p>Suporte: (11) 3456-7891</p>
+                </div>
+                
+                <div class="contact-info-card">
+                    <div class="icon-circle">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <h3>E-mail</h3>
+                    <p>vendas@autoelite.com.br</p>
+                    <p>suporte@autoelite.com.br</p>
+                </div>
+                
+                <div class="contact-info-card">
+                    <div class="icon-circle">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h3>Horário de Funcionamento</h3>
+                    <p>Segunda a Sexta: 8h às 18h</p>
+                    <p>Sábado: 9h às 14h</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Form and Map Section -->
+    <section class="contact-form-section">
+        <div class="container">
+            <div class="contact-grid">
+                <div class="contact-form-container">
+                    <h2>Envie uma Mensagem</h2>
+                    <p>Preencha o formulário abaixo e entraremos em contato o mais breve possível.</p>
+                    
+                    <form class="contact-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="name">Nome Completo</label>
+                                <input type="text" id="name" name="name" placeholder="Seu nome completo" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="email">E-mail</label>
+                                <input type="email" id="email" name="email" placeholder="Seu e-mail" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="phone">Telefone</label>
+                                <input type="tel" id="phone" name="phone" placeholder="(00) 00000-0000">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="subject">Assunto</label>
+                                <select id="subject" name="subject" required>
+                                    <option value="" disabled selected>Selecione o assunto</option>
+                                    <option value="vendas">Vendas</option>
+                                    <option value="test-drive">Agendar Test Drive</option>
+                                    <option value="financiamento">Financiamento</option>
+                                    <option value="pos-venda">Pós-Venda</option>
+                                    <option value="outro">Outro</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="message">Mensagem</label>
+                            <textarea id="message" name="message" rows="5" placeholder="Digite sua mensagem aqui..." required></textarea>
+                        </div>
+                        
+                        <div class="form-group checkbox-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="privacy" required>
+                                <span>Concordo com a <a href="#">Política de Privacidade</a> e com o tratamento dos meus dados.</span>
+                            </label>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary">Enviar Mensagem</button>
+                    </form>
+                </div>
+                
+                <div class="map-container">
+                    <h2>Nossa Localização</h2>
+                    <div class="map">
+                        <!-- Placeholder para o mapa do Google -->
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3657.1975588201223!2d-46.6565884!3d-23.5646162!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94ce59c8da0aa315%3A0xd59f9431f2c9776a!2sAv.%20Paulista%2C%20S%C3%A3o%20Paulo%20-%20SP!5e0!3m2!1spt-BR!2sbr!4v1647289943351!5m2!1spt-BR!2sbr" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Perguntas Frequentes</h2>
+                <p>Encontre respostas para as dúvidas mais comuns sobre nossos serviços.</p>
+            </div>
+            
+            <div class="faq-container">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Como posso agendar um test drive?</h3>
+                        <span class="faq-toggle"><i class="fas fa-plus"></i></span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Você pode agendar um test drive através do nosso site, preenchendo o formulário na página de veículos, ligando para o nosso número de vendas (11) 3456-7890 ou visitando nossa concessionária pessoalmente.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Quais são as opções de financiamento disponíveis?</h3>
+                        <span class="faq-toggle"><i class="fas fa-plus"></i></span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Oferecemos diversas opções de financiamento com os principais bancos do mercado, com taxas competitivas e prazos de até 60 meses. Também trabalhamos com consórcio e leasing para pessoa jurídica.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Vocês aceitam o meu carro usado como parte do pagamento?</h3>
+                        <span class="faq-toggle"><i class="fas fa-plus"></i></span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Sim, aceitamos o seu veículo usado como parte do pagamento. Nossos avaliadores farão uma análise completa do seu carro para oferecer o melhor valor de mercado.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Qual a garantia dos veículos novos e seminovos?</h3>
+                        <span class="faq-toggle"><i class="fas fa-plus"></i></span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Os veículos novos possuem garantia de fábrica que varia de 3 a 5 anos, dependendo da marca. Já os seminovos possuem garantia de 90 dias para motor e câmbio, conforme previsto no Código de Defesa do Consumidor.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Venha nos Visitar</h2>
+                <p>Conheça nossa concessionária e descubra o veículo ideal para você.</p>
+                <a href="#" class="btn btn-primary">Agendar Visita</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-about">
+                    <h3>Auto<span>Elite</span></h3>
+                    <p>Há mais de 15 anos oferecendo os melhores veículos e serviços para nossos clientes.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h4>Links Rápidos</h4>
+                    <ul>
+                        <li><a href="index.html">Início</a></li>
+                        <li><a href="veiculos.html">Veículos</a></li>
+                        <li><a href="#">Serviços</a></li>
+                        <li><a href="#">Financiamento</a></li>
+                        <li><a href="#">Sobre Nós</a></li>
+                        <li><a href="contatos.html">Contato</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h4>Contato</h4>
+                    <ul>
+                        <li><i class="fas fa-map-marker-alt"></i> Av. Brasil, 1500 - São Paulo, SP</li>
+                        <li><i class="fas fa-phone"></i> (11) 3456-7890</li>
+                        <li><i class="fas fa-envelope"></i> contato@autoelite.com.br</li>
+                        <li><i class="fas fa-clock"></i> Seg-Sex: 8h às 18h | Sáb: 9h às 14h</li>
+                    </ul>
+                </div>
+                <div class="footer-newsletter">
+                    <h4>Newsletter</h4>
+                    <p>Receba nossas ofertas e novidades por e-mail</p>
+                    <form class="newsletter-form">
+                        <input type="email" placeholder="Seu e-mail">
+                        <button type="submit" class="btn">Assinar</button>
+                    </form>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 AutoElite. Todos os direitos reservados.</p>
+                <div class="footer-bottom-links">
+                    <a href="#">Política de Privacidade</a>
+                    <a href="#">Termos de Uso</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Script para o funcionamento do FAQ
+        document.addEventListener('DOMContentLoaded', function() {
+            const faqItems = document.querySelectorAll('.faq-item');
+            
+            faqItems.forEach(item => {
+                const question = item.querySelector('.faq-question');
+                const answer = item.querySelector('.faq-answer');
+                const icon = item.querySelector('.faq-toggle i');
+                
+                question.addEventListener('click', () => {
+                    // Fecha todos os outros itens
+                    faqItems.forEach(otherItem => {
+                        if (otherItem !== item) {
+                            otherItem.querySelector('.faq-answer').style.display = 'none';
+                            otherItem.querySelector('.faq-toggle i').className = 'fas fa-plus';
+                        }
+                    });
+                    
+                    // Alterna o item atual
+                    if (answer.style.display === 'block') {
+                        answer.style.display = 'none';
+                        icon.className = 'fas fa-plus';
+                    } else {
+                        answer.style.display = 'block';
+                        icon.className = 'fas fa-minus';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
