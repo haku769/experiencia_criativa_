@@ -188,7 +188,7 @@ nav ul li a.active::after {
 
 /* Hero Section */
 .hero {
-    background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1583121274602-3e2820c69888?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1920&q=80');
+    background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://cdn.discordapp.com/attachments/1331405095010697327/1353505053796732938/image.png?ex=67e1e54f&is=67e093cf&hm=8a3ee1064b1df592901b3a57974e5f92ff5c9838267b2b2975b64d5ed58a43e8&');
     background-size: cover;
     background-position: center;
     height: 600px;

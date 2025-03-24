@@ -1,0 +1,56 @@
+main {
+    margin: auto;
+    width: 80%;
+    padding: 20px;
+    text-align: justify;
+}
+
+article {
+    align-content: center;
+    margin: 10px auto;
+}
+
+img {
+    display: block;
+    max-width: 600px;
+    padding: 20px 0;
+}
+
+.service-button {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+}
+
+button {
+    padding: 4px;
+    background-color: #4290e4;
+    color: white;
+}
+
+main ul {
+    list-style: disc;
+    margin-left: 40px;
+}
+
+h3 {
+    margin: 10px 0;
+}
+
+#financiamento {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border: 1px solid black;
+    background-color: #4290e485;
+    margin: 50px;
+}
+
+.footer-alter{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin: 20px 0;
+    padding-bottom: 60px;
+}
