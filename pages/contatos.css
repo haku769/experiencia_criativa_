@@ -9,7 +9,6 @@ body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   line-height: 1.6;
   color: #333;
-  background-color: #f8f9fa;
 }
 
 /* ===== CABEÇALHO ===== */
@@ -20,7 +19,7 @@ header {
   padding: 15px 0;
   top: 0;
   z-index: 1000;
-  
+
 }
 
 .container {
@@ -58,7 +57,8 @@ nav a {
   transition: color 0.3s ease;
 }
 
-nav a:hover, nav a.active {
+nav a:hover,
+nav a.active {
   color: #0056b3;
 }
 
@@ -177,7 +177,7 @@ nav a:hover, nav a.active {
   border-radius: 8px;
   padding: 30px 20px;
   text-align: center;
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.2);
   transition: transform 0.3s ease;
 }
 
@@ -215,11 +215,17 @@ nav a:hover, nav a.active {
 /* ===== SEÇÃO DE FORMULÁRIO E MAPA ===== */
 .contact-form-section {
   padding: 60px 0;
+  display: flex;
+  justify-content: center;
+  align-content: center;
 }
 
-.contact-form-section .container {
+.contact-form-section .container-contact {
   display: block;
+  width: 1200px;
+  margin: 0 auto;
 }
+
 
 .contact-grid {
   display: grid;
@@ -227,14 +233,16 @@ nav a:hover, nav a.active {
   gap: 40px;
 }
 
-.contact-form-container, .map-container {
+.contact-form-container,
+.map-container {
   background-color: white;
   border-radius: 8px;
   padding: 30px;
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.2);
 }
 
-.contact-form-container h2, .map-container h2 {
+.contact-form-container h2,
+.map-container h2 {
   font-size: 24px;
   margin-bottom: 15px;
   color: #1a1a1a;
@@ -263,8 +271,8 @@ nav a:hover, nav a.active {
   color: #333;
 }
 
-.form-group input, 
-.form-group select, 
+.form-group input,
+.form-group select,
 .form-group textarea {
   width: 100%;
   padding: 12px;
@@ -275,8 +283,8 @@ nav a:hover, nav a.active {
   transition: border-color 0.3s ease;
 }
 
-.form-group input:focus, 
-.form-group select:focus, 
+.form-group input:focus,
+.form-group select:focus,
 .form-group textarea:focus {
   border-color: #0056b3;
   outline: none;
@@ -360,7 +368,7 @@ nav a:hover, nav a.active {
   background-color: white;
   border-radius: 8px;
   margin-bottom: 15px;
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.2);
   overflow: hidden;
 }
 
@@ -487,19 +495,23 @@ footer .container {
   transform: translateY(-3px);
 }
 
-.footer-links h4, .footer-contact h4, .footer-newsletter h4 {
+.footer-links h4,
+.footer-contact h4,
+.footer-newsletter h4 {
   font-size: 18px;
   margin-bottom: 20px;
   color: white;
 }
 
-.footer-links ul, .footer-contact ul {
+.footer-links ul,
+.footer-contact ul {
   list-style: none;
   padding: 0;
   margin: 0;
 }
 
-.footer-links li, .footer-contact li {
+.footer-links li,
+.footer-contact li {
   margin-bottom: 12px;
 }
 
@@ -586,7 +598,7 @@ footer .container {
   .contact-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .map-container {
     margin-top: 30px;
   }
@@ -596,47 +608,47 @@ footer .container {
   .container {
     flex-wrap: wrap;
   }
-  
+
   nav {
     order: 3;
     width: 100%;
     margin-top: 15px;
   }
-  
+
   nav ul {
     justify-content: center;
   }
-  
+
   .login-button {
     margin-left: 0;
   }
-  
+
   .form-row {
     grid-template-columns: 1fr;
     gap: 0;
   }
-  
+
   .contact-info-grid {
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   }
-  
+
   .cta-content h2 {
     font-size: 28px;
   }
-  
+
   .cta-content p {
     font-size: 16px;
   }
-  
+
   .footer-bottom {
     flex-direction: column;
     text-align: center;
   }
-  
+
   .footer-bottom-links {
     margin-top: 10px;
   }
-  
+
   .footer-bottom-links a {
     margin: 0 10px;
   }
@@ -648,24 +660,25 @@ footer .container {
     gap: 15px;
     justify-content: center;
   }
-  
+
   .contact-info-card {
     padding: 20px 15px;
   }
-  
+
   .icon-circle {
     width: 60px;
     height: 60px;
   }
-  
+
   .icon-circle i {
     font-size: 24px;
   }
-  
-  .contact-form-container, .map-container {
+
+  .contact-form-container,
+  .map-container {
     padding: 20px;
   }
-  
+
   .faq-question h3 {
     font-size: 16px;
   }

@@ -8,7 +8,12 @@ main {
 
 article {
     align-content: center;
-    margin: 10px auto;
+    background-color: white;
+    margin-top: 5px;
+    border-radius: 20px;
+    padding: 30px;
+    /* border: 1px solid black; */
+    box-shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.2);
 }
 
 img {
@@ -48,7 +53,7 @@ h3 {
     padding: 20px 0;
 }
 
-.footer-alter{
+.footer-alter {
     display: flex;
     justify-content: space-around;
     align-items: center;
