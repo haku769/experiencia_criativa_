@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Volkswagen Golf GTI - AutoElite</title>
+    <title>Golf GTI - AutoElite</title>
     <link rel="stylesheet" href="/pages/styles.css">
     <link rel="stylesheet" href="/Carros/carrosdetalhes.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -39,7 +39,7 @@
             <div class="breadcrumb">
                 <a href="/pages/index.html"><i class="fas fa-home"></i> Início</a> &gt;
                 <a href="/pages/veiculos.html">Veículos</a> &gt;
-                <span>Volkswagen Golf GTI</span>
+                <span>GOLF GTI</span>
             </div>
         </div>
     </div>
@@ -51,14 +51,13 @@
                 <!-- Cabeçalho com título e preço -->
                 <div class="car-detail-header">
                     <div class="car-detail-title">
-                        <span class="car-detail-tag">Novo</span>
-                        <h1>Volkswagen Golf GTI</h1>
+                        <h1>GOLF GTI</h1>
                         <div class="car-code">
-                            Código: VW-GTI-2023
+                            Código: GOLF-GTI-2022
                         </div>
                     </div>
                     <div class="car-detail-price">
-                        R$ 320.000
+                        R$ 280.000
                     </div>
                 </div>
 
@@ -67,36 +66,21 @@
                     <!-- Galeria de imagens -->
                     <div class="car-detail-gallery">
                         <div class="main-image-container">
-                            <img id="main-car-image" src="/fotos/Volkswagen Golf GTI.webp" alt="Volkswagen Golf GTI">
-                            <div class="gallery-controls">
-                                <div class="gallery-control prev-image" onclick="changeImage(-1)">
-                                    <i class="fas fa-chevron-left"></i>
-                                </div>
-                                <div class="gallery-control next-image" onclick="changeImage(1)">
-                                    <i class="fas fa-chevron-right"></i>
-                                </div>
-                            </div>
-                            <div class="image-counter">
-                                <span id="current-image">1</span>/<span id="total-images">4</span>
-                            </div>
+                            <img id="main-car-image" src="/fotos/Volkswagen Golf GTI.webp" alt="BMW-X3">
                         </div>
                         <div class="thumbnail-gallery">
-                            <div class="thumbnail active" data-index="0" onclick="selectImage(0)">
-                                <img src="/fotos/Volkswagen Golf GTI.webp" alt="Volkswagen Golf GTI - Vista 1">
+                            <div class="thumbnail" onclick="changeMainImage('/fotos/GOLF-GTI-.webp', 'GOLF-GTI - Vista 1')">
+                                <img src="/fotos/Volkswagen Golf GTI.webp" alt="GOLF-GTI - Vista 1">
                             </div>
-                            <div class="thumbnail" data-index="1" onclick="selectImage(1)">
-                                <img src="/fotos/Volkswagen Golf GTI.webp" alt="Volkswagen Golf GTI - Vista 2">
+                            <div class="thumbnail" onclick="changeMainImage('/fotos/GOLF-GTI-.webp', 'GOLF-GTI - Vista 2')">
+                                <img src="/fotos/Volkswagen Golf GTI.webp" alt="GOLF-GTI - Vista 2">
                             </div>
-                            <div class="thumbnail" data-index="2" onclick="selectImage(2)">
-                                <img src="/fotos/Volkswagen Golf GTI.webp" alt="Volkswagen Golf GTI - Vista 3">
+                            <div class="thumbnail" onclick="changeMainImage('/fotos/GOLF-GTI-.webp', 'GOLF-GTI - Vista 3')">
+                                <img src="/fotos/Volkswagen Golf GTI.webp" alt="GOLF-GTI - Vista 3">
                             </div>
-                            <div class="thumbnail" data-index="3" onclick="selectImage(3)">
-                                <img src="/fotos/Volkswagen Golf GTI.webp" alt="Volkswagen Golf GTI - Vista 4">
+                            <div class="thumbnail" onclick="changeMainImage('/fotos/GOLF-GTI-.webp', 'GOLF-GTI - Vista 4')">
+                                <img src="/fotos/Volkswagen Golf GTI.webp" alt="GOLF-GTI - Vista 4">
                             </div>
-                        </div>
-                        
-                        <div class="expand-gallery" onclick="openGalleryModal()">
-                            <i class="fas fa-expand"></i> Ver todas as fotos
                         </div>
                     </div>
 
@@ -129,7 +113,7 @@
                                         </div>
                                         <div class="spec-info">
                                             <span class="spec-label">Quilometragem</span>
-                                            <span class="spec-value">0 km</span>
+                                            <span class="spec-value">5.000 km</span>
                                         </div>
                                     </div>
                                     <div class="spec-item">
@@ -147,7 +131,7 @@
                                         </div>
                                         <div class="spec-info">
                                             <span class="spec-label">Câmbio</span>
-                                            <span class="spec-value">Automático DSG</span>
+                                            <span class="spec-value">Automático</span>
                                         </div>
                                     </div>
                                     <div class="spec-item">
@@ -156,7 +140,7 @@
                                         </div>
                                         <div class="spec-info">
                                             <span class="spec-label">Portas</span>
-                                            <span class="spec-value">5 portas</span>
+                                            <span class="spec-value">4 portas</span>
                                         </div>
                                     </div>
                                     <div class="spec-item">
@@ -165,7 +149,7 @@
                                         </div>
                                         <div class="spec-info">
                                             <span class="spec-label">Cor</span>
-                                            <span class="spec-value">Branco</span>
+                                            <span class="spec-value">Vermelho</span>
                                         </div>
                                     </div>
                                 </div>
@@ -177,11 +161,16 @@
                             <h2 class="section-title">Descrição</h2>
                             <div class="car-description">
                                 <p>
-                                    O Volkswagen Golf GTI 2023 é a oitava geração do lendário hot hatch que revolucionou o segmento. Com motor 2.0 TSI de 245 cavalos, este modelo oferece desempenho esportivo com o conforto e praticidade de um hatchback premium.
+                                    O Volkswagen Golf GTI 2023 é a oitava geração do lendário hot hatch que revolucionou o segmento.
+                                     Com motor 2.0 TSI de 245 cavalos, este modelo oferece desempenho esportivo com o conforto e praticidade 
+                                     de um hatchback premium.
                                 </p>
                                 <p>
-                                    Equipado com a mais recente tecnologia da Volkswagen, o Golf GTI combina esportividade, sofisticação e funcionalidade. Seu sistema de suspensão adaptativa DCC permite ajustar a rigidez conforme a preferência do motorista, enquanto o diferencial eletrônico garante tração perfeita em curvas.
+                                    Equipado com a mais recente tecnologia da Volkswagen, o Golf GTI combina esportividade, sofisticação e 
+                                    funcionalidade. Seu sistema de suspensão adaptativa DCC permite ajustar a rigidez conforme a preferência 
+                                    do motorista, enquanto o diferencial eletrônico garante tração perfeita em curvas.
                                 </p>
+                                
                             </div>
                         </div>
 
@@ -199,7 +188,7 @@
                                 </div>
                                 <div class="feature-item">
                                     <i class="fas fa-check-circle"></i>
-                                    <span>Central multimídia de 10"</span>
+                                    <span>Central multimídia de 10</span>
                                 </div>
                                 <div class="feature-item">
                                     <i class="fas fa-check-circle"></i>
@@ -219,7 +208,7 @@
                                 </div>
                                 <div class="feature-item">
                                     <i class="fas fa-check-circle"></i>
-                                    <span>Rodas de liga leve 19"</span>
+                                    <span>Rodas de liga leve 19</span>
                                 </div>
                             </div>
                         </div>
@@ -229,8 +218,8 @@
                             <h3 class="contact-box-title">Interessado neste veículo?</h3>
                             <p>Entre em contato conosco para mais informações ou para agendar um test drive.</p>
                             <div class="contact-actions">
-                                <a href="#" class="btn btn-primary"><i class="fas fa-phone"></i> Entrar em contato</a>
-                                <a href="#" class="btn btn-outline"><i class="fas fa-calendar-alt"></i> Agendar test drive</a>
+                                <a href="/pages/contatos.html" class="btn btn-primary"><i class="fas fa-phone"></i> Entrar em contato</a>
+                                <a href="/pages/contatos.html" class="btn btn-outline"><i class="fas fa-calendar-alt"></i> Agendar test drive</a>
                             </div>
                         </div>
                     </div>
@@ -238,24 +227,6 @@
             </div>
         </div>
     </section>
-
-    <!-- Modal de Galeria -->
-    <div id="gallery-modal" class="gallery-modal">
-        <div class="modal-content">
-            <button class="modal-close" onclick="closeGalleryModal()">
-                <i class="fas fa-times"></i>
-            </button>
-            <img id="modal-image" class="modal-image" src="/fotos/Golf GTI.webp" alt="Volkswagen Golf GTI">
-            <div class="modal-nav">
-                <button onclick="modalChangeImage(-1)">
-                    <i class="fas fa-chevron-left"></i>
-                </button>
-                <button onclick="modalChangeImage(1)">
-                    <i class="fas fa-chevron-right"></i>
-                </button>
-            </div>
-        </div>
-    </div>
 
     <!-- Footer -->
     <footer>
@@ -274,8 +245,8 @@
                 <div class="footer-links">
                     <h4>Links Rápidos</h4>
                     <ul>
-                        <li><a href="/pages/index.html">Início</a></li>
-                        <li><a href="/pages/veiculos.html">Veículos</a></li>
+                        <li><a href="index.html">Início</a></li>
+                        <li><a href="veiculos.html">Veículos</a></li>
                         <li><a href="/pages/servicos.html">Serviços</a></li>
                         <li><a href="#">Financiamento</a></li>
                         <li><a href="#">Sobre Nós</a></li>
@@ -311,86 +282,12 @@
     </footer>
 
     <script>
-        // Array com as imagens do carro
-        const carImages = [
-            "/fotos/Golf GTI.webp",
-            "/fotos/Golf GTI.webp",
-            "/fotos/Golf GTI.webp",
-            "/fotos/Golf GTI.webp"
-        ];
-        
-        // Índice da imagem atual
-        let currentImageIndex = 0;
-        
         // Função para trocar a imagem principal
-        function selectImage(index) {
-            currentImageIndex = index;
-            updateMainImage();
-            updateThumbnails();
-        }
-        
-        // Função para navegar entre as imagens
-        function changeImage(direction) {
-            currentImageIndex = (currentImageIndex + direction + carImages.length) % carImages.length;
-            updateMainImage();
-            updateThumbnails();
-        }
-        
-        // Atualiza a imagem principal
-        function updateMainImage() {
+        function changeMainImage(src, alt) {
             const mainImage = document.getElementById('main-car-image');
-            mainImage.src = carImages[currentImageIndex];
-            mainImage.alt = `Volkswagen Golf GTI - Vista ${currentImageIndex + 1}`;
-            
-            // Atualiza o contador de imagens
-            document.getElementById('current-image').textContent = currentImageIndex + 1;
+            mainImage.src = src;
+            mainImage.alt = alt;
         }
-        
-        // Atualiza as miniaturas (destaca a selecionada)
-        function updateThumbnails() {
-            const thumbnails = document.querySelectorAll('.thumbnail');
-            thumbnails.forEach(thumb => {
-                thumb.classList.remove('active');
-            });
-            
-            const activeThumbnail = document.querySelector(`.thumbnail[data-index="${currentImageIndex}"]`);
-            if (activeThumbnail) {
-                activeThumbnail.classList.add('active');
-            }
-        }
-        
-        // Funções para o modal de galeria
-        function openGalleryModal() {
-            const modal = document.getElementById('gallery-modal');
-            const modalImage = document.getElementById('modal-image');
-            
-            modalImage.src = carImages[currentImageIndex];
-            modalImage.alt = `Volkswagen Golf GTI - Vista ${currentImageIndex + 1}`;
-            
-            modal.classList.add('active');
-            document.body.style.overflow = 'hidden'; // Impede rolagem da página
-        }
-        
-        function closeGalleryModal() {
-            const modal = document.getElementById('gallery-modal');
-            modal.classList.remove('active');
-            document.body.style.overflow = ''; // Restaura rolagem da página
-        }
-        
-        function modalChangeImage(direction) {
-            currentImageIndex = (currentImageIndex + direction + carImages.length) % carImages.length;
-            
-            const modalImage = document.getElementById('modal-image');
-            modalImage.src = carImages[currentImageIndex];
-            modalImage.alt = `Volkswagen Golf GTI - Vista ${currentImageIndex + 1}`;
-            
-            // Também atualiza a imagem principal e miniaturas
-            updateMainImage();
-            updateThumbnails();
-        }
-        
-        // Inicializa o contador de imagens
-        document.getElementById('total-images').textContent = carImages.length;
     </script>
 </body>
 
