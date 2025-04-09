@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mercedes-Benz SL - AutoElite</title>
+    <link rel="stylesheet" href="/pages/styles.css">
+    <link rel="stylesheet" href="/Carros/carrosdetalhes.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="logo">
+                <h1>Auto<span>Elite</span></h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="/pages/index.html">Início</a></li>
+                    <li><a href="/pages/veiculos.html">Veículos</a></li>
+                    <li><a href="/pages/servicos.html">Serviços</a></li>
+                    <li><a href="/pages/contatos.html">Contato</a></li>
+                </ul>
+            </nav>
+            <div class="login-button">
+                <a href="/pages/autenticacao.html" class="btn-login">
+                    <i class="fas fa-user"></i> Login
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb-container">
+        <div class="container">
+            <div class="breadcrumb">
+                <a href="/pages/index.html"><i class="fas fa-home"></i> Início</a> &gt;
+                <a href="/pages/veiculos.html">Veículos</a> &gt;
+                <span>BMW X3</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Car Details Section -->
+    <section class="car-detail-section">
+        <div class="container">
+            <div class="car-detail-container">
+                <!-- Cabeçalho com título e preço -->
+                <div class="car-detail-header">
+                    <div class="car-detail-title">
+                        <span class="car-detail-tag">Oferta</span>
+                        <h1>BMW X3</h1>
+                        <div class="car-code">
+                            Código: BMW-X3-2022
+                        </div>
+                    </div>
+                    <div class="car-detail-price">
+                        R$ 420.000
+                    </div>
+                </div>
+
+                <!-- Conteúdo principal -->
+                <div class="car-detail-content">
+                    <!-- Galeria de imagens -->
+                    <div class="car-detail-gallery">
+                        <div class="main-image-container">
+                            <img id="main-car-image" src="/fotos/BMW-X3-.webp" alt="BMW-X3">
+                        </div>
+                        <div class="thumbnail-gallery">
+                            <div class="thumbnail" onclick="changeMainImage('/fotos/BMW-X3-.webp', 'BMW-X3 - Vista 1')">
+                                <img src="/fotos/BMW-X3-.webp" alt="BMW-X3 - Vista 1">
+                            </div>
+                            <div class="thumbnail" onclick="changeMainImage('/fotos/BMW-X3-.webp', 'BMW-X3 - Vista 2')">
+                                <img src="/fotos/BMW-X3-.webp" alt="BMW-X3 - Vista 2">
+                            </div>
+                            <div class="thumbnail" onclick="changeMainImage('/fotos/BMW-X3-.webp', 'BMW-X3 - Vista 3')">
+                                <img src="/fotos/BMW-X3-.webp" alt="BMW-X3 - Vista 3">
+                            </div>
+                            <div class="thumbnail" onclick="changeMainImage('/fotos/BMW-X3-.webp', 'BMW-X3 - Vista 4')">
+                                <img src="/fotos/AFONSONARO.jpeg" alt="BMW-X3 - Vista 4">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Informações do carro -->
+                    <div class="car-detail-info">
+                        <!-- Ações rápidas -->
+                        <div class="car-detail-actions">
+                            <a href="#" class="btn btn-primary"><i class="fas fa-dollar-sign"></i> Financiar</a>
+                            <a href="#" class="btn btn-outline"><i class="far fa-heart"></i> Favoritar</a>
+                            <a href="#" class="btn btn-outline"><i class="fas fa-share-alt"></i> Compartilhar</a>
+                        </div>
+
+                        <!-- Especificações -->
+                        <div class="info-section">
+                            <h2 class="section-title">Especificações</h2>
+                            <div class="car-specs-container">
+                                <div class="car-specs">
+                                    <div class="spec-item">
+                                        <div class="spec-icon">
+                                            <i class="fas fa-calendar"></i>
+                                        </div>
+                                        <div class="spec-info">
+                                            <span class="spec-label">Ano</span>
+                                            <span class="spec-value">2022</span>
+                                        </div>
+                                    </div>
+                                    <div class="spec-item">
+                                        <div class="spec-icon">
+                                            <i class="fas fa-tachometer-alt"></i>
+                                        </div>
+                                        <div class="spec-info">
+                                            <span class="spec-label">Quilometragem</span>
+                                            <span class="spec-value">15.000 km</span>
+                                        </div>
+                                    </div>
+                                    <div class="spec-item">
+                                        <div class="spec-icon">
+                                            <i class="fas fa-gas-pump"></i>
+                                        </div>
+                                        <div class="spec-info">
+                                            <span class="spec-label">Combustível</span>
+                                            <span class="spec-value">Diesel</span>
+                                        </div>
+                                    </div>
+                                    <div class="spec-item">
+                                        <div class="spec-icon">
+                                            <i class="fas fa-cog"></i>
+                                        </div>
+                                        <div class="spec-info">
+                                            <span class="spec-label">Câmbio</span>
+                                            <span class="spec-value">Automático</span>
+                                        </div>
+                                    </div>
+                                    <div class="spec-item">
+                                        <div class="spec-icon">
+                                            <i class="fas fa-car"></i>
+                                        </div>
+                                        <div class="spec-info">
+                                            <span class="spec-label">Portas</span>
+                                            <span class="spec-value">4 portas</span>
+                                        </div>
+                                    </div>
+                                    <div class="spec-item">
+                                        <div class="spec-icon">
+                                            <i class="fas fa-palette"></i>
+                                        </div>
+                                        <div class="spec-info">
+                                            <span class="spec-label">Cor</span>
+                                            <span class="spec-value">Preto</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Descrição -->
+                        <div class="info-section">
+                            <h2 class="section-title">Descrição</h2>
+                            <div class="car-description">
+                                <p>
+                                    O BMW X5 2023 é um SUV de luxo que oferece o equilíbrio perfeito entre desempenho, conforto e tecnologia. Com seu motor diesel potente e eficiente, 
+                                    proporciona uma experiência de condução excepcional.",
+                                    "Equipado com tecnologia de ponta e acabamento premium, o BMW X5 estabelece novos padrões para SUVs de luxo. 
+                                    Seu interior espaçoso e refinado oferece conforto para todos os ocupantes, enquanto seu sistema de entretenimento de última 
+                                    geração garante viagens agradáveis.
+                                </p>
+                                
+                            </div>
+                        </div>
+
+                        <!-- Características -->
+                        <div class="info-section">
+                            <h2 class="section-title">Características</h2>
+                            <div class="features-grid">
+                                <div class="feature-item">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>Tração integral</span>
+                                </div>
+                                <div class="feature-item">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>Bancos em couro</span>
+                                </div>
+                                <div class="feature-item">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>Painel digital</span>
+                                </div>
+                                <div class="feature-item">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>Faróis LED adaptativos</span>
+                                </div>
+                                <div class="feature-item">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>Assistente de estacionamento</span>
+                                </div>
+                                <div class="feature-item">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>Controle de cruzeiro adaptativo</span>
+                                </div>
+                                <div class="feature-item">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>Sistema de som Harman Kardon</span>
+                                </div>
+                                <div class="feature-item">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>Teto solar panorâmico</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Contato -->
+                        <div class="contact-box">
+                            <h3 class="contact-box-title">Interessado neste veículo?</h3>
+                            <p>Entre em contato conosco para mais informações ou para agendar um test drive.</p>
+                            <div class="contact-actions">
+                                <a href="/pages/contatos.html" class="btn btn-primary"><i class="fas fa-phone"></i> Entrar em contato</a>
+                                <a href="/pages/contatos.html" class="btn btn-outline"><i class="fas fa-calendar-alt"></i> Agendar test drive</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-about">
+                    <h3>Auto<span>Elite</span></h3>
+                    <p>Há mais de 15 anos oferecendo os melhores veículos e serviços para nossos clientes.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h4>Links Rápidos</h4>
+                    <ul>
+                        <li><a href="index.html">Início</a></li>
+                        <li><a href="veiculos.html">Veículos</a></li>
+                        <li><a href="/pages/servicos.html">Serviços</a></li>
+                        <li><a href="#">Financiamento</a></li>
+                        <li><a href="#">Sobre Nós</a></li>
+                        <li><a href="/pages/contatos.html">Contato</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h4>Contato</h4>
+                    <ul>
+                        <li><i class="fas fa-map-marker-alt"></i> Av. Brasil, 1500 - São Paulo, SP</li>
+                        <li><i class="fas fa-phone"></i> (11) 3456-7890</li>
+                        <li><i class="fas fa-envelope"></i> contato@autoelite.com.br</li>
+                        <li><i class="fas fa-clock"></i> Seg-Sex: 8h às 18h | Sáb: 9h às 14h</li>
+                    </ul>
+                </div>
+                <div class="footer-newsletter">
+                    <h4>Newsletter</h4>
+                    <p>Receba nossas ofertas e novidades por e-mail</p>
+                    <form class="newsletter-form">
+                        <input type="email" placeholder="Seu e-mail">
+                        <button type="submit" class="btn">Assinar</button>
+                    </form>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 AutoElite. Todos os direitos reservados.</p>
+                <div class="footer-bottom-links">
+                    <a href="#">Política de Privacidade</a>
+                    <a href="#">Termos de Uso</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Função para trocar a imagem principal
+        function changeMainImage(src, alt) {
+            const mainImage = document.getElementById('main-car-image');
+            mainImage.src = src;
+            mainImage.alt = alt;
+        }
+    </script>
+</body>
+
+</html>
