@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciamento de Usuários - AutoElite</title>
+    <link rel="stylesheet" href="/pages/styles.css">
+    <link rel="stylesheet" href="/pages/CRUDusuario.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="logo">
+                <h1>Auto<span>Elite</span></h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="/pages/index.html">Início</a></li>
+                    <li><a href="/pages/veiculos.html">Veículos</a></li>
+                    <li><a href="/pages/servicos.html">Serviços</a></li>
+                    <li><a href="/pages/contatos.html">Contato</a></li>
+                </ul>
+            </nav>
+            <div class="login-button">
+                <a href="/pages/autenticacao.html" class="btn-login">
+                    <i class="fas fa-user"></i> Admin
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb-container">
+        <div class="container">
+            <div class="breadcrumb">
+                <a href="/pages/index.html"><i class="fas fa-home"></i> Início</a> &gt;
+                <a href="/admin/dashboard.html">Painel Admin</a> &gt;
+                <span>Gerenciamento de Usuários</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Content -->
+    <section class="admin-section">
+        <div class="container">
+            <div class="admin-header">
+                <div class="admin-title">
+                    <h1><i class="fas fa-users"></i> Gerenciamento de Usuários</h1>
+                    <p class="admin-subtitle">Gerencie os usuários que têm acesso ao sistema</p>
+                </div>
+                <button id="btn-add-user" class="btn btn-primary">
+                    <i class="fas fa-plus"></i> Adicionar Usuário
+                </button>
+            </div>
+
+            <!-- Dashboard Cards -->
+            <div class="dashboard-cards">
+                <div class="dashboard-card">
+                    <div class="card-icon">
+                        <i class="fas fa-user-check"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3>4</h3>
+                        <p>Usuários Ativos</p>
+                    </div>
+                </div>
+                <div class="dashboard-card">
+                    <div class="card-icon">
+                        <i class="fas fa-user-times"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3>1</h3>
+                        <p>Usuários Inativos</p>
+                    </div>
+                </div>
+                <div class="dashboard-card">
+                    <div class="card-icon">
+                        <i class="fas fa-user-clock"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3>1</h3>
+                        <p>Pendentes</p>
+                    </div>
+                </div>
+                <div class="dashboard-card">
+                    <div class="card-icon">
+                        <i class="fas fa-users-cog"></i>
+                    </div>
+                    <div class="card-content">
+                        <h3>5</h3>
+                        <p>Total de Usuários</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filtros e Busca -->
+            <div class="admin-filters">
+                <div class="search-box">
+                    <input type="text" id="search-user" placeholder="Buscar usuário...">
+                    <button><i class="fas fa-search"></i></button>
+                </div>
+                <div class="filter-options">
+                    <select id="filter-role">
+                        <option value="">Todas as Funções</option>
+                        <option value="Administrador">Administrador</option>
+                        <option value="Gerente">Gerente</option>
+                        <option value="Vendedor">Vendedor</option>
+                        <option value="Suporte">Suporte</option>
+                    </select>
+                    <select id="filter-status">
+                        <option value="">Todos os Status</option>
+                        <option value="Ativo">Ativo</option>
+                        <option value="Inativo">Inativo</option>
+                        <option value="Pendente">Pendente</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Tabela de Usuários -->
+            <div class="table-container">
+                <div class="table-responsive">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Avatar</th>
+                                <th>Nome</th>
+                                <th>Email</th>
+                                <th>Função</th>
+                                <th>Status</th>
+                                <th>Último Acesso</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="users-table-body">
+                            <tr>
+                                <td>
+                                    <div class="user-avatar">
+                                        <img src="/placeholder.svg?height=40&width=40" alt="João Silva">
+                                        <span class="user-status online"></span>
+                                    </div>
+                                </td>
+                                <td>João Silva</td>
+                                <td>joao.silva@autoelite.com.br</td>
+                                <td><span class="role-badge admin">Administrador</span></td>
+                                <td><span class="status-badge active">Ativo</span></td>
+                                <td>10/04/2023 14:30</td>
+                                <td class="actions-cell">
+                                    <div class="action-buttons">
+                                        <button class="btn-action edit" onclick="editUser(1)" title="Editar"><i class="fas fa-edit"></i></button>
+                                        <button class="btn-action view" onclick="viewUser(1)" title="Visualizar"><i class="fas fa-eye"></i></button>
+                                        <button class="btn-action delete" onclick="deleteUser(1)" title="Excluir"><i class="fas fa-trash"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="user-avatar">
+                                        <img src="/placeholder.svg?height=40&width=40" alt="Maria Santos">
+                                        <span class="user-status online"></span>
+                                    </div>
+                                </td>
+                                <td>Maria Santos</td>
+                                <td>maria.santos@autoelite.com.br</td>
+                                <td><span class="role-badge manager">Gerente</span></td>
+                                <td><span class="status-badge active">Ativo</span></td>
+                                <td>09/04/2023 09:15</td>
+                                <td class="actions-cell">
+                                    <div class="action-buttons">
+                                        <button class="btn-action edit" onclick="editUser(2)" title="Editar"><i class="fas fa-edit"></i></button>
+                                        <button class="btn-action view" onclick="viewUser(2)" title="Visualizar"><i class="fas fa-eye"></i></button>
+                                        <button class="btn-action delete" onclick="deleteUser(2)" title="Excluir"><i class="fas fa-trash"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="user-avatar">
+                                        <img src="/placeholder.svg?height=40&width=40" alt="Carlos Oliveira">
+                                        <span class="user-status online"></span>
+                                    </div>
+                                </td>
+                                <td>Carlos Oliveira</td>
+                                <td>carlos.oliveira@autoelite.com.br</td>
+                                <td><span class="role-badge sales">Vendedor</span></td>
+                                <td><span class="status-badge active">Ativo</span></td>
+                                <td>08/04/2023 16:45</td>
+                                <td class="actions-cell">
+                                    <div class="action-buttons">
+                                        <button class="btn-action edit" onclick="editUser(3)" title="Editar"><i class="fas fa-edit"></i></button>
+                                        <button class="btn-action view" onclick="viewUser(3)" title="Visualizar"><i class="fas fa-eye"></i></button>
+                                        <button class="btn-action delete" onclick="deleteUser(3)" title="Excluir"><i class="fas fa-trash"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="user-avatar">
+                                        <img src="/placeholder.svg?height=40&width=40" alt="Ana Pereira">
+                                        <span class="user-status offline"></span>
+                                    </div>
+                                </td>
+                                <td>Ana Pereira</td>
+                                <td>ana.pereira@autoelite.com.br</td>
+                                <td><span class="role-badge sales">Vendedor</span></td>
+                                <td><span class="status-badge inactive">Inativo</span></td>
+                                <td>01/04/2023 10:20</td>
+                                <td class="actions-cell">
+                                    <div class="action-buttons">
+                                        <button class="btn-action edit" onclick="editUser(4)" title="Editar"><i class="fas fa-edit"></i></button>
+                                        <button class="btn-action view" onclick="viewUser(4)" title="Visualizar"><i class="fas fa-eye"></i></button>
+                                        <button class="btn-action delete" onclick="deleteUser(4)" title="Excluir"><i class="fas fa-trash"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="user-avatar">
+                                        <img src="/placeholder.svg?height=40&width=40" alt="Roberto Almeida">
+                                        <span class="user-status away"></span>
+                                    </div>
+                                </td>
+                                <td>Roberto Almeida</td>
+                                <td>roberto.almeida@autoelite.com.br</td>
+                                <td><span class="role-badge support">Suporte</span></td>
+                                <td><span class="status-badge pending">Pendente</span></td>
+                                <td>Nunca acessou</td>
+                                <td class="actions-cell">
+                                    <div class="action-buttons">
+                                        <button class="btn-action edit" onclick="editUser(5)" title="Editar"><i class="fas fa-edit"></i></button>
+                                        <button class="btn-action view" onclick="viewUser(5)" title="Visualizar"><i class="fas fa-eye"></i></button>
+                                        <button class="btn-action delete" onclick="deleteUser(5)" title="Excluir"><i class="fas fa-trash"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Paginação -->
+            <div class="pagination">
+                <button class="pagination-btn" disabled><i class="fas fa-chevron-left"></i></button>
+                <button class="pagination-btn active">1</button>
+                <button class="pagination-btn">2</button>
+                <button class="pagination-btn"><i class="fas fa-chevron-right"></i></button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal de Formulário -->
+    <div id="user-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modal-title">Adicionar Usuário</h2>
+                <button class="close-modal" onclick="closeModal()"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <form id="user-form">
+                    <input type="hidden" id="user-id" name="id">
+                    
+                    <div class="user-avatar-upload">
+                        <div class="avatar-preview">
+                            <img id="avatar-preview-img" src="/placeholder.svg?height=100&width=100" alt="Avatar do usuário">
+                            <div class="avatar-overlay">
+                                <i class="fas fa-camera"></i>
+                            </div>
+                        </div>
+                        <div class="avatar-upload-info">
+                            <h3>Foto do perfil</h3>
+                            <p>Clique na imagem para alterar</p>
+                            <div class="avatar-upload-btn">
+                                <button type="button" class="btn btn-outline btn-sm">
+                                    <i class="fas fa-upload"></i> Upload
+                                </button>
+                                <input type="file" id="avatar-upload" name="avatar" accept="image/*" style="display: none;">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-tabs">
+                        <button type="button" class="form-tab active" data-tab="personal">Informações Pessoais</button>
+                        <button type="button" class="form-tab" data-tab="access">Acesso</button>
+                        <button type="button" class="form-tab" data-tab="permissions">Permissões</button>
+                    </div>
+                    
+                    <div class="form-tab-content active" id="tab-personal">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="user-name">Nome completo</label>
+                                <input type="text" id="user-name" name="name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="user-email">Email</label>
+                                <input type="email" id="user-email" name="email" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="user-phone">Telefone</label>
+                                <input type="tel" id="user-phone" name="phone">
+                            </div>
+                            <div class="form-group">
+                                <label for="user-department">Departamento</label>
+                                <select id="user-department" name="department">
+                                    <option value="">Selecione um departamento</option>
+                                    <option value="Diretoria">Diretoria</option>
+                                    <option value="Vendas">Vendas</option>
+                                    <option value="Financeiro">Financeiro</option>
+                                    <option value="Marketing">Marketing</option>
+                                    <option value="TI">TI</option>
+                                    <option value="Recursos Humanos">Recursos Humanos</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group full-width">
+                            <label for="user-notes">Observações</label>
+                            <textarea id="user-notes" name="notes" rows="3"></textarea>
+                        </div>
+                    </div>
+                    
+                    <div class="form-tab-content" id="tab-access">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="user-role">Função</label>
+                                <select id="user-role" name="role" required>
+                                    <option value="">Selecione uma função</option>
+                                    <option value="Administrador">Administrador</option>
+                                    <option value="Gerente">Gerente</option>
+                                    <option value="Vendedor">Vendedor</option>
+                                    <option value="Suporte">Suporte</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="user-status">Status</label>
+                                <select id="user-status" name="status" required>
+                                    <option value="Ativo">Ativo</option>
+                                    <option value="Inativo">Inativo</option>
+                                    <option value="Pendente">Pendente</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="user-password">Senha</label>
+                                <div class="password-input">
+                                    <input type="password" id="user-password" name="password">
+                                    <button type="button" class="toggle-password"><i class="fas fa-eye"></i></button>
+                                </div>
+                                <small class="form-hint">Deixe em branco para manter a senha atual (ao editar)</small>
+                            </div>
+                            <div class="form-group">
+                                <label for="user-password-confirm">Confirmar senha</label>
+                                <div class="password-input">
+                                    <input type="password" id="user-password-confirm" name="password_confirm">
+                                    <button type="button" class="toggle-password"><i class="fas fa-eye"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="password-strength">
+                            <div class="strength-label">Força da senha:</div>
+                            <div class="strength-meter">
+                                <div class="strength-segment"></div>
+                                <div class="strength-segment"></div>
+                                <div class="strength-segment"></div>
+                                <div class="strength-segment"></div>
+                            </div>
+                            <div class="strength-text">Fraca</div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-tab-content" id="tab-permissions">
+                        <div class="permissions-header">
+                            <h3>Permissões do Sistema</h3>
+                            <div class="permissions-actions">
+                                <button type="button" class="btn btn-sm btn-outline" id="select-all-permissions">Selecionar Todos</button>
+                                <button type="button" class="btn btn-sm btn-outline" id="deselect-all-permissions">Desmarcar Todos</button>
+                            </div>
+                        </div>
+                        
+                        <div class="permissions-grid">
+                            <div class="permission-group">
+                                <div class="permission-group-header">
+                                    <h4>Dashboard</h4>
+                                </div>
+                                <div class="permission-items">
+                                    <div class="permission-item">
+                                        <input type="checkbox" id="perm-dashboard" name="permissions[]" value="dashboard">
+                                        <label for="perm-dashboard">Visualizar Dashboard</label>
+                                    </div>
+                                    <div class="permission-item">
+                                        <input type="checkbox" id="perm-dashboard-stats" name="permissions[]" value="dashboard-stats">
+                                        <label for="perm-dashboard-stats">Ver Estatísticas</label>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="permission-group">
+                                <div class="permission-group-header">
+                                    <h4>Veículos</h4>
+                                </div>
+                                <div class="permission-items">
+                                    <div class="permission-item">
+                                        <input type="checkbox" id="perm-vehicles-view" name="permissions[]" value="vehicles-view">
+                                        <label for="perm-vehicles-view">Visualizar Veículos</label>
+                                    </div>
+                                    <div class="permission-item">
+                                        <input type="checkbox" id="perm-vehicles-create" name="permissions[]" value="vehicles-create">
+                                        <label for="perm-vehicles-create">Adicionar Veículos</label>
+                                    </div>
+                                    <div class="permission-item">
+                                        <input type="checkbox" id="perm-vehicles-edit" name="permissions[]" value="vehicles-edit">
+                                        <label for="perm-vehicles-edit">Editar Veículos</label>
+                                    </div>
+                                    <div class="permission-item">
+                                        <input type="checkbox" id="perm-vehicles-delete" name="permissions[]" value="vehicles-delete">
+                                        <label for="perm-vehicles-delete">Excluir Veículos</label>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="permission-group">
+                                <div class="permission-group-header">
+                                    <h4>Usuários</h4>
+                                </div>
+                                <div class="permission-items">
+                                    <div class="permission-item">
+                                        <input type="checkbox" id="perm-users-view" name="permissions[]" value="users-view">
+                                        <label for="perm-users-view">Visualizar Usuários</label>
+                                    </div>
+                                    <div class="permission-item">
+                                        <input type="checkbox" id="perm-users-create" name="permissions[]" value="users-create">
+                                        <label for="perm-users-create">Adicionar Usuários</label>
+                                    </div>
+                                    <div class="permission-item">
+                                        <input type="checkbox" id="perm-users-edit" name="permissions[]" value="users-edit">
+                                        <label for="perm-users-edit">Editar Usuários</label>
+                                    </div>
+                                    <div class="permission-item">
+                                        <input type="checkbox" id="perm-users-delete" name="permissions[]" value="users-delete">
+                                        <label for="perm-users-delete">Excluir Usuários</label>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="permission-group">
+                                <div class="permission-group-header">
+                                    <h4>Vendas</h4>
+                                </div>
+                                <div class="permission-items">
+                                    <div class="permission-item">
+                                        <input type="checkbox" id="perm-sales-view" name="permissions[]" value="sales-view">
+                                        <label for="perm-sales-view">Visualizar Vendas</label>
+                                    </div>
+                                    <div class="permission-item">
+                                        <input type="checkbox" id="perm-sales-create" name="permissions[]" value="sales-create">
+                                        <label for="perm-sales-create">Registrar Vendas</label>
+                                    </div>
+                                    <div class="permission-item">
+                                        <input type="checkbox" id="perm-sales-reports" name="permissions[]" value="sales-reports">
+                                        <label for="perm-sales-reports">Relatórios de Vendas</label>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="permission-group">
+                                <div class="permission-group-header">
+                                    <h4>Configurações</h4>
+                                </div>
+                                <div class="permission-items">
+                                    <div class="permission-item">
+                                        <input type="checkbox" id="perm-settings" name="permissions[]" value="settings">
+                                        <label for="perm-settings">Configurações do Sistema</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-outline" onclick="closeModal()">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">Salvar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Confirmação de Exclusão -->
+    <div id="delete-modal" class="modal">
+        <div class="modal-content delete-modal-content">
+            <div class="modal-header">
+                <h2>Confirmar Exclusão</h2>
+                <button class="close-modal" onclick="closeDeleteModal()"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="delete-icon">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                <p>Tem certeza que deseja excluir o usuário <span id="delete-user-name">João Silva</span>?</p>
+                <p class="warning-text">Esta ação não pode ser desfeita.</p>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn btn-outline" onclick="closeDeleteModal()">Cancelar</button>
+                    <button type="button" class="btn btn-danger" onclick="confirmDelete()">Excluir</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-about">
+                    <h3>Auto<span>Elite</span></h3>
+                    <p>Há mais de 15 anos oferecendo os melhores veículos e serviços para nossos clientes.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h4>Links Rápidos</h4>
+                    <ul>
+                        <li><a href="/pages/index.html">Início</a></li>
+                        <li><a href="/pages/veiculos.html">Veículos</a></li>
+                        <li><a href="/pages/servicos.html">Serviços</a></li>
+                        <li><a href="#">Financiamento</a></li>
+                        <li><a href="#">Sobre Nós</a></li>
+                        <li><a href="/pages/contatos.html">Contato</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h4>Contato</h4>
+                    <ul>
+                        <li><i class="fas fa-map-marker-alt"></i> Av. Brasil, 1500 - São Paulo, SP</li>
+                        <li><i class="fas fa-phone"></i> (11) 3456-7890</li>
+                        <li><i class="fas fa-envelope"></i> contato@autoelite.com.br</li>
+                        <li><i class="fas fa-clock"></i> Seg-Sex: 8h às 18h | Sáb: 9h às 14h</li>
+                    </ul>
+                </div>
+                <div class="footer-newsletter">
+                    <h4>Newsletter</h4>
+                    <p>Receba nossas ofertas e novidades por e-mail</p>
+                    <form class="newsletter-form">
+                        <input type="email" placeholder="Seu e-mail">
+                        <button type="submit" class="btn">Assinar</button>
+                    </form>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 AutoElite. Todos os direitos reservados.</p>
+                <div class="footer-bottom-links">
+                    <a href="#">Política de Privacidade</a>
+                    <a href="#">Termos de Uso</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Dados de exemplo (simulando um banco de dados)
+        const users = [
+            {
+                id: 1,
+                name: "João Silva",
+                email: "joao.silva@autoelite.com.br",
+                role: "Administrador",
+                status: "Ativo",
+                lastLogin: "10/04/2023 14:30",
+                phone: "(11) 98765-4321",
+                department: "Diretoria",
+                permissions: ["dashboard", "vehicles", "users", "customers", "sales", "reports", "settings", "marketing"],
+                notes: "Administrador principal do sistema."
+            },
+            {
+                id: 2,
+                name: "Maria Santos",
+                email: "maria.santos@autoelite.com.br",
+                role: "Gerente",
+                status: "Ativo",
+                lastLogin: "09/04/2023 09:15",
+                phone: "(11) 98765-1234",
+                department: "Vendas",
+                permissions: ["dashboard", "vehicles", "customers", "sales", "reports"],
+                notes: "Gerente de vendas responsável pela equipe sul."
+            },
+            {
+                id: 3,
+                name: "Carlos Oliveira",
+                email: "carlos.oliveira@autoelite.com.br",
+                role: "Vendedor",
+                status: "Ativo",
+                lastLogin: "08/04/2023 16:45",
+                phone: "(11) 91234-5678",
+                department: "Vendas",
+                permissions: ["dashboard", "vehicles", "customers", "sales"],
+                notes: "Vendedor do mês em março de 2023."
+            },
+            {
+                id: 4,
+                name: "Ana Pereira",
+                email: "ana.pereira@autoelite.com.br",
+                role: "Vendedor",
+                status: "Inativo",
+                lastLogin: "01/04/2023 10:20",
+                phone: "(11) 99876-5432",
+                department: "Vendas",
+                permissions: ["dashboard", "vehicles", "customers", "sales"],
+                notes: "Afastada temporariamente por motivos de saúde."
+            },
+            {
+                id: 5,
+                name: "Roberto Almeida",
+                email: "roberto.almeida@autoelite.com.br",
+                role: "Suporte",
+                status: "Pendente",
+                lastLogin: null,
+                phone: "(11) 95555-9999",
+                department: "TI",
+                permissions: ["dashboard"],
+                notes: "Novo funcionário, aguardando treinamento."
+            }
+        ];
+        
+        // Variáveis globais
+        let currentUserId = null;
+        
+        // Funções para manipulação dos modais
+        function openModal(isEdit = false) {
+            const modal = document.getElementById('user-modal');
+            const modalTitle = document.getElementById('modal-title');
+            
+            modalTitle.textContent = isEdit ? 'Editar Usuário' : 'Adicionar Usuário';
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeModal() {
+            const modal = document.getElementById('user-modal');
+            modal.style.display = 'none';
+            document.body.style.overflow = '';
+            resetForm();
+        }
+        
+        function openDeleteModal(userId) {
+            const user = users.find(u => u.id === userId);
+            if (user) {
+                document.getElementById('delete-user-name').textContent = user.name;
+                currentUserId = userId;
+                
+                const modal = document.getElementById('delete-modal');
+                modal.style.display = 'block';
+                document.body.style.overflow = 'hidden';
+            }
+        }
+        
+        function closeDeleteModal() {
+            const modal = document.getElementById('delete-modal');
+            modal.style.display = 'none';
+            document.body.style.overflow = '';
+            currentUserId = null;
+        }
+        
+        // Funções CRUD
+        function addUser() {
+            openModal(false);
+        }
+        
+        function editUser(userId) {
+            const user = users.find(u => u.id === userId);
+            if (user) {
+                fillForm(user);
+                currentUserId = userId;
+                openModal(true);
+            }
+        }
+        
+        function viewUser(userId) {
+            // Aqui você implementaria a lógica para visualizar os detalhes do usuário
+            // Por enquanto, vamos apenas mostrar um alerta
+            const user = users.find(u => u.id === userId);
+            if (user) {
+                alert(`Visualizando detalhes de ${user.name}`);
+            }
+        }
+        
+        function deleteUser(userId) {
+            openDeleteModal(userId);
+        }
+        
+        function confirmDelete() {
+            if (currentUserId) {
+                // Aqui você implementaria a lógica para excluir o usuário do banco de dados
+                // Por enquanto, vamos apenas simular a exclusão
+                alert(`Usuário ID ${currentUserId} excluído com sucesso!`);
+                closeDeleteModal();
+                
+                // Recarregar a tabela (simulação)
+                setTimeout(() => {
+                    location.reload();
+                }, 500);
+            }
+        }
+        
+        // Funções auxiliares
+        function fillForm(user) {
+            document.getElementById('user-id').value = user.id;
+            document.getElementById('user-name').value = user.name;
+            document.getElementById('user-email').value = user.email;
+            document.getElementById('user-role').value = user.role;
+            document.getElementById('user-status').value = user.status;
+            document.getElementById('user-phone').value = user.phone || '';
+            document.getElementById('user-department').value = user.department || '';
+            document.getElementById('user-notes').value = user.notes || '';
+            
+            // Limpar todas as permissões primeiro
+            document.querySelectorAll('input[name="permissions[]"]').forEach(checkbox => {
+                checkbox.checked = false;
+            });
+            
+            // Marcar as permissões do usuário
+            if (user.permissions && user.permissions.length > 0) {
+                user.permissions.forEach(permission => {
+                    const checkbox = document.getElementById(`perm-${permission}`);
+                    if (checkbox) {
+                        checkbox.checked = true;
+                    }
+                });
+            }
+        }
+        
+        function resetForm() {
+            document.getElementById('user-form').reset();
+            document.getElementById('avatar-preview-img').src = '/placeholder.svg?height=100&width=100';
+            currentUserId = null;
+            
+            // Limpar todas as permissões
+            document.querySelectorAll('input[name="permissions[]"]').forEach(checkbox => {
+                checkbox.checked = false;
+            });
+            
+            // Resetar abas do formulário
+            document.querySelectorAll('.form-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelector('.form-tab[data-tab="personal"]').classList.add('active');
+            
+            document.querySelectorAll('.form-tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.getElementById('tab-personal').classList.add('active');
+        }
+        
+        // Event Listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            // Botão de adicionar usuário
+            document.getElementById('btn-add-user').addEventListener('click', addUser);
+            
+            // Formulário de usuário
+            document.getElementById('user-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Validar senhas
+                const password = document.getElementById('user-password').value;
+                const passwordConfirm = document.getElementById('user-password-confirm').value;
+                
+                if (password && password !== passwordConfirm) {
+                    alert('As senhas não coincidem!');
+                    return;
+                }
+                
+                // Aqui você implementaria a lógica para salvar o usuário no banco de dados
+                // Por enquanto, vamos apenas simular o salvamento
+                const isEdit = currentUserId !== null;
+                alert(`Usuário ${isEdit ? 'atualizado' : 'adicionado'} com sucesso!`);
+                closeModal();
+                
+                // Recarregar a tabela (simulação)
+                setTimeout(() => {
+                    location.reload();
+                }, 500);
+            });
+            
+            // Upload de avatar
+            document.querySelector('.avatar-preview').addEventListener('click', function() {
+                document.getElementById('avatar-upload').click();
+            });
+            
+            document.querySelector('.avatar-upload-btn button').addEventListener('click', function() {
+                document.getElementById('avatar-upload').click();
+            });
+            
+            document.getElementById('avatar-upload').addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        document.getElementById('avatar-preview-img').src = e.target.result;
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+            
+            // Abas do formulário
+            document.querySelectorAll('.form-tab').forEach(tab => {
+                tab.addEventListener('click', function() {
+                    // Remover classe ativa de todas as abas
+                    document.querySelectorAll('.form-tab').forEach(t => {
+                        t.classList.remove('active');
+                    });
+                    
+                    // Adicionar classe ativa à aba clicada
+                    this.classList.add('active');
+                    
+                    // Mostrar conteúdo da aba
+                    const tabId = this.getAttribute('data-tab');
+                    
+                    document.querySelectorAll('.form-tab-content').forEach(content => {
+                        content.classList.remove('active');
+                    });
+                    
+                    document.getElementById(`tab-${tabId}`).classList.add('active');
+                });
+            });
+            
+            // Botões de mostrar/ocultar senha
+            document.querySelectorAll('.toggle-password').forEach(button => {
+                button.addEventListener('click', function() {
+                    const input = this.previousElementSibling;
+                    const icon = this.querySelector('i');
+                    
+                    if (input.type === 'password') {
+                        input.type = 'text';
+                        icon.classList.remove('fa-eye');
+                        icon.classList.add('fa-eye-slash');
+                    } else {
+                        input.type = 'password';
+                        icon.classList.remove('fa-eye-slash');
+                        icon.classList.add('fa-eye');
+                    }
+                });
+            });
+            
+            // Selecionar/desmarcar todas as permissões
+            document.getElementById('select-all-permissions').addEventListener('click', function() {
+                document.querySelectorAll('input[name="permissions[]"]').forEach(checkbox => {
+                    checkbox.checked = true;
+                });
+            });
+            
+            document.getElementById('deselect-all-permissions').addEventListener('click', function() {
+                document.querySelectorAll('input[name="permissions[]"]').forEach(checkbox => {
+                    checkbox.checked = false;
+                });
+            });
+            
+            // Filtros e busca
+            document.getElementById('search-user').addEventListener('input', filterUsers);
+            document.getElementById('filter-role').addEventListener('change', filterUsers);
+            document.getElementById('filter-status').addEventListener('change', filterUsers);
+            
+            // Simulação de força da senha
+            document.getElementById('user-password').addEventListener('input', function() {
+                const password = this.value;
+                let strength = 0;
+                
+                if (password.length >= 8) strength++;
+                if (/[A-Z]/.test(password)) strength++;
+                if (/[0-9]/.test(password)) strength++;
+                if (/[^A-Za-z0-9]/.test(password)) strength++;
+                
+                const segments = document.querySelectorAll('.strength-segment');
+                const strengthText = document.querySelector('.strength-text');
+                
+                segments.forEach((segment, index) => {
+                    segment.classList.remove('weak', 'medium', 'strong', 'very-strong');
+                    
+                    if (index < strength) {
+                        if (strength === 1) segment.classList.add('weak');
+                        else if (strength === 2) segment.classList.add('medium');
+                        else if (strength === 3) segment.classList.add('strong');
+                        else if (strength === 4) segment.classList.add('very-strong');
+                    }
+                });
+                
+                if (password === '') {
+                    strengthText.textContent = '';
+                } else if (strength === 1) {
+                    strengthText.textContent = 'Fraca';
+                } else if (strength === 2) {
+                    strengthText.textContent = 'Média';
+                } else if (strength === 3) {
+                    strengthText.textContent = 'Forte';
+                } else if (strength === 4) {
+                    strengthText.textContent = 'Muito forte';
+                }
+            });
+        });
+        
+        function filterUsers() {
+            const searchTerm = document.getElementById('search-user').value.toLowerCase();
+            const roleFilter = document.getElementById('filter-role').value;
+            const statusFilter = document.getElementById('filter-status').value;
+            
+            // Aqui você implementaria a lógica para filtrar os usuários
+            // Por enquanto, vamos apenas simular o filtro com um log
+            console.log(`Filtrando usuários: Busca="${searchTerm}", Função="${roleFilter}", Status="${statusFilter}"`);
+        }
+    </script>
+</body>
+
+</html>

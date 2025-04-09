@@ -1,0 +1,369 @@
+/* Estilos específicos para a página de gerenciamento de usuários */
+
+/* Fontes e estilos gerais */
+body {
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Cabeçalho da seção administrativa */
+.admin-title {
+    display: flex;
+    flex-direction: column;
+}
+
+.admin-subtitle {
+    color: #6c757d;
+    margin-top: 5px;
+    font-size: 14px;
+}
+
+/* Cards do dashboard */
+.dashboard-cards {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.dashboard-card {
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+}
+
+.dashboard-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+}
+
+.card-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 15px;
+    font-size: 20px;
+    color: white;
+}
+
+.dashboard-card:nth-child(1) .card-icon {
+    background: linear-gradient(135deg, #4CAF50, #2E7D32);
+}
+
+.dashboard-card:nth-child(2) .card-icon {
+    background: linear-gradient(135deg, #F44336, #C62828);
+}
+
+.dashboard-card:nth-child(3) .card-icon {
+    background: linear-gradient(135deg, #FFC107, #FF8F00);
+}
+
+.dashboard-card:nth-child(4) .card-icon {
+    background: linear-gradient(135deg, #2196F3, #1565C0);
+}
+
+.card-content h3 {
+    font-size: 24px;
+    margin: 0 0 5px 0;
+    font-weight: 600;
+}
+
+.card-content p {
+    margin: 0;
+    color: #6c757d;
+    font-size: 14px;
+}
+
+/* Container da tabela */
+.table-container {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+    margin-bottom: 30px;
+}
+
+/* Estilos da tabela */
+.admin-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.admin-table th {
+    background-color: #f8f9fa;
+    font-weight: 600;
+    color: #495057;
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #e9ecef;
+    font-size: 14px;
+}
+
+.admin-table td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #e9ecef;
+    vertical-align: middle;
+}
+
+.admin-table tr:hover {
+    background-color: #f8f9fa;
+}
+
+.admin-table tr:last-child td {
+    border-bottom: none;
+}
+
+/* Avatar de usuário na tabela */
+.user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    overflow: hidden;
+    background-color: #f0f0f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.user-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.user-status {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    bottom: 0;
+    right: 0;
+    border: 2px solid white;
+}
+
+.user-status.online {
+    background-color: #4CAF50;
+}
+
+.user-status.offline {
+    background-color: #F44336;
+}
+
+.user-status.away {
+    background-color: #FFC107;
+}
+
+/* Badges de função */
+.role-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.role-badge.admin {
+    background-color: #e3f2fd;
+    color: #1565C0;
+}
+
+.role-badge.manager {
+    background-color: #e8f5e9;
+    color: #2E7D32;
+}
+
+.role-badge.sales {
+    background-color: #fff8e1;
+    color: #FF8F00;
+}
+
+.role-badge.support {
+    background-color: #f3e5f5;
+    color: #7B1FA2;
+}
+
+/* Status badges específicos para usuários */
+.status-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.status-badge.active {
+    background-color: #e8f5e9;
+    color: #2E7D32;
+}
+
+.status-badge.inactive {
+    background-color: #ffebee;
+    color: #C62828;
+}
+
+.status-badge.pending {
+    background-color: #fff8e1;
+    color: #FF8F00;
+}
+
+/* Botões de ação */
+.action-buttons {
+    display: flex;
+    gap: 5px;
+}
+
+.btn-action {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+    background-color: transparent;
+}
+
+.btn-action.edit {
+    color: #1976D2;
+}
+
+.btn-action.view {
+    color: #43A047;
+}
+
+.btn-action.delete {
+    color: #E53935;
+}
+
+.btn-action:hover {
+    background-color: #f8f9fa;
+    transform: translateY(-2px);
+}
+
+/* Paginação */
+.pagination {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    margin-top: 20px;
+}
+
+.pagination-btn {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #e9ecef;
+    background-color: white;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.pagination-btn.active {
+    background-color: #1e4b9a;
+    color: white;
+    border-color: #1e4b9a;
+}
+
+.pagination-btn:hover:not(.active):not(:disabled) {
+    background-color: #f8f9fa;
+    transform: translateY(-2px);
+}
+
+.pagination-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    overflow-y: auto;
+    padding: 20px;
+    backdrop-filter: blur(5px);
+}
+
+.modal-content {
+    background-color: white;
+    border-radius: 12px;
+    max-width: 800px;
+    margin: 30px auto;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    position: relative;
+    animation: modalFadeIn 0.3s ease;
+}
+
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.delete-modal-content {
+    max-width: 500px;
+}
+
+.modal-header {
+    padding: 20px;
+    border-bottom: 1px solid #e9ecef;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-header h2 {
+    margin: 0;
+    font-size: 22px;
+    color: #1a1a1a;
+}
+
+.close-modal {
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    color: #6c757d;
+    transition: color 0.2s ease;
+}
+
+.close-modal:hover {
+    color: #1a1a1a;
+}
+
+.modal-body {
+    padding: 20px;
+}
+
+/* Upload de avatar no formulário */
+.user-avatar-upload {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 25px;
+   
