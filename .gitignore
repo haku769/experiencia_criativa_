@@ -1,3 +1,16 @@
-package-lock.json
-package.json
+# Dependências
+node_modules/
 
+# Arquivos de log
+*.log
+
+# Variáveis de ambiente
+.env
+
+# Configs de IDE
+.vscode/
+.idea/
+
+# Sistema
+.DS_Store
+Thumbs.db
