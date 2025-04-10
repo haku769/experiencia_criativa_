@@ -405,7 +405,7 @@ nav a.active {
 /* ===== SEÇÃO CTA ===== */
 .cta-section {
   padding: 80px 0;
-  background-color: #0056b3;
+  background-image: linear-gradient(rgba(38, 0, 255, 0.9), rgba(0, 140, 255, 0.9));
   color: white;
   text-align: center;
 }
