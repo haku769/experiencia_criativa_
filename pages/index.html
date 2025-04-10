@@ -23,12 +23,15 @@
                 <li><a href="CRUDusuario.html">CRUD</a></li>
             </ul>
         </nav>
-        <div class="login-button">
-            <a href="/pages/autenticacao.html" class="btn-login">
+        <div class="login-button" id="user-info">
+            <!-- Será preenchido via JavaScript -->
+            <a href="/pages/autenticacao.html" class="btn-login" id="login-link">
                 <i class="fas fa-user"></i> Login
+                <div id="user-info" class="user-info"></div>
+
             </a>
         </div>
-    </div>
+        
 </header>
 
 
@@ -423,6 +426,7 @@
         </div>
     </div>
 </footer>
-<script src="/pages/filtro_carros.js" ></script>
+<script src="/pages/routes/sessao.js" defer></script>
+
 </body>
 </html>
