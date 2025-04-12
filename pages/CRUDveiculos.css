@@ -1,0 +1,69 @@
+    .crud-section {
+      padding: 40px 0;
+      background-color: #f9f9f9;
+    }
+
+    .crud-section .container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .crud-section h2 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    form {
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 40px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    form .form-group {
+      margin-bottom: 15px;
+    }
+
+    form .form-group label {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    form .form-group input,
+    form .form-group select {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+
+    form .btn {
+      margin-top: 15px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #fff;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    th, td {
+      padding: 12px 15px;
+      text-align: left;
+      border-bottom: 1px solid #eee;
+    }
+
+    th {
+      background-color: #222;
+      color: #fff;
+    }
+
+    td.actions a {
+      margin-right: 10px;
+      color: #007BFF;
+      text-decoration: none;
+    }
