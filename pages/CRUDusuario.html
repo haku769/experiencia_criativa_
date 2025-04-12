@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="/pages/styles.css">
     <link rel="stylesheet" href="/pages/CRUDusuario.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 
 <body>
@@ -20,15 +19,17 @@
             </div>
             <nav>
                 <ul>
-                    <li><a href="/pages/index.html">Início</a></li>
-                    <li><a href="/pages/veiculos.html">Veículos</a></li>
-                    <li><a href="/pages/servicos.html">Serviços</a></li>
-                    <li><a href="/pages/contatos.html">Contato</a></li>
+                    <li><a href="index.html">Início</a></li>
+                    <li><a href="veiculos.html">Veículos</a></li>
+                    <li><a href="servicos.html">Serviços</a></li>
+                    <li><a href="contatos.html">Contato</a></li>
+                    <li><a href="CRUDusuario.html">CRUDusuario</a></li>
+                    <li><a href="CRUDveiculos.html">CRUDveiculos</a></li>
                 </ul>
             </nav>
             <div class="login-button">
                 <a href="/pages/autenticacao.html" class="btn-login">
-                    <i class="fas fa-user"></i> Admin
+                    <i class="fas fa-user"></i> Login
                 </a>
             </div>
         </div>
@@ -51,73 +52,6 @@
             <div class="admin-header">
                 <div class="admin-title">
                     <h1><i class="fas fa-users"></i> Gerenciamento de Usuários</h1>
-                    <p class="admin-subtitle">Gerencie os usuários que têm acesso ao sistema</p>
-                </div>
-                <button id="btn-add-user" class="btn btn-primary">
-                    <i class="fas fa-plus"></i> Adicionar Usuário
-                </button>
-            </div>
-
-            <!-- Dashboard Cards -->
-            <div class="dashboard-cards">
-                <div class="dashboard-card">
-                    <div class="card-icon">
-                        <i class="fas fa-user-check"></i>
-                    </div>
-                    <div class="card-content">
-                        <h3>4</h3>
-                        <p>Usuários Ativos</p>
-                    </div>
-                </div>
-                <div class="dashboard-card">
-                    <div class="card-icon">
-                        <i class="fas fa-user-times"></i>
-                    </div>
-                    <div class="card-content">
-                        <h3>1</h3>
-                        <p>Usuários Inativos</p>
-                    </div>
-                </div>
-                <div class="dashboard-card">
-                    <div class="card-icon">
-                        <i class="fas fa-user-clock"></i>
-                    </div>
-                    <div class="card-content">
-                        <h3>1</h3>
-                        <p>Pendentes</p>
-                    </div>
-                </div>
-                <div class="dashboard-card">
-                    <div class="card-icon">
-                        <i class="fas fa-users-cog"></i>
-                    </div>
-                    <div class="card-content">
-                        <h3>5</h3>
-                        <p>Total de Usuários</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Filtros e Busca -->
-            <div class="admin-filters">
-                <div class="search-box">
-                    <input type="text" id="search-user" placeholder="Buscar usuário...">
-                    <button><i class="fas fa-search"></i></button>
-                </div>
-                <div class="filter-options">
-                    <select id="filter-role">
-                        <option value="">Todas as Funções</option>
-                        <option value="Administrador">Administrador</option>
-                        <option value="Gerente">Gerente</option>
-                        <option value="Vendedor">Vendedor</option>
-                        <option value="Suporte">Suporte</option>
-                    </select>
-                    <select id="filter-status">
-                        <option value="">Todos os Status</option>
-                        <option value="Ativo">Ativo</option>
-                        <option value="Inativo">Inativo</option>
-                        <option value="Pendente">Pendente</option>
-                    </select>
                 </div>
             </div>
 
@@ -131,8 +65,6 @@
                                 <th>Nome</th>
                                 <th>Email</th>
                                 <th>Função</th>
-                                <th>Status</th>
-                                <th>Último Acesso</th>
                                 <th>Ações</th>
                             </tr>
                         </thead>
@@ -140,15 +72,12 @@
                             <tr>
                                 <td>
                                     <div class="user-avatar">
-                                        <img src="/placeholder.svg?height=40&width=40" alt="João Silva">
-                                        <span class="user-status online"></span>
+                                        <img src="/fotos/AFONSONARO.jpeg" alt="Afonso Muller">
                                     </div>
                                 </td>
-                                <td>João Silva</td>
-                                <td>joao.silva@autoelite.com.br</td>
+                                <td>Afonso Muller</td>
+                                <td>Afonso.patriota@autoelite.com.br</td>
                                 <td><span class="role-badge admin">Administrador</span></td>
-                                <td><span class="status-badge active">Ativo</span></td>
-                                <td>10/04/2023 14:30</td>
                                 <td class="actions-cell">
                                     <div class="action-buttons">
                                         <button class="btn-action edit" onclick="editUser(1)" title="Editar"><i class="fas fa-edit"></i></button>
@@ -160,15 +89,12 @@
                             <tr>
                                 <td>
                                     <div class="user-avatar">
-                                        <img src="/placeholder.svg?height=40&width=40" alt="Maria Santos">
-                                        <span class="user-status online"></span>
+                                        <img src="/fotos/menina (2).png" alt="Maria Santos">
                                     </div>
                                 </td>
                                 <td>Maria Santos</td>
                                 <td>maria.santos@autoelite.com.br</td>
                                 <td><span class="role-badge manager">Gerente</span></td>
-                                <td><span class="status-badge active">Ativo</span></td>
-                                <td>09/04/2023 09:15</td>
                                 <td class="actions-cell">
                                     <div class="action-buttons">
                                         <button class="btn-action edit" onclick="editUser(2)" title="Editar"><i class="fas fa-edit"></i></button>
@@ -180,15 +106,12 @@
                             <tr>
                                 <td>
                                     <div class="user-avatar">
-                                        <img src="/placeholder.svg?height=40&width=40" alt="Carlos Oliveira">
-                                        <span class="user-status online"></span>
+                                        <img src="/fotos/garoto (2).png" alt="Carlos Oliveira">
                                     </div>
                                 </td>
                                 <td>Carlos Oliveira</td>
                                 <td>carlos.oliveira@autoelite.com.br</td>
                                 <td><span class="role-badge sales">Vendedor</span></td>
-                                <td><span class="status-badge active">Ativo</span></td>
-                                <td>08/04/2023 16:45</td>
                                 <td class="actions-cell">
                                     <div class="action-buttons">
                                         <button class="btn-action edit" onclick="editUser(3)" title="Editar"><i class="fas fa-edit"></i></button>
@@ -200,15 +123,12 @@
                             <tr>
                                 <td>
                                     <div class="user-avatar">
-                                        <img src="/placeholder.svg?height=40&width=40" alt="Ana Pereira">
-                                        <span class="user-status offline"></span>
+                                        <img src="/fotos/menina.png" alt="Ana Pereira">
                                     </div>
                                 </td>
                                 <td>Ana Pereira</td>
                                 <td>ana.pereira@autoelite.com.br</td>
                                 <td><span class="role-badge sales">Vendedor</span></td>
-                                <td><span class="status-badge inactive">Inativo</span></td>
-                                <td>01/04/2023 10:20</td>
                                 <td class="actions-cell">
                                     <div class="action-buttons">
                                         <button class="btn-action edit" onclick="editUser(4)" title="Editar"><i class="fas fa-edit"></i></button>
@@ -220,15 +140,12 @@
                             <tr>
                                 <td>
                                     <div class="user-avatar">
-                                        <img src="/placeholder.svg?height=40&width=40" alt="Roberto Almeida">
-                                        <span class="user-status away"></span>
+                                        <img src="/fotos/homem.png" alt="Roberto Almeida">
                                     </div>
                                 </td>
                                 <td>Roberto Almeida</td>
                                 <td>roberto.almeida@autoelite.com.br</td>
-                                <td><span class="role-badge support">Suporte</span></td>
-                                <td><span class="status-badge pending">Pendente</span></td>
-                                <td>Nunca acessou</td>
+                                <td><span class="role-badge sales">Vendedor</span></td>
                                 <td class="actions-cell">
                                     <div class="action-buttons">
                                         <button class="btn-action edit" onclick="editUser(5)" title="Editar"><i class="fas fa-edit"></i></button>
@@ -240,14 +157,6 @@
                         </tbody>
                     </table>
                 </div>
-            </div>
-
-            <!-- Paginação -->
-            <div class="pagination">
-                <button class="pagination-btn" disabled><i class="fas fa-chevron-left"></i></button>
-                <button class="pagination-btn active">1</button>
-                <button class="pagination-btn">2</button>
-                <button class="pagination-btn"><i class="fas fa-chevron-right"></i></button>
             </div>
         </div>
     </section>
@@ -265,7 +174,7 @@
                     
                     <div class="user-avatar-upload">
                         <div class="avatar-preview">
-                            <img id="avatar-preview-img" src="/placeholder.svg?height=100&width=100" alt="Avatar do usuário">
+                            <img id="avatar-preview-img" src="/fotos/comercial.png" alt="Avatar">
                             <div class="avatar-overlay">
                                 <i class="fas fa-camera"></i>
                             </div>
@@ -280,12 +189,6 @@
                                 <input type="file" id="avatar-upload" name="avatar" accept="image/*" style="display: none;">
                             </div>
                         </div>
-                    </div>
-                    
-                    <div class="form-tabs">
-                        <button type="button" class="form-tab active" data-tab="personal">Informações Pessoais</button>
-                        <button type="button" class="form-tab" data-tab="access">Acesso</button>
-                        <button type="button" class="form-tab" data-tab="permissions">Permissões</button>
                     </div>
                     
                     <div class="form-tab-content active" id="tab-personal">
@@ -305,23 +208,6 @@
                                 <label for="user-phone">Telefone</label>
                                 <input type="tel" id="user-phone" name="phone">
                             </div>
-                            <div class="form-group">
-                                <label for="user-department">Departamento</label>
-                                <select id="user-department" name="department">
-                                    <option value="">Selecione um departamento</option>
-                                    <option value="Diretoria">Diretoria</option>
-                                    <option value="Vendas">Vendas</option>
-                                    <option value="Financeiro">Financeiro</option>
-                                    <option value="Marketing">Marketing</option>
-                                    <option value="TI">TI</option>
-                                    <option value="Recursos Humanos">Recursos Humanos</option>
-                                </select>
-                            </div>
-                        </div>
-                        
-                        <div class="form-group full-width">
-                            <label for="user-notes">Observações</label>
-                            <textarea id="user-notes" name="notes" rows="3"></textarea>
                         </div>
                     </div>
                     
@@ -334,157 +220,11 @@
                                     <option value="Administrador">Administrador</option>
                                     <option value="Gerente">Gerente</option>
                                     <option value="Vendedor">Vendedor</option>
-                                    <option value="Suporte">Suporte</option>
                                 </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="user-status">Status</label>
-                                <select id="user-status" name="status" required>
-                                    <option value="Ativo">Ativo</option>
-                                    <option value="Inativo">Inativo</option>
-                                    <option value="Pendente">Pendente</option>
-                                </select>
-                            </div>
-                        </div>
-                        
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="user-password">Senha</label>
-                                <div class="password-input">
-                                    <input type="password" id="user-password" name="password">
-                                    <button type="button" class="toggle-password"><i class="fas fa-eye"></i></button>
-                                </div>
-                                <small class="form-hint">Deixe em branco para manter a senha atual (ao editar)</small>
-                            </div>
-                            <div class="form-group">
-                                <label for="user-password-confirm">Confirmar senha</label>
-                                <div class="password-input">
-                                    <input type="password" id="user-password-confirm" name="password_confirm">
-                                    <button type="button" class="toggle-password"><i class="fas fa-eye"></i></button>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="password-strength">
-                            <div class="strength-label">Força da senha:</div>
-                            <div class="strength-meter">
-                                <div class="strength-segment"></div>
-                                <div class="strength-segment"></div>
-                                <div class="strength-segment"></div>
-                                <div class="strength-segment"></div>
-                            </div>
-                            <div class="strength-text">Fraca</div>
-                        </div>
+                            </div>                          
+                        </div>                                                                                                                                    
                     </div>
-                    
-                    <div class="form-tab-content" id="tab-permissions">
-                        <div class="permissions-header">
-                            <h3>Permissões do Sistema</h3>
-                            <div class="permissions-actions">
-                                <button type="button" class="btn btn-sm btn-outline" id="select-all-permissions">Selecionar Todos</button>
-                                <button type="button" class="btn btn-sm btn-outline" id="deselect-all-permissions">Desmarcar Todos</button>
-                            </div>
-                        </div>
-                        
-                        <div class="permissions-grid">
-                            <div class="permission-group">
-                                <div class="permission-group-header">
-                                    <h4>Dashboard</h4>
-                                </div>
-                                <div class="permission-items">
-                                    <div class="permission-item">
-                                        <input type="checkbox" id="perm-dashboard" name="permissions[]" value="dashboard">
-                                        <label for="perm-dashboard">Visualizar Dashboard</label>
-                                    </div>
-                                    <div class="permission-item">
-                                        <input type="checkbox" id="perm-dashboard-stats" name="permissions[]" value="dashboard-stats">
-                                        <label for="perm-dashboard-stats">Ver Estatísticas</label>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="permission-group">
-                                <div class="permission-group-header">
-                                    <h4>Veículos</h4>
-                                </div>
-                                <div class="permission-items">
-                                    <div class="permission-item">
-                                        <input type="checkbox" id="perm-vehicles-view" name="permissions[]" value="vehicles-view">
-                                        <label for="perm-vehicles-view">Visualizar Veículos</label>
-                                    </div>
-                                    <div class="permission-item">
-                                        <input type="checkbox" id="perm-vehicles-create" name="permissions[]" value="vehicles-create">
-                                        <label for="perm-vehicles-create">Adicionar Veículos</label>
-                                    </div>
-                                    <div class="permission-item">
-                                        <input type="checkbox" id="perm-vehicles-edit" name="permissions[]" value="vehicles-edit">
-                                        <label for="perm-vehicles-edit">Editar Veículos</label>
-                                    </div>
-                                    <div class="permission-item">
-                                        <input type="checkbox" id="perm-vehicles-delete" name="permissions[]" value="vehicles-delete">
-                                        <label for="perm-vehicles-delete">Excluir Veículos</label>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="permission-group">
-                                <div class="permission-group-header">
-                                    <h4>Usuários</h4>
-                                </div>
-                                <div class="permission-items">
-                                    <div class="permission-item">
-                                        <input type="checkbox" id="perm-users-view" name="permissions[]" value="users-view">
-                                        <label for="perm-users-view">Visualizar Usuários</label>
-                                    </div>
-                                    <div class="permission-item">
-                                        <input type="checkbox" id="perm-users-create" name="permissions[]" value="users-create">
-                                        <label for="perm-users-create">Adicionar Usuários</label>
-                                    </div>
-                                    <div class="permission-item">
-                                        <input type="checkbox" id="perm-users-edit" name="permissions[]" value="users-edit">
-                                        <label for="perm-users-edit">Editar Usuários</label>
-                                    </div>
-                                    <div class="permission-item">
-                                        <input type="checkbox" id="perm-users-delete" name="permissions[]" value="users-delete">
-                                        <label for="perm-users-delete">Excluir Usuários</label>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="permission-group">
-                                <div class="permission-group-header">
-                                    <h4>Vendas</h4>
-                                </div>
-                                <div class="permission-items">
-                                    <div class="permission-item">
-                                        <input type="checkbox" id="perm-sales-view" name="permissions[]" value="sales-view">
-                                        <label for="perm-sales-view">Visualizar Vendas</label>
-                                    </div>
-                                    <div class="permission-item">
-                                        <input type="checkbox" id="perm-sales-create" name="permissions[]" value="sales-create">
-                                        <label for="perm-sales-create">Registrar Vendas</label>
-                                    </div>
-                                    <div class="permission-item">
-                                        <input type="checkbox" id="perm-sales-reports" name="permissions[]" value="sales-reports">
-                                        <label for="perm-sales-reports">Relatórios de Vendas</label>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="permission-group">
-                                <div class="permission-group-header">
-                                    <h4>Configurações</h4>
-                                </div>
-                                <div class="permission-items">
-                                    <div class="permission-item">
-                                        <input type="checkbox" id="perm-settings" name="permissions[]" value="settings">
-                                        <label for="perm-settings">Configurações do Sistema</label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
+   
                     <div class="form-actions">
                         <button type="button" class="btn btn-outline" onclick="closeModal()">Cancelar</button>
                         <button type="submit" class="btn btn-primary">Salvar</button>
@@ -566,9 +306,117 @@
             </div>
         </div>
     </footer>
-    <script src="/pages/routes/CRUDusuario.js"></script>
 
-    
+    <script>
+        // Variáveis globais
+        let currentUserId = null;
+        
+        // Funções para manipulação dos modais
+        function openModal(isEdit = false) {
+            const modal = document.getElementById('user-modal');
+            const modalTitle = document.getElementById('modal-title');
+            
+            modalTitle.textContent = isEdit ? 'Editar Usuário' : 'Adicionar Usuário';
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeModal() {
+            const modal = document.getElementById('user-modal');
+            modal.style.display = 'none';
+            document.body.style.overflow = '';
+            resetForm();
+        }
+        
+        function openDeleteModal(userId) {
+            document.getElementById('delete-user-name').textContent = 'este usuário';
+            currentUserId = userId;
+            
+            const modal = document.getElementById('delete-modal');
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeDeleteModal() {
+            const modal = document.getElementById('delete-modal');
+            modal.style.display = 'none';
+            document.body.style.overflow = '';
+            currentUserId = null;
+        }
+        
+        // Funções CRUD
+        function editUser(userId) {
+            currentUserId = userId;
+            openModal(true);
+        }
+        
+        function viewUser(userId) {
+            alert(`Visualizando detalhes do usuário ID ${userId}`);
+        }
+        
+        function deleteUser(userId) {
+            openDeleteModal(userId);
+        }
+        
+        function confirmDelete() {
+            if (currentUserId) {
+                alert(`Usuário ID ${currentUserId} excluído com sucesso!`);
+                closeDeleteModal();
+                
+                setTimeout(() => {
+                    location.reload();
+                }, 500);
+            }
+        }
+        
+        // Funções auxiliares
+        function resetForm() {
+            document.getElementById('user-form').reset();
+            document.getElementById('avatar-preview-img').src = '/fotos/comercial.png';
+            currentUserId = null;
+            
+            document.querySelectorAll('.form-tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.getElementById('tab-personal').classList.add('active');
+        }
+        
+        // Event Listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            // Formulário de usuário
+            document.getElementById('user-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const isEdit = currentUserId !== null;
+                alert(`Usuário ${isEdit ? 'atualizado' : 'adicionado'} com sucesso!`);
+                closeModal();
+                
+                setTimeout(() => {
+                    location.reload();
+                }, 500);
+            });
+            
+            // Upload de avatar
+            document.querySelector('.avatar-preview').addEventListener('click', function() {
+                document.getElementById('avatar-upload').click();
+            });
+            
+            document.querySelector('.avatar-upload-btn button').addEventListener('click', function() {
+                document.getElementById('avatar-upload').click();
+            });
+            
+            document.getElementById('avatar-upload').addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        document.getElementById('avatar-preview-img').src = e.target.result;
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>

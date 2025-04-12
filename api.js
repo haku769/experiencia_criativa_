@@ -167,7 +167,8 @@ authRouter.post('/login', (req, res) => {
       usuario: {
         cpf: usuario.CPFUsuario,
         nome: usuario.NomeUsuario,
-        email: usuario.EmailUsuario
+        email: usuario.EmailUsuario,
+        foto:  usuario.FotoUsuario
       }
     });
   });
