@@ -80,9 +80,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // ========== Registro ==========
   const registerForm = document.querySelector('#register-form form');
+
   registerForm.addEventListener('submit', async (e) => {
     e.preventDefault();
-
+  
     const nome = document.querySelector('#register-name').value.trim();
     const email = document.querySelector('#register-email').value;
     const telefone = document.querySelector('#register-phone').value;
@@ -90,7 +91,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const senha = document.querySelector('#register-password').value;
     const confirmarSenha = document.querySelector('#register-confirm-password').value;
     const termos = document.querySelector('#terms').checked;
-
+    const foto = document.querySelector('#register-photo').files[0]; // imagem
+  
     if (nome.length < 8) return alert('O nome deve ter pelo menos 8 caracteres!');
     if (!validarEmail(email)) return alert('O e-mail deve ser do Gmail e estar no formato correto!');
     if (!validarTelefone(telefone)) return alert('Telefone inválido! Use o formato (XX) 9XXXX-XXXX');
@@ -98,12 +100,20 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!validarSenha(senha)) return alert('Senha fraca! Use 6+ caracteres, número e símbolo.');
     if (senha !== confirmarSenha) return alert('As senhas não coincidem!');
     if (!termos) return alert('Você deve aceitar os termos!');
-
+    if (!foto) return alert('Selecione uma foto para o perfil!');
+  
+    const formData = new FormData();
+    formData.append('nome', nome);
+    formData.append('email', email);
+    formData.append('telefone', telefone.replace(/\D/g, ''));
+    formData.append('cpf', cpf);
+    formData.append('senha', senha);
+    formData.append('foto', foto); // ⚠️ nome deve ser 'foto'
+  
     try {
       const res = await fetch('http://localhost:3000/autenticacao/registro', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ nome, email, telefone: telefone.replace(/\D/g, ''), cpf, senha })
+        body: formData // não precisa de headers
       });
 
       const data = await res.json();

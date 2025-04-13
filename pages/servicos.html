@@ -24,7 +24,7 @@
             </div>
             <nav>
                 <ul>
-                    <li class=""><a href="index.html">Início</a></li>
+                    <li><a href="index.html">Início</a></li>
                     <li><a href="veiculos.html">Veículos</a></li>
                     <li><a href="servicos.html">Serviços</a></li>
                     <li><a href="contatos.html">Contato</a></li>
@@ -32,12 +32,14 @@
                     <li><a href="CRUDveiculos.html">CRUDveiculos</a></li>
                 </ul>
             </nav>
-            <div class="login-button">
-                <a href="/pages/autenticacao.html" class="btn-login">
+            <div class="login-button" id="user-info">
+                <!-- Será preenchido via JavaScript -->
+                <a href="/pages/autenticacao.html" class="btn-login" id="login-link">
                     <i class="fas fa-user"></i> Login
+                    <div id="user-info" class="user-info"></div>
+    
                 </a>
             </div>
-        </div>
     </header>
     <main>
         <section>
@@ -62,7 +64,7 @@
                 </button>
             </div>
 
-            <img src="../fotos/Serviços.png"
+            <img class="service-img" class="service-img" src="../fotos/Serviços.png"
                 alt="Serviços">
             <article>
                 <h2>Clínica de Serviços</h2>
@@ -71,7 +73,7 @@
                     incluem check up e revisões para garantir a segurança de nossos clientes ao dirigir.
                 </p>
             </article>
-            <img src="../fotos/Clínica de Serviços.png"
+            <img class="service-img" class="service-img" src="../fotos/Clínica de Serviços.png"
                 alt="Clinica de Serviços">
             <article>
                 <h2>Revisão Auto Elite</h2>
@@ -97,9 +99,9 @@
                     aproveita a qualidade e ainda a conveniência de agendar o seu horário de atendimento.
                 </p>
             </article>
-            <img src="../fotos/Revisão Auto Elite.png"
+            <img class="service-img" class="service-img" src="../fotos/Revisão Auto Elite.png"
                 alt="Revisão Auto Elite">
-            <img src="../fotos/Manutenção Preventiva.png"
+            <img class="service-img" class="service-img" src="../fotos/Manutenção Preventiva.png"
                 alt="Manutenção">
             <article>
                 <h2>Lubrificantes Automotivos</h2>
@@ -118,7 +120,7 @@
                     Agendar Serviço.
                 </button>
             </div>
-            <img src="../fotos/Lubrificantes Automotivos.png"
+            <img class="service-img" src="../fotos/Lubrificantes Automotivos.png"
                 alt="Lubrificantes Automotivos">
             <article>
                 <h2>Funilaria e Pintura</h2>
@@ -138,7 +140,7 @@
                     Agendar Serviço.
                 </button>
             </div>
-            <img src="../fotos/Funilaria e Pintura.png"
+            <img class="service-img" src="../fotos/Funilaria e Pintura.png"
                 alt="Funilaria e Pintura">
             <article>
                 <h2>Troca de Pneus</h2>
@@ -160,7 +162,7 @@
                     Agendar Serviço.
                 </button>
             </div>
-            <img src="../fotos/Troca de Pneus.png"
+            <img class="service-img" src="../fotos/Troca de Pneus.png"
                 alt="Troca de Pneus">
             <article>
                 <h2>Alinhamento e Balanceamento</h2>
@@ -228,7 +230,7 @@
                     <li>Sistema de freios</li>
                 </ul>
             </article>
-            <img src="../fotos/Garantia Estendida.png"
+            <img class="service-img" src="../fotos/Garantia Estendida.png"
                 alt="Garantia Estendida">
             <div id="financiamento">
                 <h2>Financiamento</h2>
@@ -278,7 +280,7 @@
                     fazer uma simulação.
                 </p>
             </article>
-            <img src="../fotos/Financiamento.png"
+            <img class="service-img" src="../fotos/Financiamento.png"
                 alt="Financiamento">
             <article>
                 <h3>Quer começar a pagar daqui a 2, 3 ou 4 meses? Aqui quem escolhe é você.</h3>
@@ -359,6 +361,8 @@
             </div>
         </div>
     </footer>
+    <script src="/pages/routes/sessao.js" defer></script>
 </body>
+
 
 </html>

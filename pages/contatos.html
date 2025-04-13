@@ -28,12 +28,14 @@
                     <li><a href="CRUDveiculos.html">CRUDveiculos</a></li>
                 </ul>
             </nav>
-            <div class="login-button">
-                <a href="/pages/autenticacao.html" class="btn-login">
+            <div class="login-button" id="user-info">
+                <!-- Será preenchido via JavaScript -->
+                <a href="/pages/autenticacao.html" class="btn-login" id="login-link">
                     <i class="fas fa-user"></i> Login
+                    <div id="user-info" class="user-info"></div>
+    
                 </a>
             </div>
-        </div>
     </header>
 
     <!-- Contact Info Section -->
@@ -292,6 +294,7 @@
             });
         });
     </script>
+    <script src="/pages/routes/sessao.js" defer></script>
 </body>
 
 </html>

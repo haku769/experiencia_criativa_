@@ -4,6 +4,10 @@ import mysql from 'mysql2';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
+import multer from 'multer';
+const storage = multer.memoryStorage(); // imagem será salva em buffer
+const upload = multer({ storage });
+
 
 const app = express();
 const PORT = 3000;
@@ -101,13 +105,14 @@ app.use('/usuarios', userRouter);
 // ==============================
 // ✅ ROTEADOR: AUTENTICAÇÃO
 // ==============================
+
 const authRouter = express.Router();
 
-// POST /autenticacao/registro
-authRouter.post('/registro', async (req, res) => {
+authRouter.post('/registro', upload.single('foto'), async (req, res) => {
   const { nome, email, cpf, telefone, senha } = req.body;
-  const cpfSemFormatacao = cpf.replace(/[^\d]/g, ''); 
+  const cpfSemFormatacao = cpf.replace(/[^\d]/g, '');
   const telefoneSemFormatacao = telefone.replace(/[^\d]/g, '');
+  const fotoBuffer = req.file ? req.file.buffer : null;
 
   db.query('SELECT * FROM Usuario WHERE EmailUsuario = ?', [email], async (err, results) => {
     if (err) return res.status(500).json({ erro: 'Erro ao verificar email' });
@@ -116,8 +121,12 @@ authRouter.post('/registro', async (req, res) => {
     }
 
     const hashedPassword = await bcrypt.hash(senha, 10);
-    const insertQuery = 'INSERT INTO Usuario (CPFUsuario, NomeUsuario, EmailUsuario, TelUsuario, SenhaUsuario) VALUES (?, ?, ?, ?, ?)';
-    db.query(insertQuery, [cpfSemFormatacao, nome, email, telefoneSemFormatacao, hashedPassword], (err) => {
+    const insertQuery = `
+      INSERT INTO Usuario (CPFUsuario, NomeUsuario, EmailUsuario, TelUsuario, SenhaUsuario, FotoUsuario)
+      VALUES (?, ?, ?, ?, ?, ?)
+    `;
+
+    db.query(insertQuery, [cpfSemFormatacao,nome,email,telefoneSemFormatacao,hashedPassword,fotoBuffer], (err) => {
       if (err) {
         console.error('Erro ao registrar usuário:', err);
         return res.status(500).json({ erro: 'Erro ao registrar usuário' });
@@ -126,6 +135,7 @@ authRouter.post('/registro', async (req, res) => {
     });
   });
 });
+
 
 // POST /autenticacao/login
 authRouter.post('/login', (req, res) => {
