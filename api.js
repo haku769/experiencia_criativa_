@@ -40,11 +40,19 @@ db.connect((err) => {
 function autenticarToken(req, res, next) {
   const authHeader = req.headers['authorization'];
   const token = authHeader && authHeader.split(' ')[1];
+  
+  if (!token) {
+    console.log('⚠️ Token não fornecido');
+    return res.sendStatus(401);
+  }
 
-  if (!token) return res.sendStatus(401); // Não autorizado
-
+  console.log('📜 Token recebido:', token);
+  
   jwt.verify(token, JWT_SECRET, (err, usuario) => {
-    if (err) return res.sendStatus(403); // Token inválido
+    if (err) {
+      console.log('❌ Token inválido ou expirado');
+      return res.sendStatus(403); // Token inválido
+    }
     req.usuario = usuario;
     next();
   });
@@ -68,6 +76,21 @@ userRouter.get('/', autenticarToken, (req, res) => {
     res.status(200).json(results);
   });
 });
+userRouter.post('/', async (req, res) => {
+  const { cpf, nome, email, telefone, senha } = req.body;
+  const hashedSenha = await bcrypt.hash(senha, 10);
+
+  const query = 'INSERT INTO Usuario (CPFUsuario, NomeUsuario, EmailUsuario, TelUsuario, SenhaUsuario) VALUES (?, ?, ?, ?, ?)';
+  db.query(query, [cpf, nome, email, telefone, hashedSenha], (err) => {
+    if (err) {
+      console.error('❌ Erro ao cadastrar usuário:', err);
+      return res.status(500).json({ erro: 'Erro ao cadastrar usuário' });
+    }
+    console.log('✅ Usuário cadastrado com sucesso!');
+    res.status(201).json({ mensagem: 'Usuário cadastrado com sucesso' });
+  });
+});
+
 
 // PUT /usuarios/:cpf
 userRouter.put('/:cpf', (req, res) => {
@@ -147,6 +170,7 @@ authRouter.post('/login', (req, res) => {
       console.error('❌ Erro ao buscar usuário:', err);
       return res.status(500).json({ erro: 'Erro ao buscar usuário' });
     }
+
     if (results.length === 0) {
       console.warn('⚠️ Login falhou. Email não encontrado:', email);
       return res.status(401).json({ erro: 'Email ou senha incorretos' });
@@ -167,18 +191,26 @@ authRouter.post('/login', (req, res) => {
         email: usuario.EmailUsuario
       },
       JWT_SECRET,
-      { expiresIn: '1h' } // Token válido por 1 hora
+      { expiresIn: '1h' }
+    );
+
+    const refreshToken = jwt.sign(
+      { cpf: usuario.CPFUsuario },
+      JWT_SECRET,
+      { expiresIn: '7d' } // válido por 7 dias
     );
 
     console.log('✅ Login bem-sucedido para:', email);
+
     res.status(200).json({
       mensagem: 'Login bem-sucedido!',
       token,
+      refreshToken,
       usuario: {
         cpf: usuario.CPFUsuario,
         nome: usuario.NomeUsuario,
         email: usuario.EmailUsuario,
-        foto:  usuario.FotoUsuario
+        foto: usuario.FotoUsuario
       }
     });
   });

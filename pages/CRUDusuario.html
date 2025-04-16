@@ -27,14 +27,16 @@
                     <li><a href="CRUDveiculos.html">CRUDveiculos</a></li>
                 </ul>
             </nav>
-            <div class="login-button" id="user-info">
-                <!-- Será preenchido via JavaScript -->
+            <div class="login-button">
                 <a href="/pages/autenticacao.html" class="btn-login" id="login-link">
                     <i class="fas fa-user"></i> Login
-                    <div id="user-info" class="user-info"></div>
-    
+                </a>
+                <div id="user-info" class="user-info"></div>
+            </div>
+            
                 </a>
             </div>
+        </div>
     </header>
 
     <!-- Breadcrumb -->
@@ -55,6 +57,7 @@
                 <div class="admin-title">
                     <h1><i class="fas fa-users"></i> Gerenciamento de Usuários</h1>
                 </div>
+                <button class="btn btn-primary" id="btn-add-user" onclick="addUser()">Adicionar Usuário</button>
             </div>
 
             <!-- Tabela de Usuários -->
@@ -71,91 +74,7 @@
                             </tr>
                         </thead>
                         <tbody id="users-table-body">
-                            <tr>
-                                <td>
-                                    <div class="user-avatar">
-                                        <img src="/fotos/AFONSONARO.jpeg" alt="Afonso Muller">
-                                    </div>
-                                </td>
-                                <td>Afonso Muller</td>
-                                <td>afonso.patriota@autoelite.com.br</td>
-                                <td><span class="role-badge admin">Administrador</span></td>
-                                <td class="actions-cell">
-                                    <div class="action-buttons">
-                                        <button class="btn-action edit" onclick="editUser(1)" title="Editar"><i class="fas fa-edit"></i></button>
-                                        <button class="btn-action view" onclick="viewUser(1)" title="Visualizar"><i class="fas fa-eye"></i></button>
-                                        <button class="btn-action delete" onclick="deleteUser(1)" title="Excluir"><i class="fas fa-trash"></i></button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="user-avatar">
-                                        <img src="/fotos/menina (2).png" alt="Maria Santos">
-                                    </div>
-                                </td>
-                                <td>Maria Santos</td>
-                                <td>maria.santos@autoelite.com.br</td>
-                                <td><span class="role-badge manager">Gerente</span></td>
-                                <td class="actions-cell">
-                                    <div class="action-buttons">
-                                        <button class="btn-action edit" onclick="editUser(2)" title="Editar"><i class="fas fa-edit"></i></button>
-                                        <button class="btn-action view" onclick="viewUser(2)" title="Visualizar"><i class="fas fa-eye"></i></button>
-                                        <button class="btn-action delete" onclick="deleteUser(2)" title="Excluir"><i class="fas fa-trash"></i></button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="user-avatar">
-                                        <img src="/fotos/garoto (2).png" alt="Carlos Oliveira">
-                                    </div>
-                                </td>
-                                <td>Carlos Oliveira</td>
-                                <td>carlos.oliveira@autoelite.com.br</td>
-                                <td><span class="role-badge sales">Vendedor</span></td>
-                                <td class="actions-cell">
-                                    <div class="action-buttons">
-                                        <button class="btn-action edit" onclick="editUser(3)" title="Editar"><i class="fas fa-edit"></i></button>
-                                        <button class="btn-action view" onclick="viewUser(3)" title="Visualizar"><i class="fas fa-eye"></i></button>
-                                        <button class="btn-action delete" onclick="deleteUser(3)" title="Excluir"><i class="fas fa-trash"></i></button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="user-avatar">
-                                        <img src="/fotos/menina.png" alt="Ana Pereira">
-                                    </div>
-                                </td>
-                                <td>Ana Pereira</td>
-                                <td>ana.pereira@autoelite.com.br</td>
-                                <td><span class="role-badge sales">Vendedor</span></td>
-                                <td class="actions-cell">
-                                    <div class="action-buttons">
-                                        <button class="btn-action edit" onclick="editUser(4)" title="Editar"><i class="fas fa-edit"></i></button>
-                                        <button class="btn-action view" onclick="viewUser(4)" title="Visualizar"><i class="fas fa-eye"></i></button>
-                                        <button class="btn-action delete" onclick="deleteUser(4)" title="Excluir"><i class="fas fa-trash"></i></button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="user-avatar">
-                                        <img src="/fotos/homem.png" alt="Roberto Almeida">
-                                    </div>
-                                </td>
-                                <td>Roberto Almeida</td>
-                                <td>roberto.almeida@autoelite.com.br</td>
-                                <td><span class="role-badge sales">Vendedor</span></td>
-                                <td class="actions-cell">
-                                    <div class="action-buttons">
-                                        <button class="btn-action edit" onclick="editUser(5)" title="Editar"><i class="fas fa-edit"></i></button>
-                                        <button class="btn-action view" onclick="viewUser(5)" title="Visualizar"><i class="fas fa-eye"></i></button>
-                                        <button class="btn-action delete" onclick="deleteUser(5)" title="Excluir"><i class="fas fa-trash"></i></button>
-                                    </div>
-                                </td>
-                            </tr>
+                            <!-- Linhas de usuários serão preenchidas via JavaScript -->
                         </tbody>
                     </table>
                 </div>
@@ -164,81 +83,64 @@
     </section>
 
     <!-- Modal de Formulário -->
-    <div id="user-modal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2 id="modal-title">Adicionar Usuário</h2>
-                <button class="close-modal" onclick="closeModal()"><i class="fas fa-times"></i></button>
-            </div>
-            <div class="modal-body">
-                <form id="user-form">
-                    <input type="hidden" id="user-id" name="id">
-                    
-                    <div class="user-avatar-upload">
-                        <div class="avatar-preview">
-                            <img id="avatar-preview-img" src="/fotos/comercial.png" alt="Avatar">
-                            <div class="avatar-overlay">
-                                <i class="fas fa-camera"></i>
-                            </div>
-                        </div>
-                        <div class="avatar-upload-info">
-                            <h3>Foto do perfil</h3>
-                            <p>Clique na imagem para alterar</p>
-                            <div class="avatar-upload-btn">
-                                <button type="button" class="btn btn-outline btn-sm">
-                                    <i class="fas fa-upload"></i> Upload
-                                </button>
-                                <input type="file" id="avatar-upload" name="avatar" accept="image/*" style="display: none;">
-                            </div>
-                        </div>
+    <!-- Modal de Formulário -->
+<div id="user-modal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2 id="modal-title">Adicionar Usuário</h2>
+            <button class="close-modal" onclick="closeModal()"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="modal-body">
+            <form id="user-form">
+                <input type="hidden" id="user-id" name="id">
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="nome">Nome completo</label>
+                        <input type="text" id="nome" name="name" required>
                     </div>
-                    
-                    <div class="form-tab-content active" id="tab-personal">
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="user-name">Nome completo</label>
-                                <input type="text" id="user-name" name="name" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="user-email">Email</label>
-                                <input type="email" id="user-email" name="email" required>
-                            </div>
-                        </div>
-                        
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="user-phone">Telefone</label>
-                                <input type="tel" id="user-phone" name="phone">
-                            </div>
-                        </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required>
                     </div>
-                    
-                    <div class="form-tab-content" id="tab-access">
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="user-role">Função</label>
-                                <select id="user-role" name="role" required>
-                                    <option value="">Selecione uma função</option>
-                                    <option value="Administrador">Administrador</option>
-                                    <option value="Gerente">Gerente</option>
-                                    <option value="Vendedor">Vendedor</option>
-                                </select>
-                            </div>                          
-                        </div>                                                                                                                                    
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="telefone">Telefone</label>
+                        <input type="tel" id="telefone" name="phone">
                     </div>
-   
-                    <div class="form-actions">
-                        <button type="button" class="btn btn-outline" onclick="closeModal()">Cancelar</button>
-                        <button type="submit" class="btn btn-primary">Salvar</button>
+                    <div class="form-group">
+                        <label for="cpf">CPF</label>
+                        <input type="text" id="cpf" name="cpf" required>
                     </div>
-                </form>
-            </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="user-role">Função</label>
+                        <select id="user-role" name="role">
+                            <option value="">Selecione uma função</option>
+                            <option value="Administrador">Administrador</option>
+                            <option value="Gerente">Gerente</option>
+                            <option value="Vendedor">Vendedor</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="btn btn-outline" onclick="closeModal()">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Salvar</button>
+                </div>
+            </form>
         </div>
     </div>
+</div>
+
 
     <!-- Modal de Confirmação de Exclusão -->
     <div id="delete-modal" class="modal">
-        <div class="modal-content delete-modal-content">
+        <div class="modal-content">
             <div class="modal-header">
                 <h2>Confirmar Exclusão</h2>
                 <button class="close-modal" onclick="closeDeleteModal()"><i class="fas fa-times"></i></button>
@@ -249,7 +151,7 @@
                 </div>
                 <p>Tem certeza que deseja excluir o usuário <span id="delete-user-name">João Silva</span>?</p>
                 <p class="warning-text">Esta ação não pode ser desfeita.</p>
-                
+
                 <div class="form-actions">
                     <button type="button" class="btn btn-outline" onclick="closeDeleteModal()">Cancelar</button>
                     <button type="button" class="btn btn-danger" onclick="confirmDelete()">Excluir</button>
@@ -308,117 +210,6 @@
             </div>
         </div>
     </footer>
-
-    <script>
-        // Variáveis globais
-        let currentUserId = null;
-        
-        // Funções para manipulação dos modais
-        function openModal(isEdit = false) {
-            const modal = document.getElementById('user-modal');
-            const modalTitle = document.getElementById('modal-title');
-            
-            modalTitle.textContent = isEdit ? 'Editar Usuário' : 'Adicionar Usuário';
-            modal.style.display = 'block';
-            document.body.style.overflow = 'hidden';
-        }
-        
-        function closeModal() {
-            const modal = document.getElementById('user-modal');
-            modal.style.display = 'none';
-            document.body.style.overflow = '';
-            resetForm();
-        }
-        
-        function openDeleteModal(userId) {
-            document.getElementById('delete-user-name').textContent = 'este usuário';
-            currentUserId = userId;
-            
-            const modal = document.getElementById('delete-modal');
-            modal.style.display = 'block';
-            document.body.style.overflow = 'hidden';
-        }
-        
-        function closeDeleteModal() {
-            const modal = document.getElementById('delete-modal');
-            modal.style.display = 'none';
-            document.body.style.overflow = '';
-            currentUserId = null;
-        }
-        
-        // Funções CRUD
-        function editUser(userId) {
-            currentUserId = userId;
-            openModal(true);
-        }
-        
-        function viewUser(userId) {
-            alert(`Visualizando detalhes do usuário ID ${userId}`);
-        }
-        
-        function deleteUser(userId) {
-            openDeleteModal(userId);
-        }
-        
-        function confirmDelete() {
-            if (currentUserId) {
-                alert(`Usuário ID ${currentUserId} excluído com sucesso!`);
-                closeDeleteModal();
-                
-                setTimeout(() => {
-                    location.reload();
-                }, 500);
-            }
-        }
-        
-        // Funções auxiliares
-        function resetForm() {
-            document.getElementById('user-form').reset();
-            document.getElementById('avatar-preview-img').src = '/fotos/comercial.png';
-            currentUserId = null;
-            
-            document.querySelectorAll('.form-tab-content').forEach(content => {
-                content.classList.remove('active');
-            });
-            document.getElementById('tab-personal').classList.add('active');
-        }
-        
-        // Event Listeners
-        document.addEventListener('DOMContentLoaded', function() {
-            // Formulário de usuário
-            document.getElementById('user-form').addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                const isEdit = currentUserId !== null;
-                alert(`Usuário ${isEdit ? 'atualizado' : 'adicionado'} com sucesso!`);
-                closeModal();
-                
-                setTimeout(() => {
-                    location.reload();
-                }, 500);
-            });
-            
-            // Upload de avatar
-            document.querySelector('.avatar-preview').addEventListener('click', function() {
-                document.getElementById('avatar-upload').click();
-            });
-            
-            document.querySelector('.avatar-upload-btn button').addEventListener('click', function() {
-                document.getElementById('avatar-upload').click();
-            });
-            
-            document.getElementById('avatar-upload').addEventListener('change', function(e) {
-                const file = e.target.files[0];
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        document.getElementById('avatar-preview-img').src = e.target.result;
-                    };
-                    reader.readAsDataURL(file);
-                }
-            });
-        });
-    </script>
     <script src="/pages/routes/sessao.js" defer></script>
 </body>
 

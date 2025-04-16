@@ -4,6 +4,51 @@ document.addEventListener('DOMContentLoaded', () => {
   const forgotPasswordLink = document.getElementById('forgot-password-link');
   const backToLogin = document.getElementById('back-to-login');
 
+  async function renovarTokenSeNecessario() {
+    let token = localStorage.getItem('token');
+    const refreshToken = localStorage.getItem('refreshToken');
+  
+    // Testar se o token é válido antes (opcional)
+    if (token) {
+      try {
+        const payload = JSON.parse(atob(token.split('.')[1]));
+        const exp = payload.exp * 1000;
+        if (Date.now() < exp) {
+          return token;
+        }
+      } catch (err) {
+        console.warn('⚠️ Token inválido, tentando renovar...');
+      }
+    }
+  
+    if (refreshToken) {
+      try {
+        const res = await fetch('http://localhost:3000/autenticacao/refresh', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ refreshToken })
+        });
+  
+        if (res.ok) {
+          const data = await res.json();
+          localStorage.setItem('token', data.token);
+          return data.token;
+        } else {
+          alert('⚠️ Sessão expirada. Faça login novamente.');
+          localStorage.clear();
+          window.location.href = '/pages/autenticacao.html';
+        }
+      } catch (err) {
+        alert('❌ Erro ao renovar token.');
+        window.location.href = '/pages/autenticacao.html';
+      }
+    } else {
+      alert('⚠️ Você precisa estar logado.');
+      window.location.href = '/pages/autenticacao.html';
+    }
+  }
+  
+
   function showForm(formId) {
     formContainers.forEach(form => form.classList.remove('active'));
     document.getElementById(formId).classList.add('active');
@@ -148,10 +193,15 @@ document.addEventListener('DOMContentLoaded', () => {
       const data = await res.json();
 
       if (res.ok) {
-        localStorage.setItem('usuarioLogado', JSON.stringify(data.usuario));
+        const { usuario, token, refreshToken } = data;
+      
+        localStorage.setItem('usuarioLogado', JSON.stringify(data.usuario ));
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('refreshToken', data.refreshToken);
         alert('✅ Login realizado com sucesso!');
-        window.location.href = '/pages/index.html'; // Redireciona para a home
-      } else {
+        window.location.href = '/pages/index.html';
+      }
+       else {
         alert(`❌ Erro: ${data.erro}`);
       }
     } catch (err) {
