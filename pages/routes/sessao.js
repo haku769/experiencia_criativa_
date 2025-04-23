@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
   const userInfo = document.getElementById("user-info");
+  const userForm = document.getElementById('user-form');
   const loginLink = document.getElementById("login-link");
   const usuarioJSON = localStorage.getItem("usuarioLogado");
   const token = localStorage.getItem("token");
@@ -121,7 +122,7 @@ async function carregarUsuarios() {
   await fetchAutenticado('http://localhost:3000/usuarios')
     .then(res => res.json())
     .then(usuarios => {
-      const tabela = document.getElementById('user-table-body');
+      const tabela = document.getElementById('users-table-body');
       if (!tabela) return;
 
       tabela.innerHTML = '';
@@ -194,9 +195,12 @@ async function editUser(cpf) {
         document.getElementById('nome').value = usuario.NomeUsuario;
         document.getElementById('email').value = usuario.EmailUsuario;
         document.getElementById('telefone').value = usuario.TelUsuario;
+        document.getElementById('cpf').value = usuario.CPFUsuario;
+        document.getElementById('user-role').value = usuario.FuncaoUsuario || '';
         openModal(true);
       }
-    });
+    })
+    .catch(err => console.error('Erro ao buscar usuário:', err));
 }
 
 function viewUser(cpf) {
