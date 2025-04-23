@@ -2,6 +2,14 @@ document.addEventListener("DOMContentLoaded", function () {
   const userInfo = document.getElementById("user-info");
   const loginLink = document.getElementById("login-link");
   const usuarioJSON = localStorage.getItem("usuarioLogado");
+  const token = localStorage.getItem("token");
+
+
+
+  if (!usuarioJSON && token) {
+    console.warn("[LIMPEZA] Removendo token inválido (usuário anônimo)");
+    localStorage.removeItem("token");
+  }
 
   if (usuarioJSON) {
     try {
@@ -41,6 +49,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const telefone = document.getElementById('telefone').value;
 
     const body = JSON.stringify({ nome, email, telefone });
+    console.log(currentUserId)
 
     if (currentUserId) {
       // Atualiza
@@ -67,12 +76,13 @@ document.addEventListener("DOMContentLoaded", function () {
         headers: { 'Content-Type': 'application/json' },
         body: novoBody
       })
-        .then(res => res.json())
-        .then(() => {
-          alert('Usuário adicionado com sucesso!');
-          closeModal();
-          setTimeout(() => location.reload(), 500);
-        });
+      .then(res => res.json())
+      .then(() => {
+        alert('Usuário adicionado com sucesso!');
+        closeModal();
+        carregarUsuarios(); 
+      });
+      
     }
   });
 
@@ -258,6 +268,11 @@ async function renovarToken() {
 
 async function fetchAutenticado(url, options = {}) {
   let token = localStorage.getItem('token');
+  const usuarioJSON = localStorage.getItem('usuarioLogado');
+
+  if (!usuarioJSON) {
+    return fetch(url, options); 
+  }
 
   if (isTokenExpirado(token)) {
     token = await renovarToken();
