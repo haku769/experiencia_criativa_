@@ -66,7 +66,7 @@ const userRouter = express.Router();
 // GET /usuarios (protegido)
 userRouter.get('/', autenticarToken, (req, res) => {
   console.log('📥 Requisição GET /usuarios');
-  const query = 'SELECT CPFUsuario, NomeUsuario, EmailUsuario, TelUsuario FROM Usuario';
+  const query = 'SELECT CPF, NOME, EMAIL, TELEFONE FROM Usuario';
   db.query(query, (err, results) => {
     if (err) {
       console.error('❌ Erro ao buscar usuários:', err);
@@ -80,7 +80,7 @@ userRouter.post('/', async (req, res) => {
   const { cpf, nome, email, telefone, senha } = req.body;
   const hashedSenha = await bcrypt.hash(senha, 10);
 
-  const query = 'INSERT INTO Usuario (CPFUsuario, NomeUsuario, EmailUsuario, TelUsuario, SenhaUsuario) VALUES (?, ?, ?, ?, ?)';
+  const query = 'INSERT INTO Usuario (CPF, NOME, EMAIL, TELEFONE SENHA) VALUES (?, ?, ?, ?, ?)';
   db.query(query, [cpf, nome, email, telefone, hashedSenha], (err) => {
     if (err) {
       console.error('❌ Erro ao cadastrar usuário:', err);
@@ -97,7 +97,7 @@ userRouter.put('/:cpf', (req, res) => {
   const { cpf } = req.params;
   const { nome, email, telefone } = req.body;
   console.log(`📥 Requisição PUT /usuarios/${cpf}`, req.body);
-  const query = 'UPDATE Usuario SET NomeUsuario = ?, EmailUsuario = ?, TelUsuario = ? WHERE CPFUsuario = ?';
+  const query = 'UPDATE Usuario SET NOME = ?, EMAIL = ?, TELEFONE = ? WHERE CPF = ?';
   db.query(query, [nome, email, telefone, cpf], (err) => {
     if (err) {
       console.error(`❌ Erro ao atualizar usuário ${cpf}:`, err);
@@ -112,7 +112,7 @@ userRouter.put('/:cpf', (req, res) => {
 userRouter.delete('/:cpf', (req, res) => {
   const { cpf } = req.params;
   console.log(`📥 Requisição DELETE /usuarios/${cpf}`);
-  const query = 'DELETE FROM Usuario WHERE CPFUsuario = ?';
+  const query = 'DELETE FROM Usuario WHERE CPF = ?';
   db.query(query, [cpf], (err) => {
     if (err) {
       console.error(`❌ Erro ao deletar usuário ${cpf}:`, err);
@@ -137,7 +137,7 @@ authRouter.post('/registro', upload.single('foto'), async (req, res) => {
   const telefoneSemFormatacao = telefone.replace(/[^\d]/g, '');
   const fotoBuffer = req.file ? req.file.buffer : null;
 
-  db.query('SELECT * FROM Usuario WHERE EmailUsuario = ?', [email], async (err, results) => {
+  db.query('SELECT * FROM Usuario WHERE EMAIL = ?', [email], async (err, results) => {
     if (err) return res.status(500).json({ erro: 'Erro ao verificar email' });
     if (results.length > 0) {
       return res.status(400).json({ erro: 'Email já está cadastrado' });
@@ -145,7 +145,7 @@ authRouter.post('/registro', upload.single('foto'), async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(senha, 10);
     const insertQuery = `
-      INSERT INTO Usuario (CPFUsuario, NomeUsuario, EmailUsuario, TelUsuario, SenhaUsuario, FotoUsuario)
+      INSERT INTO Usuario (CPF, NOME, EMAIL, TELEFONE, SENHA, FOTO)
       VALUES (?, ?, ?, ?, ?, ?)
     `;
 
@@ -165,7 +165,7 @@ authRouter.post('/login', (req, res) => {
   const { email, senha } = req.body;
   console.log('📥 Tentativa de login:', email);
 
-  db.query('SELECT * FROM Usuario WHERE EmailUsuario = ?', [email], async (err, results) => {
+  db.query('SELECT * FROM Usuario WHERE EMAIL = ?', [email], async (err, results) => {
     if (err) {
       console.error('❌ Erro ao buscar usuário:', err);
       return res.status(500).json({ erro: 'Erro ao buscar usuário' });
@@ -177,7 +177,7 @@ authRouter.post('/login', (req, res) => {
     }
 
     const usuario = results[0];
-    const senhaCorreta = await bcrypt.compare(senha, usuario.SenhaUsuario);
+    const senhaCorreta = await bcrypt.compare(senha, usuario.SENHA);
 
     if (!senhaCorreta) {
       console.warn('⚠️ Senha incorreta para o email:', email);
@@ -186,16 +186,16 @@ authRouter.post('/login', (req, res) => {
 
     const token = jwt.sign(
       {
-        cpf: usuario.CPFUsuario,
-        nome: usuario.NomeUsuario,
-        email: usuario.EmailUsuario
+        cpf: usuario.CPF,
+        nome: usuario.NOME,
+        email: usuario.EMAIL
       },
       JWT_SECRET,
       { expiresIn: '1h' }
     );
 
     const refreshToken = jwt.sign(
-      { cpf: usuario.CPFUsuario },
+      { cpf: usuario.CPF },
       JWT_SECRET,
       { expiresIn: '7d' } // válido por 7 dias
     );
@@ -207,10 +207,10 @@ authRouter.post('/login', (req, res) => {
       token,
       refreshToken,
       usuario: {
-        cpf: usuario.CPFUsuario,
-        nome: usuario.NomeUsuario,
-        email: usuario.EmailUsuario,
-        foto: usuario.FotoUsuario
+        cpf: usuario.CPF,
+        nome: usuario.NOME,
+        email: usuario.EMAIL,
+        foto: usuario.FOTO
       }
     });
   });
