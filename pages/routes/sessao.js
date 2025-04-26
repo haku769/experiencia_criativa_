@@ -39,10 +39,11 @@ document.addEventListener("DOMContentLoaded", function () {
             window.location.reload();
           });
 
-          if (usuario.FUNCAO !== "Admin"){
+          if (usuario.funcao !== "Admin"){
             document.getElementById("CrudUsuario").remove()
             document.getElementById("CrudVeiculos").remove()
           }
+          console.log(usuario.funcao)
           
         }
       }
