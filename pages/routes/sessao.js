@@ -130,13 +130,13 @@ async function carregarUsuarios() {
         const tr = document.createElement('tr');
         tr.innerHTML = `
           <td><img src="/fotos/comercial.png" class="avatar-table"></td>
-          <td>${usuario.NomeUsuario}</td>
-          <td>${usuario.EmailUsuario}</td>
-          <td>${usuario.FuncaoUsuario || 'N/A'}</td>
+          <td>${usuario.NOME}</td>
+          <td>${usuario.EMAIL}</td>
+          <td>${usuario.FUNCAO || 'N/A'}</td>
           <td>
-            <button onclick="viewUser('${usuario.CPFUsuario}')">👁️</button>
-            <button onclick="editUser('${usuario.CPFUsuario}')">✏️</button>
-            <button onclick="deleteUser('${usuario.CPFUsuario}')">🗑️</button>
+            <button onclick="viewUser('${usuario.CPF}')">👁️</button>
+            <button onclick="editUser('${usuario.CPF}')">✏️</button>
+            <button onclick="deleteUser('${usuario.CPF}')">🗑️</button>
           </td>
         `;
         tabela.appendChild(tr);
@@ -192,11 +192,11 @@ async function editUser(cpf) {
     .then(usuarios => {
       const usuario = usuarios.find(u => u.CPFUsuario === cpf);
       if (usuario) {
-        document.getElementById('nome').value = usuario.NomeUsuario;
-        document.getElementById('email').value = usuario.EmailUsuario;
-        document.getElementById('telefone').value = usuario.TelUsuario;
-        document.getElementById('cpf').value = usuario.CPFUsuario;
-        document.getElementById('user-role').value = usuario.FuncaoUsuario || '';
+        document.getElementById('nome').value = usuario.NOME;
+        document.getElementById('email').value = usuario.EMAIL;
+        document.getElementById('telefone').value = usuario.TELEFONE;
+        document.getElementById('cpf').value = usuario.CPF;
+        document.getElementById('user-role').value = usuario.FUNCAO || '';
         openModal(true);
       }
     })
