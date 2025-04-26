@@ -194,7 +194,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (res.ok) {
         const { usuario, token, refreshToken } = data;
-      
+        console.log(data)
+
         localStorage.setItem('usuarioLogado', JSON.stringify(data.usuario ));
         localStorage.setItem('token', data.token);
         localStorage.setItem('refreshToken', data.refreshToken);

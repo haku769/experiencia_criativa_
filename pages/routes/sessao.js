@@ -7,14 +7,19 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-  if (!usuarioJSON && token) {
-    console.warn("[LIMPEZA] Removendo token inválido (usuário anônimo)");
-    localStorage.removeItem("token");
+  if (!usuarioJSON) {
+    document.getElementById("CrudUsuario").remove()
+    document.getElementById("CrudVeiculos").remove()
+    if (token){
+       console.warn("[LIMPEZA] Removendo token inválido (usuário anônimo)");
+       localStorage.removeItem("token");
+    }
   }
 
   if (usuarioJSON) {
     try {
       const usuario = JSON.parse(usuarioJSON);
+      console.log(usuario.FUNCAO)
       if (usuario && usuario.nome) {
         if (userInfo) {
           let fotoHTML = "";
@@ -33,6 +38,12 @@ document.addEventListener("DOMContentLoaded", function () {
             localStorage.removeItem("token");
             window.location.reload();
           });
+
+          if (usuario.FUNCAO !== "Admin"){
+            document.getElementById("CrudUsuario").remove()
+            document.getElementById("CrudVeiculos").remove()
+          }
+          
         }
       }
     } catch (e) {
@@ -190,7 +201,7 @@ async function editUser(cpf) {
   await fetchAutenticado('http://localhost:3000/usuarios')
     .then(res => res.json())
     .then(usuarios => {
-      const usuario = usuarios.find(u => u.CPFUsuario === cpf);
+      const usuario = usuarios.find(u => u.CPF === cpf);
       if (usuario) {
         document.getElementById('nome').value = usuario.NOME;
         document.getElementById('email').value = usuario.EMAIL;

@@ -200,7 +200,7 @@ authRouter.post('/login', (req, res) => {
       { expiresIn: '7d' } // válido por 7 dias
     );
 
-    console.log('✅ Login bem-sucedido para:', email);
+   console.log('✅ Login bem-sucedido para:', email);
 
     res.status(200).json({
       mensagem: 'Login bem-sucedido!',
@@ -210,9 +210,11 @@ authRouter.post('/login', (req, res) => {
         cpf: usuario.CPF,
         nome: usuario.NOME,
         email: usuario.EMAIL,
-        foto: usuario.FOTO
+        foto: usuario.FOTO,
+        funcao: usuario.FUNCAO
       }
-    });
+    }); 
+
   });
 });
 
