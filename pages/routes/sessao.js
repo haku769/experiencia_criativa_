@@ -153,6 +153,7 @@ async function carregarUsuarios() {
         `;
         tabela.appendChild(tr);
       });
+      console.log('Tabela de usuários carregada com sucesso!', usuarios);
     });
 }
 

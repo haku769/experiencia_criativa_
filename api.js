@@ -17,6 +17,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 app.use(express.static('./pages'));
+app.use(express.static('./pages/routes'));
+
+
 
 // Conexão com banco
 const db = mysql.createConnection({
@@ -80,7 +83,7 @@ userRouter.post('/', async (req, res) => {
   const { cpf, nome, email, telefone, senha } = req.body;
   const hashedSenha = await bcrypt.hash(senha, 10);
 
-  const query = 'INSERT INTO Usuario (CPF, NOME, EMAIL, TELEFONE SENHA) VALUES (?, ?, ?, ?, ?)';
+  const query = 'INSERT INTO Usuario (CPF, NOME, EMAIL, TELEFONE, SENHA) VALUES (?, ?, ?, ?, ?)';
   db.query(query, [cpf, nome, email, telefone, hashedSenha], (err) => {
     if (err) {
       console.error('❌ Erro ao cadastrar usuário:', err);
