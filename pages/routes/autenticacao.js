@@ -200,7 +200,7 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.setItem('token', data.token);
         localStorage.setItem('refreshToken', data.refreshToken);
         alert('✅ Login realizado com sucesso!');
-        window.location.href = '/pages/index.html';
+        window.location.href = '/index.html';
       }
        else {
         alert(`❌ Erro: ${data.erro}`);
