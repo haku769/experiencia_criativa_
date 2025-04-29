@@ -356,7 +356,7 @@ async function fetchAutenticado(url, options = {}) {
       showPopup('Sessão expirada. Faça login novamente.');
       localStorage.removeItem('token');
       localStorage.removeItem('usuarioLogado');
-      window.location.href = '/pages/autenticacao.html';
+      window.location.href = '/autenticacao.html';
       return;
     }
   }
