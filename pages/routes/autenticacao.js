@@ -180,7 +180,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const email = document.querySelector('#login-email').value;
     const senha = document.querySelector('#login-password').value;
 
-    if (!validarEmail(email)) return showPopup('O e-mail deve ser do Gmail!');
+    if (!validarEmail(email)) return showPopup('O e-mail está incorreto!');
     if (!validarSenha(senha)) return showPopup('A senha deve ter pelo menos 6 caracteres e símbolo!');
 
     try {
@@ -200,7 +200,6 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.setItem('token', data.token);
         localStorage.setItem('refreshToken', data.refreshToken);
         showPopup('✅ Login realizado com sucesso!');
-        window.location.href = '/index.html';
       }
        else {
         showPopup(`❌ Erro: ${data.erro}`);
@@ -260,6 +259,7 @@ document.addEventListener('DOMContentLoaded', () => {
   closeBtn.style.cursor = 'pointer';
   closeBtn.onclick = function() {
     overlay.remove();
+    window.location.href = '/index.html';
   };
 
   // Monta o popup

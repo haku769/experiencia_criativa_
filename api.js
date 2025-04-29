@@ -69,7 +69,7 @@ const userRouter = express.Router();
 // GET /usuarios (protegido)
 userRouter.get('/', autenticarToken, (req, res) => {
   console.log('📥 Requisição GET /usuarios');
-  const query = 'SELECT CPF, NOME, EMAIL, TELEFONE FROM Usuario';
+  const query = 'SELECT CPF, NOME, EMAIL, TELEFONE, FUNCAO FROM Usuario';
   db.query(query, (err, results) => {
     if (err) {
       console.error('❌ Erro ao buscar usuários:', err);

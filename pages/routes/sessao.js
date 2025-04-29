@@ -144,7 +144,7 @@ async function carregarUsuarios() {
           <td><img src="/fotos/comercial.png" class="avatar-table"></td>
           <td>${usuario.NOME}</td>
           <td>${usuario.EMAIL}</td>
-          <td>${usuario.FUNCAO || 'N/A'}</td>
+          <td>${usuario.FUNCAO || 'Cliente'}</td>
           <td>
             <button onclick="viewUser('${usuario.CPF}')">👁️</button>
             <button onclick="editUser('${usuario.CPF}')">✏️</button>

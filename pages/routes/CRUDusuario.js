@@ -244,6 +244,7 @@ function showPopup(message) {
     closeBtn.style.cursor = 'pointer';
     closeBtn.onclick = function() {
       overlay.remove();
+      window.location.reload()
     };
   
     // Monta o popup
