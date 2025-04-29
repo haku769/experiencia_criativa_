@@ -73,7 +73,7 @@ document.addEventListener("DOMContentLoaded", function () {
       })
         .then(res => res.json())
         .then(() => {
-          alert('Usuário atualizado com sucesso!');
+          showPopup('Usuário atualizado com sucesso!');
           closeModal();
           setTimeout(() => location.reload(), 500);
         });
@@ -91,7 +91,7 @@ document.addEventListener("DOMContentLoaded", function () {
       })
       .then(res => res.json())
       .then(() => {
-        alert('Usuário adicionado com sucesso!');
+        showPopup('Usuário adicionado com sucesso!');
         closeModal();
         carregarUsuarios(); 
       });
@@ -217,7 +217,7 @@ async function editUser(cpf) {
 }
 
 function viewUser(cpf) {
-  alert(`Visualizando detalhes do usuário CPF ${cpf}`);
+  showPopup(`Visualizando detalhes do usuário CPF ${cpf}`);
 }
 
 async function deleteUser(cpf) {
@@ -231,11 +231,70 @@ async function confirmDelete() {
     })
       .then(res => res.json())
       .then(() => {
-        alert('Usuário excluído com sucesso!');
+        showPopup('Usuário excluído com sucesso!');
         closeDeleteModal();
         setTimeout(() => location.reload(), 500);
       });
   }
+}
+
+function showPopup(message) {
+  // Se já existe um popup, remove
+  const existingOverlay = document.getElementById('custom-popup-overlay');
+  if (existingOverlay) {
+    existingOverlay.remove();
+  }
+
+  // Cria o overlay de fundo
+  const overlay = document.createElement('div');
+  overlay.id = 'custom-popup-overlay';
+  overlay.style.position = 'fixed';
+  overlay.style.top = '0';
+  overlay.style.left = '0';
+  overlay.style.width = '100vw';
+  overlay.style.height = '100vh';
+  overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
+  overlay.style.display = 'flex';
+  overlay.style.alignItems = 'center';
+  overlay.style.justifyContent = 'center';
+  overlay.style.zIndex = '10000';
+
+  // Cria o popup
+  const popup = document.createElement('div');
+  popup.style.backgroundColor = '#fff';
+  popup.style.padding = '30px';
+  popup.style.borderRadius = '10px';
+  popup.style.boxShadow = '0 4px 20px rgba(0,0,0,0.3)';
+  popup.style.width = '400px';
+  popup.style.maxWidth = '90%';
+  popup.style.textAlign = 'center';
+  popup.style.fontFamily = 'Arial, sans-serif';
+  popup.style.fontSize = '18px';
+  popup.style.position = 'relative';
+
+  // Mensagem
+  const messageEl = document.createElement('div');
+  messageEl.innerText = message;
+
+  // Botão fechar
+  const closeBtn = document.createElement('button');
+  closeBtn.innerText = 'Fechar';
+  closeBtn.style.marginTop = '20px';
+  closeBtn.style.padding = '10px 20px';
+  closeBtn.style.backgroundColor = '#333';
+  closeBtn.style.color = '#fff';
+  closeBtn.style.border = 'none';
+  closeBtn.style.borderRadius = '5px';
+  closeBtn.style.cursor = 'pointer';
+  closeBtn.onclick = function() {
+    overlay.remove();
+  };
+
+  // Monta o popup
+  popup.appendChild(messageEl);
+  popup.appendChild(closeBtn);
+  overlay.appendChild(popup);
+  document.body.appendChild(overlay);
 }
 
 // ========== NOVAS FUNÇÕES DE AUTENTICAÇÃO ==========
@@ -294,7 +353,7 @@ async function fetchAutenticado(url, options = {}) {
   if (isTokenExpirado(token)) {
     token = await renovarToken();
     if (!token) {
-      alert('Sessão expirada. Faça login novamente.');
+      showPopup('Sessão expirada. Faça login novamente.');
       localStorage.removeItem('token');
       localStorage.removeItem('usuarioLogado');
       window.location.href = '/pages/autenticacao.html';

@@ -34,17 +34,17 @@ document.addEventListener('DOMContentLoaded', () => {
           localStorage.setItem('token', data.token);
           return data.token;
         } else {
-          alert('⚠️ Sessão expirada. Faça login novamente.');
+          showPopup('⚠️ Sessão expirada. Faça login novamente.');
           localStorage.clear();
-          window.location.href = '/pages/autenticacao.html';
+          window.location.href = '/autenticacao.html';
         }
       } catch (err) {
-        alert('❌ Erro ao renovar token.');
-        window.location.href = '/pages/autenticacao.html';
+        showPopup('❌ Erro ao renovar token.');
+        window.location.href = 'autenticacao.html';
       }
     } else {
-      alert('⚠️ Você precisa estar logado.');
-      window.location.href = '/pages/autenticacao.html';
+      showPopup('⚠️ Você precisa estar logado.');
+      window.location.href = '/autenticacao.html';
     }
   }
   
@@ -138,14 +138,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const termos = document.querySelector('#terms').checked;
     const foto = document.querySelector('#register-photo').files[0]; // imagem
   
-    if (nome.length < 8) return alert('O nome deve ter pelo menos 8 caracteres!');
-    if (!validarEmail(email)) return alert('O e-mail deve ser do Gmail e estar no formato correto!');
-    if (!validarTelefone(telefone)) return alert('Telefone inválido! Use o formato (XX) 9XXXX-XXXX');
-    if (!validarCPF(cpf)) return alert('CPF inválido!');
-    if (!validarSenha(senha)) return alert('Senha fraca! Use 6+ caracteres, número e símbolo.');
-    if (senha !== confirmarSenha) return alert('As senhas não coincidem!');
-    if (!termos) return alert('Você deve aceitar os termos!');
-    if (!foto) return alert('Selecione uma foto para o perfil!');
+    if (nome.length < 8) return showPopup('O nome deve ter pelo menos 8 caracteres!');
+    if (!validarEmail(email)) return showPopup('O e-mail deve ser do Gmail e estar no formato correto!');
+    if (!validarTelefone(telefone)) return showPopup('Telefone inválido! Use o formato (XX) 9XXXX-XXXX');
+    if (!validarCPF(cpf)) return showPopup('CPF inválido!');
+    if (!validarSenha(senha)) return showPopup('Senha fraca! Use 6+ caracteres, número e símbolo.');
+    if (senha !== confirmarSenha) return showPopup('As senhas não coincidem!');
+    if (!termos) return showPopup('Você deve aceitar os termos!');
+    if (!foto) return showPopup('Selecione uma foto para o perfil!');
   
     const formData = new FormData();
     formData.append('nome', nome);
@@ -163,13 +163,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const data = await res.json();
       if (res.ok) {
-        alert('✅ Conta criada com sucesso!');
+        showPopup('✅ Conta criada com sucesso!');
         document.querySelector('[data-tab="login"]').click();
       } else {
-        alert(`❌ Erro: ${data.erro}`);
+        showPopup(`❌ Erro: ${data.erro}`);
       }
     } catch (err) {
-      alert('❌ Erro ao tentar registrar. Verifique a conexão.');
+      showPopup('❌ Erro ao tentar registrar. Verifique a conexão.');
     }
   });
 
@@ -180,8 +180,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const email = document.querySelector('#login-email').value;
     const senha = document.querySelector('#login-password').value;
 
-    if (!validarEmail(email)) return alert('O e-mail deve ser do Gmail!');
-    if (!validarSenha(senha)) return alert('A senha deve ter pelo menos 6 caracteres e símbolo!');
+    if (!validarEmail(email)) return showPopup('O e-mail deve ser do Gmail!');
+    if (!validarSenha(senha)) return showPopup('A senha deve ter pelo menos 6 caracteres e símbolo!');
 
     try {
       const res = await fetch('http://localhost:3000/autenticacao/login', {
@@ -199,16 +199,75 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.setItem('usuarioLogado', JSON.stringify(data.usuario ));
         localStorage.setItem('token', data.token);
         localStorage.setItem('refreshToken', data.refreshToken);
-        alert('✅ Login realizado com sucesso!');
+        showPopup('✅ Login realizado com sucesso!');
         window.location.href = '/index.html';
       }
        else {
-        alert(`❌ Erro: ${data.erro}`);
+        showPopup(`❌ Erro: ${data.erro}`);
       }
     } catch (err) {
-      alert('❌ Erro ao tentar logar. Verifique a conexão.');
+      showPopup('❌ Erro ao tentar logar. Verifique a conexão.');
     }
   });
+
+  function showPopup(message) {
+  // Se já existe um popup, remove
+  const existingOverlay = document.getElementById('custom-popup-overlay');
+  if (existingOverlay) {
+    existingOverlay.remove();
+  }
+
+  // Cria o overlay de fundo
+  const overlay = document.createElement('div');
+  overlay.id = 'custom-popup-overlay';
+  overlay.style.position = 'fixed';
+  overlay.style.top = '0';
+  overlay.style.left = '0';
+  overlay.style.width = '100vw';
+  overlay.style.height = '100vh';
+  overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
+  overlay.style.display = 'flex';
+  overlay.style.alignItems = 'center';
+  overlay.style.justifyContent = 'center';
+  overlay.style.zIndex = '10000';
+
+  // Cria o popup
+  const popup = document.createElement('div');
+  popup.style.backgroundColor = '#fff';
+  popup.style.padding = '30px';
+  popup.style.borderRadius = '10px';
+  popup.style.boxShadow = '0 4px 20px rgba(0,0,0,0.3)';
+  popup.style.width = '400px';
+  popup.style.maxWidth = '90%';
+  popup.style.textAlign = 'center';
+  popup.style.fontFamily = 'Arial, sans-serif';
+  popup.style.fontSize = '18px';
+  popup.style.position = 'relative';
+
+  // Mensagem
+  const messageEl = document.createElement('div');
+  messageEl.innerText = message;
+
+  // Botão fechar
+  const closeBtn = document.createElement('button');
+  closeBtn.innerText = 'Fechar';
+  closeBtn.style.marginTop = '20px';
+  closeBtn.style.padding = '10px 20px';
+  closeBtn.style.backgroundColor = '#333';
+  closeBtn.style.color = '#fff';
+  closeBtn.style.border = 'none';
+  closeBtn.style.borderRadius = '5px';
+  closeBtn.style.cursor = 'pointer';
+  closeBtn.onclick = function() {
+    overlay.remove();
+  };
+
+  // Monta o popup
+  popup.appendChild(messageEl);
+  popup.appendChild(closeBtn);
+  overlay.appendChild(popup);
+  document.body.appendChild(overlay);
+}
 
 
   // ========== Recuperação de Senha ==========
@@ -216,7 +275,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (recoveryForm) {
     recoveryForm.addEventListener('submit', (e) => {
       e.preventDefault();
-      alert('🔁 Um e-mail de recuperação será enviado.');
+      showPopup('🔁 Um e-mail de recuperação será enviado.');
       showForm('login-form');
     });
   }
@@ -230,4 +289,5 @@ document.addEventListener('DOMContentLoaded', () => {
     mascaraCPF(this);
   });
 });
+
 

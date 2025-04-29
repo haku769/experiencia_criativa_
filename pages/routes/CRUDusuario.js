@@ -1,3 +1,5 @@
+import { showPopup } from "./autenticacao";
+
 // Variáveis globais
 let currentUserId = null;
 
@@ -60,7 +62,7 @@ async function submitUserForm(e) {
     const password = document.getElementById('user-password').value;
     const passwordConfirm = document.getElementById('user-password-confirm').value;
     if (password && password !== passwordConfirm) {
-        alert('As senhas não coincidem!');
+        showPopup('As senhas não coincidem!');
         return;
     }
 
@@ -77,7 +79,7 @@ async function submitUserForm(e) {
             throw new Error(currentUserId ? 'Erro ao atualizar o usuário' : 'Erro ao adicionar o usuário');
         }
 
-        alert(`Usuário ${currentUserId ? 'atualizado' : 'adicionado'} com sucesso!`);
+        showPopup(`Usuário ${currentUserId ? 'atualizado' : 'adicionado'} com sucesso!`);
         closeModal();
         loadUsers(); // Recarregar a lista de usuários
     } catch (error) {
@@ -117,7 +119,7 @@ async function confirmDelete() {
                 throw new Error('Erro ao excluir o usuário');
             }
 
-            alert(`Usuário ID ${currentUserId} excluído com sucesso!`);
+            showPopup(`Usuário ID ${currentUserId} excluído com sucesso!`);
             closeDeleteModal();
             loadUsers(); // Recarregar a lista de usuários
         } catch (error) {
@@ -192,6 +194,65 @@ function closeDeleteModal() {
     currentUserId = null;
 }
 
+function showPopup(message) {
+    // Se já existe um popup, remove
+    const existingOverlay = document.getElementById('custom-popup-overlay');
+    if (existingOverlay) {
+      existingOverlay.remove();
+    }
+  
+    // Cria o overlay de fundo
+    const overlay = document.createElement('div');
+    overlay.id = 'custom-popup-overlay';
+    overlay.style.position = 'fixed';
+    overlay.style.top = '0';
+    overlay.style.left = '0';
+    overlay.style.width = '100vw';
+    overlay.style.height = '100vh';
+    overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
+    overlay.style.display = 'flex';
+    overlay.style.alignItems = 'center';
+    overlay.style.justifyContent = 'center';
+    overlay.style.zIndex = '10000';
+  
+    // Cria o popup
+    const popup = document.createElement('div');
+    popup.style.backgroundColor = '#fff';
+    popup.style.padding = '30px';
+    popup.style.borderRadius = '10px';
+    popup.style.boxShadow = '0 4px 20px rgba(0,0,0,0.3)';
+    popup.style.width = '400px';
+    popup.style.maxWidth = '90%';
+    popup.style.textAlign = 'center';
+    popup.style.fontFamily = 'Arial, sans-serif';
+    popup.style.fontSize = '18px';
+    popup.style.position = 'relative';
+  
+    // Mensagem
+    const messageEl = document.createElement('div');
+    messageEl.innerText = message;
+  
+    // Botão fechar
+    const closeBtn = document.createElement('button');
+    closeBtn.innerText = 'Fechar';
+    closeBtn.style.marginTop = '20px';
+    closeBtn.style.padding = '10px 20px';
+    closeBtn.style.backgroundColor = '#333';
+    closeBtn.style.color = '#fff';
+    closeBtn.style.border = 'none';
+    closeBtn.style.borderRadius = '5px';
+    closeBtn.style.cursor = 'pointer';
+    closeBtn.onclick = function() {
+      overlay.remove();
+    };
+  
+    // Monta o popup
+    popup.appendChild(messageEl);
+    popup.appendChild(closeBtn);
+    overlay.appendChild(popup);
+    document.body.appendChild(overlay);
+  }
+
 // Event Listeners
 document.addEventListener('DOMContentLoaded', () => {
     loadUsers(); // Carregar os usuários ao iniciar
@@ -199,5 +260,5 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('btn-add-user').addEventListener('click', addUser);
     document.getElementById('user-form').addEventListener('submit', submitUserForm);
 
-    // Outros eventos e manipulação de avatar, abas, senhas e permissões, conforme seu código original
+
 });
