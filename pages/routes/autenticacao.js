@@ -259,7 +259,6 @@ document.addEventListener('DOMContentLoaded', () => {
   closeBtn.style.cursor = 'pointer';
   closeBtn.onclick = function() {
     overlay.remove();
-    window.location.href = '/index.html';
   };
 
   // Monta o popup
