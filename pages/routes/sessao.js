@@ -61,7 +61,11 @@ document.addEventListener("DOMContentLoaded", function () {
     const email = document.getElementById('email').value;
     const telefone = document.getElementById('telefone').value;
 
-    const body = JSON.stringify({ nome, email, telefone });
+    const senha = document.getElementById('senha').value;
+    const bodyObj = { nome, email, telefone };
+    if (senha) bodyObj.senha = senha;
+    const body = JSON.stringify(bodyObj);
+
     console.log(currentUserId)
 
     if (currentUserId) {
@@ -80,8 +84,7 @@ document.addEventListener("DOMContentLoaded", function () {
     } else {
       // Cria novo
       const cpf = document.getElementById('cpf').value;
-      const senha = '123';
-
+      const senha = document.getElementById('senha').value;
       const novoBody = JSON.stringify({ cpf, nome, email, telefone, senha });
 
       await fetchAutenticado('http://localhost:3000/usuarios', {
@@ -200,7 +203,7 @@ function resetForm() {
 async function editUser(cpf) {
   currentUserId = cpf;
 
-  await fetchAutenticado('http://localhost:3000/usuarios')
+  await fetchAutenticado(`http://localhost:3000/usuarios/${cpf}`)
     .then(res => res.json())
     .then(usuarios => {
       const usuario = usuarios.find(u => u.CPF === cpf);
@@ -210,11 +213,14 @@ async function editUser(cpf) {
         document.getElementById('telefone').value = usuario.TELEFONE;
         document.getElementById('cpf').value = usuario.CPF;
         document.getElementById('user-role').value = usuario.FUNCAO || '';
+        document.getElementById('senha').value = '';
+
         openModal(true);
       }
     })
     .catch(err => console.error('Erro ao buscar usuário:', err));
 }
+
 
 function viewUser(cpf) {
   showPopup(`Visualizando detalhes do usuário CPF ${cpf}`);
