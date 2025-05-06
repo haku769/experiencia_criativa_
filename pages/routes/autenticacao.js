@@ -139,10 +139,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const foto = document.querySelector('#register-photo').files[0]; // imagem
   
     if (nome.length < 8) return showPopup('O nome deve ter pelo menos 8 caracteres!');
-    if (!validarEmail(email)) return showPopup('O e-mail deve ser do Gmail e estar no formato correto!');
+    if (!validarEmail(email)) return showPopup('O e-mail deve estar no formato correto!');
     if (!validarTelefone(telefone)) return showPopup('Telefone inválido! Use o formato (XX) 9XXXX-XXXX');
     if (!validarCPF(cpf)) return showPopup('CPF inválido!');
-    if (!validarSenha(senha)) return showPopup('Senha fraca! Use 6+ caracteres, número e símbolo.');
+    if (!validarSenha(senha)) return showPopup('Senha fraca! Use 8+ caracteres, número e símbolo.');
     if (senha !== confirmarSenha) return showPopup('As senhas não coincidem!');
     if (!termos) return showPopup('Você deve aceitar os termos!');
     if (!foto) return showPopup('Selecione uma foto para o perfil!');

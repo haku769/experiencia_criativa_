@@ -18,6 +18,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 app.use(express.static('./pages'));
 app.use(express.static('./pages/routes'));
+app.use(express.static('./Carros'));
 
 
 

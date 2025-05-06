@@ -1,220 +1,228 @@
-/* ===== ESTILOS PARA PÁGINA DE AUTENTICAÇÃO ===== */
+/* ===== RESET E ESTILOS GERAIS ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-/* Container principal */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+  color: #333;
+}
+
+/* ===== CONTAINER PRINCIPAL ===== */
 .auth-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 2rem;
-    min-height: 70vh;
-  }
-  
-  /* Box de autenticação */
-  .auth-box {
-    width: 100%;
-    max-width: 500px;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-  }
-  
-  /* Abas */
-  .tabs {
-    display: flex;
-    background-color: #f8f9fa;
-    border-bottom: 1px solid #eee;
-  }
-  
-  .tab-btn {
-    flex: 1;
-    background: none;
-    border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  min-height: 70vh;
+}
+
+.auth-box {
+  width: 100%;
+  max-width: 500px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+/* ===== ABAS ===== */
+.tabs {
+  display: flex;
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #eee;
+}
+
+.tab-btn {
+  flex: 1;
+  background: none;
+  border: none;
+  padding: 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #666;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.tab-btn:hover {
+  color: #1d3557;
+}
+
+.tab-btn.active {
+  color: #1d3557;
+  background-color: #fff;
+  border-bottom: 3px solid #e63946;
+}
+
+/* ===== FORMULÁRIOS ===== */
+.form-container {
+  display: none;
+  padding: 2rem;
+}
+
+.form-container.active {
+  display: block;
+}
+
+.form-container h2 {
+  font-size: 1.5rem;
+  color: #1d3557;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.form-description {
+  text-align: center;
+  color: #666;
+  margin-bottom: 1.5rem;
+}
+
+.form-group {
+  margin-bottom: 1.2rem;
+}
+
+label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+  color: #555;
+  font-weight: 500;
+}
+
+input {
+  width: 100%;
+  padding: 0.8rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+  transition: border-color 0.3s;
+}
+
+input:focus {
+  border-color: #1d3557;
+  outline: none;
+}
+
+/* ===== OPÇÕES DE FORMULÁRIO ===== */
+.form-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  min-width: 200px;
+}
+
+.remember-me,
+.terms-checkbox {
+  display: flex;
+  align-items: center;
+  font-size: 0.9rem;
+  color: #555;
+  gap: 8px;
+}
+
+.remember-me input,
+.terms-checkbox input {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+}
+
+.forgot-password {
+  color: #1d3557;
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: color 0.3s;
+}
+
+.forgot-password:hover {
+  color: #e63946;
+  text-decoration: underline;
+}
+
+.terms-checkbox {
+  margin-bottom: 0.5rem;
+  max-width: fit-content;
+}
+
+.terms-checkbox a {
+  color: #1d3557;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.terms-checkbox a:hover {
+  color: #e63946;
+  text-decoration: underline;
+}
+
+/* ===== BOTÕES ===== */
+.btn-submit {
+  width: 100%;
+  background-color: #1d3557;
+  color: white;
+  border: none;
+  padding: 0.8rem;
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-bottom: 1rem;
+}
+
+.btn-submit:hover {
+  background-color: #152a45;
+}
+
+.btn-secondary {
+  width: 100%;
+  background-color: white;
+  color: #1d3557;
+  border: 1px solid #1d3557;
+  padding: 0.8rem;
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.btn-secondary:hover {
+  background-color: #f0f0f0;
+  border-color: #152a45;
+}
+
+/* ===== RESPONSIVIDADE ===== */
+@media (max-width: 768px) {
+  .auth-container {
     padding: 1rem;
-    font-size: 1rem;
-    font-weight: 600;
-    color: #666;
-    cursor: pointer;
-    transition: all 0.3s;
   }
-  
-  .tab-btn:hover {
-    color: #1d3557;
-  }
-  
-  .tab-btn.active {
-    color: #1d3557;
-    background-color: #fff;
-    border-bottom: 3px solid #e63946;
-  }
-  
-  /* Containers de formulário */
-  .form-container {
-    display: none;
-    padding: 2rem;
-  }
-  
-  .form-container.active {
-    display: block;
-  }
-  
-  .form-container h2 {
-    font-size: 1.5rem;
-    color: #1d3557;
-    margin-bottom: 1.5rem;
-    text-align: center;
-  }
-  
-  .form-description {
-    text-align: center;
-    color: #666;
-    margin-bottom: 1.5rem;
-  }
-  
-  /* Campos de formulário */
-  .form-group {
-    margin-bottom: 1.2rem;
-  }
-  
-  label {
-    display: block;
-    margin-bottom: 0.5rem;
-    font-size: 0.9rem;
-    color: #555;
-    font-weight: 500;
-  }
-  
-  input {
-    width: 100%;
-    padding: 0.8rem;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 1rem;
-    transition: border-color 0.3s;
-  }
-  
-  input:focus {
-    border-color: #1d3557;
-    outline: none;
-  }
-  
-  /* Opções de formulário */
+
   .form-options {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1.5rem;
-    flex-wrap: wrap;
-    min-width: 200px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
   }
-  
-  .remember-me,
-  .terms-checkbox {
-    display: flex;
-    align-items: center;
-    font-size: 0.9rem;
-    color: #555;
-    gap: 8px;
-  }
-  
-  .remember-me input,
-  .terms-checkbox input {
-    width: 16px;
-    height: 16px;
-    margin: 0;
-  }
-  
+
   .forgot-password {
-    color: #1d3557;
-    text-decoration: none;
+    align-self: flex-end;
+  }
+}
+
+@media (max-width: 480px) {
+  .form-container {
+    padding: 1.5rem 1rem;
+  }
+
+  .tab-btn {
+    padding: 0.8rem 0.5rem;
     font-size: 0.9rem;
-    transition: color 0.3s;
   }
-  
-  .forgot-password:hover {
-    color: #e63946;
-    text-decoration: underline;
-  }
-  
-  .terms-checkbox {
-    margin-bottom: 0.5rem;
-    max-width: fit-content;
-  }
-  
-  .terms-checkbox a {
-    color: #1d3557;
-    text-decoration: none;
-    transition: color 0.3s;
-  }
-  
-  .terms-checkbox a:hover {
-    color: #e63946;
-    text-decoration: underline;
-  }
-  
-  /* Botões */
-  .btn-submit {
-    width: 100%;
-    background-color: #1d3557;
-    color: white;
-    border: none;
-    padding: 0.8rem;
-    border-radius: 4px;
-    font-weight: 600;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    margin-bottom: 1rem;
-  }
-  
-  .btn-submit:hover {
-    background-color: #152a45;
-  }
-  
-  .btn-secondary {
-    width: 100%;
-    background-color: white;
-    color: #1d3557;
-    border: 1px solid #1d3557;
-    padding: 0.8rem;
-    border-radius: 4px;
-    font-weight: 600;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: all 0.3s;
-  }
-  
-  .btn-secondary:hover {
-    background-color: #f0f0f0;
-    border-color: #152a45;
-  }
-  
-  /* Responsividade */
-  @media (max-width: 768px) {
-    .auth-container {
-      padding: 1rem;
-    }
-  
-    .form-options {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 1rem;
-    }
-  
-    .forgot-password {
-      align-self: flex-end;
-    }
-  }
-  
-  @media (max-width: 480px) {
-    .form-container {
-      padding: 1.5rem 1rem;
-    }
-  
-    .tab-btn {
-      padding: 0.8rem 0.5rem;
-      font-size: 0.9rem;
-    }
-  }
-  
-  
+}
+
