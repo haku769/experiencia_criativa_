@@ -1091,4 +1091,85 @@ footer {
     margin-right: 8px;
     vertical-align: middle;
  }
+.is-valid {
+    border-color: green !important; /* Use !important para garantir a precedência */
+}
+
+.is-invalid {
+  border-color: red; /* Ou background-color: #ffe0e0; */
+}
+.avatar-upload-container {
+    display: flex;
+    flex-direction: column; /* Alinha a prévia e o botão verticalmente */
+    align-items: center; /* Centraliza horizontalmente */
+    margin-bottom: 20px; /* Adiciona um pouco de espaço abaixo */
+}
+
+.avatar-preview {
+    width: 120px; /* Aumente o tamanho conforme necessário */
+    height: 120px; /* Aumente o tamanho conforme necessário */
+    border-radius: 50%;
+    overflow: hidden;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.avatar-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Garante que a imagem cubra o container, cortando se necessário */
+}
+
+.avatar-upload-wrapper {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+    color: #333;
+    padding: 8px 15px;
+    border-radius: 5px;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+.avatar-upload-wrapper:hover {
+    background-color: #e0e0e0;
+}
+
+.avatar-upload-wrapper input {
+    font-size: 100px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+    cursor: pointer;
+}
+.password-input-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.password-input-container input {
+    padding-right: 30px; /* Espaço para o ícone */
+}
+
+.password-container {
+            position: relative;
+        }
+
+        .password-toggle {
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+            cursor: pointer;
+            user-select: none;
+            opacity: 1; /* Garante que o ícone esteja sempre visível */
+        }
   

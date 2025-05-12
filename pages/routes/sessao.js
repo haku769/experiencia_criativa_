@@ -203,20 +203,20 @@ function resetForm() {
 async function editUser(cpf) {
   currentUserId = cpf;
 
-  await fetchAutenticado('http://localhost:3000/usuarios')
-    .then(res => res.json())
-    .then(usuarios => {
-      const usuario = usuarios.find(u => u.CPF === cpf);
-      if (usuario) {
-        document.getElementById('nome').value = usuario.NOME;
-        document.getElementById('email').value = usuario.EMAIL;
-        document.getElementById('telefone').value = usuario.TELEFONE;
-        document.getElementById('cpf').value = usuario.CPF;
-        document.getElementById('user-role').value = usuario.FUNCAO ?? 'Cliente';
-        document.getElementById('senha').value = '';
+  await fetchAutenticado(`http://localhost:3000/usuarios/${cpf}`)
+    .then(res => {
+      if (!res.ok) throw new Error('Usuário não encontrado');
+      return res.json();
+    })
+    .then(usuario => {
+      document.getElementById('nome').value = usuario.NOME;
+      document.getElementById('email').value = usuario.EMAIL;
+      document.getElementById('telefone').value = usuario.TELEFONE;
+      document.getElementById('cpf').value = usuario.CPF;
+      document.getElementById('user-role').value = usuario.FUNCAO || '';
+      document.getElementById('senha').value = '';
 
-        openModal(true);
-      }
+      openModal(true);
     })
     .catch(err => console.error('Erro ao buscar usuário:', err));
 }
