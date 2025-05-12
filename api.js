@@ -95,6 +95,9 @@ userRouter.post('/', async (req, res) => {
 });
 
 
+
+
+
 // PUT /usuarios/:cpf
 userRouter.put('/:cpf', (req, res) => {
   const { cpf } = req.params;
