@@ -163,6 +163,97 @@ authRouter.post('/registro', upload.single('foto'), async (req, res) => {
 });
 
 
+const veiculoRouter = express.Router();
+
+// GET /veiculos - listar todos
+veiculoRouter.get('/', (req, res) => {
+  console.log('📥 Requisição GET /veiculos');
+  const query = 'SELECT * FROM Veiculo';
+  db.query(query, (err, results) => {
+    if (err) {
+      console.error('❌ Erro ao buscar veículos:', err);
+      return res.status(500).json({ erro: 'Erro ao buscar veículos' });
+    }
+    console.log('✅ Veículos encontrados:', results.length);
+    res.status(200).json(results);
+  });
+});
+
+// POST /veiculos - cadastrar novo
+veiculoRouter.post('/', (req, res) => {
+  const { marca, modelo, ano, valor, quilometragem, combustivel, cambio, condicao } = req.body;
+  const query = `
+    INSERT INTO Veiculo (MARCA, MODELO, ANO, VALOR, QUILOMETRAGEM, COMBUSTIVEL, CAMBIO, CONDICAO)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+  `;
+  db.query(query, [marca, modelo, ano, valor, quilometragem, combustivel, cambio, condicao], (err) => {
+    if (err) {
+      console.error('❌ Erro ao cadastrar veículo:', err);
+      return res.status(500).json({ erro: 'Erro ao cadastrar veículo' });
+    }
+    console.log('✅ Veículo cadastrado com sucesso!');
+    res.status(201).json({ mensagem: 'Veículo cadastrado com sucesso' });
+  });
+});
+
+// PUT /veiculos/:id - atualizar veículo
+veiculoRouter.put('/:id', (req, res) => {
+  const { id } = req.params;
+  const { marca, modelo, ano, valor, quilometragem, combustivel, cambio, condicao } = req.body;
+  const query = `
+    UPDATE Veiculo
+    SET MARCA = ?, MODELO = ?, ANO = ?, VALOR = ?, QUILOMETRAGEM = ?, COMBUSTIVEL = ?, CAMBIO = ?, CONDICAO = ?
+    WHERE ID_VEICULO = ?
+  `;
+  db.query(query, [marca, modelo, ano, valor, quilometragem, combustivel, cambio, condicao, id], (err) => {
+    if (err) {
+      console.error(`❌ Erro ao atualizar veículo ${id}:`, err);
+      return res.status(500).json({ erro: 'Erro ao atualizar veículo' });
+    }
+    console.log(`✅ Veículo ${id} atualizado`);
+    res.status(200).json({ mensagem: 'Veículo atualizado com sucesso!' });
+  });
+});
+
+// DELETE /veiculos/:id - deletar veículo
+veiculoRouter.delete('/:id', (req, res) => {
+  const { id } = req.params;
+  const query = 'DELETE FROM Veiculo WHERE ID_VEICULO = ?';
+  db.query(query, [id], (err) => {
+    if (err) {
+      console.error(`❌ Erro ao deletar veículo ${id}:`, err);
+      return res.status(500).json({ erro: 'Erro ao deletar veículo' });
+    }
+    console.log(`✅ Veículo ${id} deletado`);
+    res.status(200).json({ mensagem: 'Veículo deletado com sucesso!' });
+  });
+});
+
+// GET /veiculos/:id - Buscar veículo por ID
+veiculoRouter.get('/:id', (req, res) => {
+  const { id } = req.params;
+  console.log(`📥 Requisição GET /veiculos/${id}`);
+
+  const query = 'SELECT * FROM Veiculo WHERE ID_VEICULO = ?';
+  db.query(query, [id], (err, results) => {
+    if (err) {
+      console.error(`❌ Erro ao buscar veículo ${id}:`, err);
+      return res.status(500).json({ erro: 'Erro ao buscar veículo' });
+    }
+
+    if (results.length === 0) {
+      return res.status(404).json({ mensagem: 'Veículo não encontrado' });
+    }
+
+    console.log(`✅ Veículo ${id} encontrado`);
+    res.status(200).json(results[0]);
+  });
+});
+
+
+app.use('/veiculos', veiculoRouter);
+
+
 // POST /autenticacao/login
 authRouter.post('/login', (req, res) => {
   const { email, senha } = req.body;
@@ -237,3 +328,5 @@ app.get('/', (req, res) => {
 app.listen(PORT, () => {
   console.log(`🚀 Servidor rodando em http://localhost:${PORT}`);
 });
+
+
