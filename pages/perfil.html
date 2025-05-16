@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Editar Perfil</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 font-sans">
+
+  <div class="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md mt-10">
+    <h1 class="text-2xl font-semibold text-gray-800 mb-6">Editar Perfil</h1>
+    <div id="mensagemPerfil" class="hidden transition-opacity duration-500 ease-in-out opacity-0 max-w-md mx-auto mb-6 px-4 py-2 rounded-lg border-l-4 bg-green-100 border-green-500 text-green-800 shadow-md text-sm flex items-center gap-2">
+      <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+      </svg>
+      <span id="mensagemTexto"></span>
+    </div>
+
+
+    <form id="form-perfil" class="space-y-6">
+      
+      <!-- Nome -->
+      <div>
+        <label for="nome" class="block text-sm font-medium text-gray-700">Nome:</label>
+        <input type="text" id="nome" name="nome" required
+          class="mt-1 p-3 w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+      </div>
+
+      <!-- Email -->
+      <div>
+        <label for="email" class="block text-sm font-medium text-gray-700">Email:</label>
+        <input type="email" id="email" name="email" required
+          class="mt-1 p-3 w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+      </div>
+
+      <!-- Telefone -->
+      <div>
+        <label for="telefone" class="block text-sm font-medium text-gray-700">Telefone:</label>
+        <input type="tel" id="telefone" name="telefone" required
+          class="mt-1 p-3 w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+      </div>
+
+      <!-- Imagem Atual -->
+      <div class="mb-4">
+        <label class="block text-sm font-medium text-gray-700">Imagem Atual:</label>
+        <img id="imagemAtual" src="" alt="Imagem atual do perfil"
+            class="mt-2 w-32 h-32 object-cover rounded-full border border-gray-300 shadow"
+            style="display: none;">
+            
+      </div>
+      
+
+
+      <!-- Foto de Perfil -->
+      <div>
+        <label for="foto-perfil" class="block text-sm font-medium text-gray-700">Foto de Perfil:</label>
+        <input type="file" id="foto-perfil" name="foto-perfil" accept="image/*"
+          class="mt-1 p-3 w-full text-sm text-gray-700 bg-gray-100 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+        
+      </div>
+      
+
+      <!-- Senha -->
+      <div>
+        <label for="senha" class="block text-sm font-medium text-gray-700">Nova Senha:</label>
+        <input type="password" id="senha" name="senha" placeholder="Deixe em branco se não quiser alterar"
+          class="mt-1 p-3 w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+      </div>
+
+      <!-- Confirmar Senha -->
+      <div>
+        <label for="confirmar-senha" class="block text-sm font-medium text-gray-700">Confirmar Nova Senha:</label>
+        <input type="password" id="confirmar-senha" name="confirmar-senha" placeholder="Confirme sua senha"
+          class="mt-1 p-3 w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+      </div>
+
+      <!-- Botão de Enviar -->
+      <div>
+        <button type="submit"
+          class="w-full p-3 bg-indigo-600 text-white rounded-md shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50">
+          Salvar alterações
+        </button>
+      </div>
+
+    </form>
+
+    <p id="mensagem-perfil" class="mt-4 text-sm text-gray-500"></p>
+
+    <!-- Botão para Voltar -->
+    <div class="flex justify-center mt-8">
+      <a href="index.html" 
+        class="px-6 py-2 text-sm font-medium text-indigo-600 bg-transparent border border-indigo-600 rounded-md hover:bg-indigo-600 hover:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50">
+        ← Voltar à página inicial
+      </a>
+    </div>
+
+  </div>
+
+  <script src="/routes/perfil.js"></script>
+  
+</body>
+</html>

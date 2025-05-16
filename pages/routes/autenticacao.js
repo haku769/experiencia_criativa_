@@ -228,7 +228,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const confirmarSenha = document.querySelector('#register-confirm-password').value;
     const termos = termsCheckbox.checked; // Use a variável termsCheckbox
     const foto = document.querySelector('#register-photo').files[0];
-    const dataNascimento = document.querySelector('#register-birthdate').value;
+
+    // const dataNascimento = document.querySelector('#register-birthdate').value;
 
     let isValidForm = true;
 
@@ -273,7 +274,7 @@ document.addEventListener('DOMContentLoaded', () => {
     formData.append('cpf', cpf);
     formData.append('senha', senha);
     formData.append('foto', foto);
-    formData.append('da')
+
 
     try {
       const res = await fetch('http://localhost:3000/autenticacao/registro', {

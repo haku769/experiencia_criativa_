@@ -1165,11 +1165,77 @@ footer {
 
         .password-toggle {
             position: absolute;
-            top: 50%;
+            top: 70%;
             right: 10px;
             transform: translateY(-50%);
             cursor: pointer;
             user-select: none;
             opacity: 1; /* Garante que o ícone esteja sempre visível */
-        }
-  
+        .perfil-area {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.perfil-link {
+  display: flex;
+  align-items: center;
+  background-color: #004aad;
+  padding: 8px 12px;
+  border-radius: 20px;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.perfil-link:hover {
+  background-color: #003080;
+}
+
+.foto-perfil {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 8px;
+}
+
+.nome-usuario {
+  color: white;
+  font-weight: 500;
+  font-size: 14px;
+}
+}
+#user-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+/* Exemplo de personalização */
+#editar-perfil-btn {
+  background-color: #4CAF50; /* Cor verde */
+  border: none;
+  padding: 10px 20px;
+  color: white;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+#editar-perfil-btn:hover {
+  background-color: #45a049;
+}
+.btn-home {
+  margin-top: 10px;
+  width: 100%;
+  padding: 10px;
+  background-color: #ff0000;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.5s;
+}
+
+.btn-home:hover {
+  background-color: #4e0000;
+}

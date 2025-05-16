@@ -17,42 +17,52 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   if (usuarioJSON) {
-    try {
-      const usuario = JSON.parse(usuarioJSON);
-      console.log(usuario.FUNCAO)
-      if (usuario && usuario.nome) {
-        if (userInfo) {
-          let fotoHTML = "";
-          if (usuario.foto && usuario.foto.data) {
-            const fotoBase64 = bufferToBase64(usuario.foto.data);
-            fotoHTML = `<img src="data:image/jpeg;base64, ${fotoBase64}" alt="FotoDoUsuario" class="foto-usuario">`;
-          }
-          userInfo.innerHTML = `
-            <span class="user-welcome"> ${fotoHTML} <strong>${usuario.nome.split(" ")[0]}</strong></span>
-            <button id="logout-btn" class="btn-login">Sair</button>
-          `;
+  try {
+    const usuario = JSON.parse(usuarioJSON);
+    console.log(usuario.FUNCAO);
 
-          const logoutBtn = document.getElementById("logout-btn");
-          logoutBtn?.addEventListener("click", function () {
-            localStorage.removeItem("usuarioLogado");
-            localStorage.removeItem("token");
-            window.location.reload();
-          });
-
-          if (usuario.funcao !== "Admin"){
-            document.getElementById("CrudUsuario").remove()
-            document.getElementById("CrudVeiculos").remove()
-          }
-          console.log(usuario.funcao)
-          
+    if (usuario && usuario.nome) {
+      if (userInfo) {
+        let fotoHTML = "";
+        if (usuario.cpf) {
+          fotoHTML = `<img src="http://localhost:3000/imagem/${usuario.cpf}" alt="FotoDoUsuario" class="foto-usuario">`;
         }
-      }
-    } catch (e) {
-      console.error("Erro ao ler usuário do localStorage:", e);
-    }
-  }
 
-  carregarUsuarios();
+
+        userInfo.innerHTML = `
+          <span class="user-welcome"> ${fotoHTML} <strong>${usuario.nome.split(" ")[0]}</strong></span>
+          <button id="logout-btn" class="btn-login">Sair</button>
+          <button id="editar-perfil-btn" class="btn-login">Editar Perfil</button>
+        `;
+
+        const logoutBtn = document.getElementById("logout-btn");
+        logoutBtn?.addEventListener("click", function () {
+          localStorage.removeItem("usuarioLogado");
+          localStorage.removeItem("token");
+          window.location.reload();
+        });
+
+        const editarPerfilBtn = document.getElementById("editar-perfil-btn");
+        editarPerfilBtn?.addEventListener("click", function () {
+          window.location.href = "/perfil.html"; // Redireciona para a página de edição
+        });
+
+        // Verifica a função do usuário (Admin ou outro)
+        if (usuario.funcao !== "Admin") {
+          document.getElementById("CrudUsuario").remove();
+          document.getElementById("CrudVeiculos").remove();
+        }
+
+        console.log(usuario.funcao);
+      }
+    }
+  } catch (e) {
+    console.error("Erro ao ler usuário do localStorage:", e);
+  }
+}
+
+carregarUsuarios();
+
 
   document.getElementById('user-form').addEventListener('submit', async function (e) {
     e.preventDefault();
@@ -69,7 +79,7 @@ document.addEventListener("DOMContentLoaded", function () {
     console.log(currentUserId)
 
     if (currentUserId) {
-      // Atualiza
+      // Atualiza o usuario 
       await fetchAutenticado(`http://localhost:3000/usuarios/${currentUserId}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
@@ -82,7 +92,7 @@ document.addEventListener("DOMContentLoaded", function () {
           setTimeout(() => location.reload(), 500);
         });
     } else {
-      // Cria novo
+      // Cria novo usuario
       const cpf = document.getElementById('cpf').value;
       const senha = document.getElementById('senha').value;
       const novoBody = JSON.stringify({ cpf, nome, email, telefone, senha });
@@ -229,7 +239,7 @@ function viewUser(cpf) {
 async function deleteUser(cpf) {
   openDeleteModal(cpf);
 }
-
+//  deletar o usuário
 async function confirmDelete() {
   if (currentUserId) {
     await fetchAutenticado(`http://localhost:3000/usuarios/${currentUserId}`, {
@@ -359,7 +369,7 @@ async function fetchAutenticado(url, options = {}) {
   if (isTokenExpirado(token)) {
     token = await renovarToken();
     if (!token) {
-      showPopup('Sessão expirada. Faça login novamente.');
+      alert('Sessão expirada. Faça login novamente.');
       localStorage.removeItem('token');
       localStorage.removeItem('usuarioLogado');
       window.location.href = '/autenticacao.html';
@@ -375,4 +385,20 @@ async function fetchAutenticado(url, options = {}) {
   const finalOptions = { ...options, headers };
 
   return fetch(url, finalOptions);
+}
+const usuario = JSON.parse(localStorage.getItem('usuarioLogado')); // chave correta
+
+if (usuario) {
+  const loginLink = document.getElementById('login-link');
+  const perfilArea = document.getElementById('perfil-area');
+  const nomeUsuario = document.getElementById('nome-usuario');
+  const fotoPerfil = document.getElementById('foto-perfil');
+
+  if (loginLink) loginLink.style.display = 'none';
+  if (perfilArea) perfilArea.style.display = 'flex';
+  if (nomeUsuario) nomeUsuario.textContent = usuario.nome?.split(" ")[0] || 'Perfil';
+  if (fotoPerfil && usuario.foto && usuario.foto.data) {
+    const fotoBase64 = bufferToBase64(usuario.foto.data);
+    fotoPerfil.src = `data:image/jpeg;base64, ${fotoBase64}`;
+  }
 }

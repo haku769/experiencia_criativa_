@@ -18,6 +18,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 app.use(express.static('./pages'));
 app.use(express.static('./pages/routes'));
+app.use('/uploads', express.static('uploads'));
+
 
 
 
@@ -79,6 +81,30 @@ userRouter.get('/', autenticarToken, (req, res) => {
     res.status(200).json(results);
   });
 });
+// GET /usuarios/:cpf (protegido)
+
+userRouter.get('/:cpf', autenticarToken, (req, res) => {
+  const cpf = req.params.cpf;
+
+  const query = 'SELECT CPF, NOME, EMAIL, TELEFONE, FUNCAO FROM Usuario WHERE CPF = ?';
+  db.query(query, [cpf], (err, results) => {
+    if (err) {
+      console.error('❌ Erro ao buscar usuário por CPF:', err);
+      return res.status(500).json({ erro: 'Erro ao buscar usuário' });
+    }
+
+    if (results.length === 0) {
+      return res.status(404).json({ erro: 'Usuário não encontrado' });
+    }
+
+    res.status(200).json(results[0]);
+  });
+});
+
+
+
+
+
 userRouter.post('/', async (req, res) => {
   const { cpf, nome, email, telefone, senha } = req.body;
   const hashedSenha = await bcrypt.hash(senha, 10);
@@ -93,6 +119,106 @@ userRouter.post('/', async (req, res) => {
     res.status(201).json({ mensagem: 'Usuário cadastrado com sucesso' });
   });
 });
+
+
+// ==============================
+// ✅ ROTEADOR: Perfil
+// ============================== 
+
+//  GET /usuario/perfil (protegido)
+app.get('/usuario/perfil', autenticarToken, async (req, res) => {
+  const cpf = req.usuario.cpf;
+
+  try {
+    const [resultados] = await db.promise().query(
+      'SELECT NOME, EMAIL, TELEFONE, FOTO FROM Usuario WHERE CPF = ?',
+      [cpf]
+    );
+
+    if (resultados.length === 0) {
+      return res.status(404).json({ erro: 'Usuário não encontrado' });
+    }
+
+    res.json({
+      CPF: cpf,
+      ...resultados[0]
+    });
+  } catch (err) {
+    console.error('Erro ao buscar perfil:', err);
+    res.status(500).json({ erro: 'Erro ao buscar perfil' });
+  }
+});
+
+
+// Buscar foto do usuário
+
+app.get('/imagem/:cpf', async (req, res) => {
+  const cpf = req.params.cpf;
+
+  try {
+    const [results] = await db.promise().query(
+      'SELECT FOTO FROM Usuario WHERE CPF = ?',
+      [cpf]
+    );
+
+    if (results.length === 0 || !results[0].FOTO) {
+      return res.status(404).send('Imagem não encontrada');
+    }
+
+    res.setHeader('Content-Type', 'image/jpeg');
+    res.send(results[0].FOTO); // buffer da imagem BLOB
+  } catch (err) {
+    console.error('Erro ao buscar imagem:', err);
+    return res.status(500).send('Erro no servidor');
+  }
+});
+
+
+app.put('/usuario/perfil', autenticarToken, upload.single('foto'), async (req, res) => {
+  const { nome, email, telefone, senha } = req.body;
+  const cpf = req.usuario.cpf;
+  const novaFoto = req.file ? req.file.buffer : null;
+
+  if (!nome || !email || !telefone) {
+    return res.status(400).json({ erro: 'Campos obrigatórios não preenchidos.' });
+  }
+
+  try {
+    const [results] = await db.promise().query('SELECT * FROM Usuario WHERE CPF = ?', [cpf]);
+
+    if (results.length === 0) {
+      return res.status(404).json({ erro: 'Usuário não encontrado.' });
+    }
+
+    let query = 'UPDATE Usuario SET NOME = ?, EMAIL = ?, TELEFONE = ?';
+    let params = [nome, email, telefone];
+
+    if (senha) {
+      const hash = await bcrypt.hash(senha, 10);
+      query += ', SENHA = ?';
+      params.push(hash);
+    }
+
+    if (novaFoto) {
+      query += ', FOTO = ?';
+      params.push(novaFoto);
+    }
+
+    query += ' WHERE CPF = ?';
+    params.push(cpf);
+
+    await db.promise().query(query, params);
+
+    res.json({ mensagem: 'Perfil atualizado com sucesso.' });
+  } catch (err) {
+    console.error('Erro ao atualizar perfil:', err);
+    console.log(req.body);
+    console.log(req.file);
+
+    res.status(500).json({ erro: 'Erro interno ao atualizar perfil.' });
+  }
+});
+
 
 
 
