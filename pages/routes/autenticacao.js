@@ -385,6 +385,10 @@ document.addEventListener('DOMContentLoaded', () => {
     popup.appendChild(closeBtn);
     overlay.appendChild(popup);
     document.body.appendChild(overlay);
+    overlay.onclick = (e) => {
+    if (e.target === overlay) overlay.remove();
+};
+
   }
 });
 document.addEventListener('DOMContentLoaded', function() {
