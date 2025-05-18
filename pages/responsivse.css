@@ -1,0 +1,445 @@
+/* Arquivo de estilos responsivos para todas as páginas */
+
+/* Variáveis globais para breakpoints */
+:root {
+  --breakpoint-sm: 576px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 992px;
+  --breakpoint-xl: 1200px;
+}
+
+/* ===== RESPONSIVIDADE GERAL ===== */
+
+/* Contêiner principal */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+@media (max-width: 1200px) {
+  .container {
+    max-width: 100%;
+  }
+}
+
+/* ===== SIDEBAR E CONTEÚDO PRINCIPAL ===== */
+
+/* Sidebar */
+.sidebar {
+  width: 250px;
+  height: 100vh;
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 100;
+  transition: all 0.3s ease;
+}
+
+/* Conteúdo principal */
+.main-content {
+  margin-left: 250px;
+  transition: all 0.3s ease;
+  min-height: 100vh;
+  width: calc(100% - 250px);
+}
+
+/* Ajustes para telas grandes */
+@media (min-width: 1400px) {
+  .sidebar {
+    width: 280px;
+  }
+  
+  .main-content {
+    margin-left: 280px;
+    width: calc(100% - 280px);
+  }
+}
+
+/* Ajustes para desktop menor */
+@media (max-width: 1200px) {
+  .sidebar {
+    width: 220px;
+  }
+  
+  .main-content {
+    margin-left: 220px;
+    width: calc(100% - 220px);
+  }
+}
+
+/* Ajustes para tablets */
+@media (max-width: 992px) {
+  .sidebar {
+    width: 200px;
+  }
+  
+  .main-content {
+    margin-left: 200px;
+    width: calc(100% - 200px);
+  }
+}
+
+/* Ajustes para tablets menores e dispositivos móveis */
+@media (max-width: 768px) {
+  .sidebar {
+    left: -250px;
+    box-shadow: none;
+  }
+  
+  .main-content {
+    margin-left: 0;
+    width: 100%;
+  }
+  
+  .mobile-header {
+    display: flex;
+  }
+  
+  /* Quando o menu mobile está aberto */
+  body.menu-open .mobile-menu {
+    transform: translateX(0);
+  }
+}
+
+/* ===== MOBILE HEADER E MENU ===== */
+
+/* Mobile Header */
+.mobile-header {
+  display: none;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  background-color: white;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 90;
+}
+
+/* Mobile Menu */
+.mobile-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 280px;
+  height: 100vh;
+  background-color: white;
+  z-index: 100;
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+  overflow-y: auto;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.mobile-menu-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+/* Overlay para quando o menu mobile está aberto */
+.menu-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 95;
+}
+
+body.menu-open .menu-overlay {
+  display: block;
+}
+
+/* ===== GRIDS E LAYOUTS ===== */
+
+/* Grid de 2 colunas */
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 30px;
+}
+
+/* Grid de 3 colunas */
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+}
+
+/* Grid de 4 colunas */
+.grid-4 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+/* Ajustes responsivos para grids */
+@media (max-width: 992px) {
+  .grid-4 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .grid-3, .grid-4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 576px) {
+  .grid-2, .grid-3, .grid-4 {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ===== ELEMENTOS ESPECÍFICOS ===== */
+
+/* Cards */
+.card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Botões */
+.btn {
+  white-space: nowrap;
+}
+
+@media (max-width: 576px) {
+  .btn {
+    padding: 8px 16px;
+    font-size: 14px;
+  }
+}
+
+/* Formulários */
+@media (max-width: 768px) {
+  .form-row {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* Imagens */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* ===== FOOTER ===== */
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 30px;
+}
+
+@media (max-width: 992px) {
+  .footer-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 576px) {
+  .footer-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .footer-bottom {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .footer-bottom-links {
+    margin-top: 10px;
+  }
+  
+  .footer-bottom-links a {
+    margin: 0 10px;
+  }
+}
+
+/* ===== UTILIDADES RESPONSIVAS ===== */
+
+/* Esconder em dispositivos móveis */
+@media (max-width: 768px) {
+  .hide-mobile {
+    display: none !important;
+  }
+}
+
+/* Esconder em tablets */
+@media (min-width: 769px) and (max-width: 992px) {
+  .hide-tablet {
+    display: none !important;
+  }
+}
+
+/* Esconder em desktop */
+@media (min-width: 993px) {
+  .hide-desktop {
+    display: none !important;
+  }
+}
+
+/* Mostrar apenas em dispositivos móveis */
+.show-mobile {
+  display: none !important;
+}
+
+@media (max-width: 768px) {
+  .show-mobile {
+    display: block !important;
+  }
+}
+
+/* Texto responsivo */
+@media (max-width: 768px) {
+  h1 {
+    font-size: 28px !important;
+  }
+  
+  h2 {
+    font-size: 24px !important;
+  }
+  
+  h3 {
+    font-size: 20px !important;
+  }
+  
+  p {
+    font-size: 14px !important;
+  }
+}
+
+/* ===== AJUSTES ESPECÍFICOS PARA CADA PÁGINA ===== */
+
+/* Página Inicial */
+@media (max-width: 768px) {
+  .hero-section {
+    padding: 60px 0 !important;
+  }
+  
+  .hero-content h1 {
+    font-size: 32px !important;
+  }
+  
+  .featured-vehicles .vehicle-card {
+    margin-bottom: 20px;
+  }
+}
+
+/* Página de Veículos */
+@media (max-width: 768px) {
+  .filters-sidebar {
+    position: fixed;
+    top: 0;
+    left: -300px;
+    width: 280px;
+    height: 100vh;
+    background-color: white;
+    z-index: 95;
+    transition: left 0.3s ease;
+    overflow-y: auto;
+    padding: 20px;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .filters-sidebar.open {
+    left: 0;
+  }
+  
+  .filter-toggle-btn {
+    display: block !important;
+  }
+  
+  .vehicle-grid {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)) !important;
+  }
+}
+
+@media (max-width: 576px) {
+  .vehicle-grid {
+    grid-template-columns: 1fr !important;
+  }
+  
+  .vehicle-card {
+    max-width: 100% !important;
+  }
+}
+
+/* Página de Serviços */
+@media (max-width: 768px) {
+  .service-img {
+    margin: 15px auto !important;
+  }
+  
+  #financiamento {
+    flex-direction: column !important;
+    text-align: center !important;
+    gap: 15px !important;
+  }
+}
+
+/* Página de Contatos */
+@media (max-width: 768px) {
+  .contact-grid {
+    grid-template-columns: 1fr !important;
+  }
+  
+  .map-container {
+    height: 300px !important;
+  }
+  
+  .contact-info-grid {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)) !important;
+  }
+}
+
+@media (max-width: 576px) {
+  .contact-info-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* ===== AJUSTES PARA O BOTÃO VOLTAR AO TOPO ===== */
+#back-to-top {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 40px;
+  height: 40px;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  z-index: 90;
+}
+
+#back-to-top.visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+@media (max-width: 576px) {
+  #back-to-top {
+    bottom: 15px;
+    right: 15px;
+    width: 35px;
+    height: 35px;
+  }
+}

@@ -1,323 +1,365 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AutoElite - Concessionária Premium</title>
-<link rel="stylesheet" href="/styles.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AutoElite - Concessionária Premium</title>
+  <link rel="stylesheet" href="/styles.css">
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-<!-- Header -->
-<header>
-    <div class="container">
-        <div class="logo">
-            <h1>Auto<span>Elite</span></h1>
-        </div>
-        <nav>
-            <ul>
-                <li><a href="/index.html">Início</a></li>
-                    <li><a href="/veiculos.html">Veículos</a></li>
-                    <li><a href="/servicos.html">Serviços</a></li>
-                    <li><a href="/contatos.html">Contato</a></li>
-                    <li id="CrudUsuario"><a href="/CRUDusuario.html">CRUDusuario</a></li>
-                    <li id="CrudVeiculos"><a href="/CRUDveiculos.html">CRUDveiculos</a></li>
-            </ul>
-        </nav>
-        <div class="login-button" id="user-info">
-            <!-- Será preenchido via JavaScript -->
-            <a href="/autenticacao.html" class="btn-login" id="login-link">
-                <i class="fas fa-user"></i> Login
-                <div id="user-info" class="user-info"></div>
+  <!-- Sidebar Navigation -->
+  <header class="sidebar">
+    <div class="logo">
+      <h1>Auto<span>Elite</span></h1>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="/index.html" class="active">Início</a></li>
+        <li><a href="/veiculos.html">Veículos</a></li>
+        <li><a href="/servicos.html">Serviços</a></li>
+        <li><a href="/contatos.html">Contato</a></li>
+        <li id="CrudUsuario"><a href="/CRUDusuario.html">Gerenciar Usuários</a></li>
+        <li id="CrudVeiculos"><a href="/CRUDveiculos.html">Gerenciar Veículos</a></li>
+      </ul>
+    </nav>
+    <div class="login-button" id="user-info">
+      <a href="/autenticacao.html" class="btn-login" id="login-link">
+        <i class="fas fa-user"></i> Login
+      </a>
+    </div>
+  </header>
 
-            </a>
-        </div>
-</header>
+  <!-- Mobile Header -->
+  <div class="mobile-header">
+    <div class="logo">
+      <h1>Auto<span>Elite</span></h1>
+    </div>
+    <button class="menu-toggle" aria-label="Abrir menu">
+      <i class="fas fa-bars"></i>
+    </button>
+  </div>
 
+  <!-- Mobile Menu -->
+  <div class="mobile-menu">
+    <div class="mobile-menu-header">
+      <div class="logo">
+        <h1>Auto<span>Elite</span></h1>
+      </div>
+      <button class="menu-close" aria-label="Fechar menu">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="/index.html" class="active">Início</a></li>
+        <li><a href="/veiculos.html">Veículos</a></li>
+        <li><a href="/servicos.html">Serviços</a></li>
+        <li><a href="/contatos.html">Contato</a></li>
+        <li id="MobileCrudUsuario"><a href="/CRUDusuario.html">Gerenciar Usuários</a></li>
+        <li id="MobileCrudVeiculos"><a href="/CRUDveiculos.html">Gerenciar Veículos</a></li>
+      </ul>
+    </nav>
+    <div class="login-button">
+      <a href="/autenticacao.html" class="btn-login" id="mobile-login-link">
+        <i class="fas fa-user"></i> Login
+      </a>
+    </div>
+  </div>
 
-<!-- Hero Section -->
-<section class="hero">
-    <div class="hero-content">
+  <!-- Main Content -->
+  <main class="main-content">
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="hero-content">
         <h1>Encontre o carro dos seus sonhos</h1>
         <p>Qualidade, confiança e as melhores condições do mercado</p>
         <div class="hero-buttons">
-            <a href="/veiculos.html" class="btn btn-primary">Ver Ofertas</a>
-            <a href="./contatos.html" class="btn btn-secondary">Fale Conosco</a>
+          <a href="/veiculos.html" class="btn btn-primary">Ver Ofertas</a>
+          <a href="./contatos.html" class="btn btn-secondary">Fale Conosco</a>
         </div>
-    </div>
-</section>
+      </div>
+    </section>
 
-<!-- Search Section -->
-
-
-<!-- Featured Cars -->
-<section class="featured-cars">
-    <div class="container">
+    <!-- Featured Cars -->
+    <section class="featured-cars">
+      <div class="container">
         <div class="section-header">
-            <h2>Veículos em Destaque</h2>
-            <p>Confira nossos modelos mais procurados com condições especiais</p>
+          <h2>Veículos em Destaque</h2>
+          <p>Confira nossos modelos mais procurados com condições especiais</p>
         </div>
         <div class="cars-grid">
-            <div class="car-card">
-                <div class="car-image">
-                    <span class="tag">Novo</span>
-                    <img src="/fotos/Mercedes-Benz SL.webp" alt="Mercedes-Benz SL">
-                </div>
-                <div class="car-details">
-                    <h3>Mercedes-Benz SL</h3>
-                    <div class="car-info">
-                        <span><i class="fas fa-calendar"></i> 2023</span>
-                        <span><i class="fas fa-tachometer-alt"></i> 0 km</span>
-                        <span><i class="fas fa-gas-pump"></i> Gasolina</span>
-                    </div>
-                    <div class="car-price">
-                        <span class="price">R$ 890.000</span>
-                        <a href="/Carros/detalhesMercedes-Benz.html" class="btn btn-sm">Ver Detalhes</a>
-                    </div>
-                </div>
+          <div class="car-card">
+            <div class="car-image">
+              <span class="tag">Novo</span>
+              <img src="/fotos/Mercedes-Benz SL.webp" alt="Mercedes-Benz SL">
             </div>
-            
-            <div class="car-card">
-                <div class="car-image">
-                    <span class="tag tag-offer">Oferta</span>
-                    <img src="/fotos/BMW-X3-.webp" alt="BMW X3">
-                </div>
-                <div class="car-details">
-                    <h3>BMW X3</h3>
-                    <div class="car-info">
-                        <span><i class="fas fa-calendar"></i> 2022</span>
-                        <span><i class="fas fa-tachometer-alt"></i> 15.000 km</span>
-                        <span><i class="fas fa-gas-pump"></i> Diesel</span>
-                    </div>
-                    <div class="car-price">
-                        <span class="price">R$ 420.000</span>
-                        <a href="/Carros/detalhesBMW X3.html" class="btn btn-sm">Ver Detalhes</a>
-                    </div>
-                </div>
+            <div class="car-details">
+              <h3>Mercedes-Benz SL</h3>
+              <div class="car-info">
+                <span><i class="fas fa-calendar"></i> 2023</span>
+                <span><i class="fas fa-tachometer-alt"></i> 0 km</span>
+                <span><i class="fas fa-gas-pump"></i> Gasolina</span>
+              </div>
+              <div class="car-price">
+                <span class="price">R$ 890.000</span>
+                <a href="/Carros/detalhesMercedes-Benz.html" class="btn btn-sm">Ver Detalhes</a>
+              </div>
             </div>
-            
-            <div class="car-card">
-                <div class="car-image">
-                    <img src="/fotos/Volkswagen Golf GTI.webp" alt="Volkswagen Golf GTI">
-                </div>
-                <div class="car-details">
-                    <h3>Volkswagen Golf GTI</h3>
-                    <div class="car-info">
-                        <span><i class="fas fa-calendar"></i> 2023</span>
-                        <span><i class="fas fa-tachometer-alt"></i> 5.000 km</span>
-                        <span><i class="fas fa-gas-pump"></i> Gasolina</span>
-                    </div>
-                    <div class="car-price">
-                        <span class="price">R$ 280.000</span>
-                        <a href="/Carros/detalhesGolfGTI.html" class="btn btn-sm">Ver Detalhes</a>
-                    </div>
-                </div>
+          </div>
+          
+          <div class="car-card">
+            <div class="car-image">
+              <span class="tag tag-offer">Oferta</span>
+              <img src="/fotos/BMW-X3-.webp" alt="BMW X3">
             </div>
+            <div class="car-details">
+              <h3>BMW X3</h3>
+              <div class="car-info">
+                <span><i class="fas fa-calendar"></i> 2022</span>
+                <span><i class="fas fa-tachometer-alt"></i> 15.000 km</span>
+                <span><i class="fas fa-gas-pump"></i> Diesel</span>
+              </div>
+              <div class="car-price">
+                <span class="price">R$ 420.000</span>
+                <a href="/Carros/detalhesBMW X3.html" class="btn btn-sm">Ver Detalhes</a>
+              </div>
+            </div>
+          </div>
+          
+          <div class="car-card">
+            <div class="car-image">
+              <img src="/fotos/Volkswagen Golf GTI.webp" alt="Volkswagen Golf GTI">
+            </div>
+            <div class="car-details">
+              <h3>Volkswagen Golf GTI</h3>
+              <div class="car-info">
+                <span><i class="fas fa-calendar"></i> 2023</span>
+                <span><i class="fas fa-tachometer-alt"></i> 5.000 km</span>
+                <span><i class="fas fa-gas-pump"></i> Gasolina</span>
+              </div>
+              <div class="car-price">
+                <span class="price">R$ 280.000</span>
+                <a href="/Carros/detalhesGolfGTI.html" class="btn btn-sm">Ver Detalhes</a>
+              </div>
+            </div>
+          </div>
         </div>
 
         <!-- Botão View All -->
         <div class="view-all">
-            <a href="veiculos.html" class="btn btn-outline">Ver Todos os Veículos</a>
+          <a href="veiculos.html" class="btn btn-outline">Ver Todos os Veículos</a>
         </div>
-    </div>
-</section>
+      </div>
+    </section>
 
-<!-- Services Section -->
-<section class="services">
-    <div class="container">
+    <!-- Services Section -->
+    <section class="services">
+      <div class="container">
         <div class="section-header">
-            <h2>Nossos Serviços</h2>
-            <p>Oferecemos uma experiência completa para nossos clientes</p>
+          <h2>Nossos Serviços</h2>
+          <p>Oferecemos uma experiência completa para nossos clientes</p>
         </div>
         <div class="services-grid">
-            <div class="service-card">
-                <div class="service-icon">
-                    <i class="fas fa-car"></i>
-                </div>
-                <h3>Venda de Veículos</h3>
-                <p>Compre seu carro novo ou seminovo com as melhores condições do mercado.</p>
+          <div class="service-card">
+            <div class="service-icon">
+              <i class="fas fa-car"></i>
             </div>
-            <div class="service-card">
-                <div class="service-icon">
-                    <i class="fas fa-money-bill-wave"></i>
-                </div>
-                <h3>Financiamento</h3>
-                <p>Facilitamos seu financiamento com as melhores taxas e condições especiais.</p>
+            <h3>Venda de Veículos</h3>
+            <p>Compre seu carro novo ou seminovo com as melhores condições do mercado.</p>
+          </div>
+          <div class="service-card">
+            <div class="service-icon">
+              <i class="fas fa-money-bill-wave"></i>
             </div>
-            <div class="service-card">
-                <div class="service-icon">
-                    <i class="fas fa-exchange-alt"></i>
-                </div>
-                <h3>Troca com Troco</h3>
-                <p>Avaliamos seu veículo atual e oferecemos as melhores condições de troca.</p>
+            <h3>Financiamento</h3>
+            <p>Facilitamos seu financiamento com as melhores taxas e condições especiais.</p>
+          </div>
+          <div class="service-card">
+            <div class="service-icon">
+              <i class="fas fa-exchange-alt"></i>
             </div>
+            <h3>Troca com Troco</h3>
+            <p>Avaliamos seu veículo atual e oferecemos as melhores condições de troca.</p>
+          </div>
         </div>
-    </div>
-</section>
+      </div>
+    </section>
 
-<!-- Testimonials -->
-<section class="testimonials">
-    <div class="container">
+    <!-- Testimonials -->
+    <section class="testimonials">
+      <div class="container">
         <div class="section-header">
-            <h2>O que nossos clientes dizem</h2>
-            <p>A satisfação dos nossos clientes é nossa prioridade</p>
+          <h2>O que nossos clientes dizem</h2>
+          <p>A satisfação dos nossos clientes é nossa prioridade</p>
         </div>
         <div class="testimonials-grid">
-            <div class="testimonial-card">
-                <div class="testimonial-content">
-                    <p>"Excelente atendimento e condições de financiamento. Consegui realizar o sonho do meu carro novo com facilidade."</p>
-                </div>
-                <div class="testimonial-author">
-                    <div class="author-image">
-                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Cliente">
-                    </div>
-                    <div class="author-info">
-                        <h4>Roberto Silva</h4>
-                        <div class="rating">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </div>
-                    </div>
-                </div>
+          <div class="testimonial-card">
+            <div class="testimonial-content">
+              <p>"Excelente atendimento e condições de financiamento. Consegui realizar o sonho do meu carro novo com facilidade."</p>
             </div>
-            <div class="testimonial-card">
-                <div class="testimonial-content">
-                    <p>"Comprei meu segundo carro na AutoElite e novamente fiquei muito satisfeita. Profissionais sérios e comprometidos."</p>
+            <div class="testimonial-author">
+              <div class="author-image">
+                <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Cliente">
+              </div>
+              <div class="author-info">
+                <h4>Roberto Silva</h4>
+                <div class="rating">
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
                 </div>
-                <div class="testimonial-author">
-                    <div class="author-image">
-                        <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Cliente">
-                    </div>
-                    <div class="author-info">
-                        <h4>Carla Mendes</h4>
-                        <div class="rating">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </div>
-                    </div>
-                </div>
+              </div>
             </div>
-            <div class="testimonial-card">
-                <div class="testimonial-content">
-                    <p>"O serviço de pós-venda é excelente. Sempre que preciso de manutenção, sou muito bem atendido e com preços justos."</p>
-                </div>
-                <div class="testimonial-author">
-                    <div class="author-image">
-                        <img src="https://randomuser.me/api/portraits/men/62.jpg" alt="Cliente">
-                    </div>
-                    <div class="author-info">
-                        <h4>Marcos Oliveira</h4>
-                        <div class="rating">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star-half-alt"></i>
-                        </div>
-                    </div>
-                </div>
+          </div>
+          <div class="testimonial-card">
+            <div class="testimonial-content">
+              <p>"Comprei meu segundo carro na AutoElite e novamente fiquei muito satisfeita. Profissionais sérios e comprometidos."</p>
             </div>
+            <div class="testimonial-author">
+              <div class="author-image">
+                <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Cliente">
+              </div>
+              <div class="author-info">
+                <h4>Carla Mendes</h4>
+                <div class="rating">
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="testimonial-card">
+            <div class="testimonial-content">
+              <p>"O serviço de pós-venda é excelente. Sempre que preciso de manutenção, sou muito bem atendido e com preços justos."</p>
+            </div>
+            <div class="testimonial-author">
+              <div class="author-image">
+                <img src="https://randomuser.me/api/portraits/men/62.jpg" alt="Cliente">
+              </div>
+              <div class="author-info">
+                <h4>Marcos Oliveira</h4>
+                <div class="rating">
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star-half-alt"></i>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-    </div>
-</section>
+      </div>
+    </section>
 
-<!-- Brands -->
-<section class="brands">
-    <div class="container">
+    <!-- Brands -->
+    <section class="brands">
+      <div class="container">
         <div class="brands-grid">
-            <div class="brand-logo">
-                <img src="https://www.carlogos.org/car-logos/mercedes-benz-logo.png" alt="Mercedes-Benz">
-            </div>
-            <div class="brand-logo">
-                <img src="https://www.carlogos.org/car-logos/bmw-logo.png" alt="BMW">
-            </div>
-            <div class="brand-logo">
-                <img src="https://www.carlogos.org/car-logos/audi-logo.png" alt="Audi">
-            </div>
-            <div class="brand-logo">
-                <img src="https://www.carlogos.org/car-logos/toyota-logo.png" alt="Toyota">
-            </div>
-            <div class="brand-logo">
-                <img src="https://www.carlogos.org/car-logos/honda-logo.png" alt="Honda">
-            </div>
-            <div class="brand-logo">
-                <img src="https://www.carlogos.org/car-logos/volkswagen-logo.png" alt="Volkswagen">
-            </div>
+          <div class="brand-logo">
+            <img src="https://www.carlogos.org/car-logos/mercedes-benz-logo.png" alt="Mercedes-Benz">
+          </div>
+          <div class="brand-logo">
+            <img src="https://www.carlogos.org/car-logos/bmw-logo.png" alt="BMW">
+          </div>
+          <div class="brand-logo">
+            <img src="https://www.carlogos.org/car-logos/audi-logo.png" alt="Audi">
+          </div>
+          <div class="brand-logo">
+            <img src="https://www.carlogos.org/car-logos/toyota-logo.png" alt="Toyota">
+          </div>
+          <div class="brand-logo">
+            <img src="https://www.carlogos.org/car-logos/honda-logo.png" alt="Honda">
+          </div>
+          <div class="brand-logo">
+            <img src="https://www.carlogos.org/car-logos/volkswagen-logo.png" alt="Volkswagen">
+          </div>
         </div>
-    </div>
-</section>
+      </div>
+    </section>
 
-<!-- CTA Section -->
-<section class="cta">
-    <div class="container">
+    <!-- CTA Section -->
+    <section class="cta">
+      <div class="container">
         <div class="cta-content">
-            <h2>Pronto para encontrar seu carro ideal?</h2>
-            <p>Entre em contato conosco ou visite nossa loja para conhecer todas as opções disponíveis.</p>
-            <div class="cta-buttons">
-                <a href="#" class="btn btn-primary">Agendar Visita</a>
-                <a href="#" class="btn btn-outline-light">Fale Conosco</a>
-            </div>
+          <h2>Pronto para encontrar seu carro ideal?</h2>
+          <p>Entre em contato conosco ou visite nossa loja para conhecer todas as opções disponíveis.</p>
+          <div class="cta-buttons">
+            <a href="#" class="btn btn-primary">Agendar Visita</a>
+            <a href="#" class="btn btn-outline-light">Fale Conosco</a>
+          </div>
         </div>
-    </div>
-</section>
+      </div>
+    </section>
 
-<!-- Footer -->
-<footer>
-    <div class="container">
+    <!-- Footer -->
+    <footer>
+      <div class="container">
         <div class="footer-grid">
-            <div class="footer-about">
-                <h3>Auto<span>Elite</span></h3>
-                <p>Há mais de 15 anos oferecendo os melhores veículos e serviços para nossos clientes.</p>
-                <div class="social-links">
-                    <a href="#"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                    <a href="#"><i class="fab fa-youtube"></i></a>
-                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                </div>
+          <div class="footer-about">
+            <h3>Auto<span>Elite</span></h3>
+            <p>Há mais de 15 anos oferecendo os melhores veículos e serviços para nossos clientes.</p>
+            <div class="social-links">
+              <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+              <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+              <a href="#" aria-label="Youtube"><i class="fab fa-youtube"></i></a>
+              <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
             </div>
-            <div class="footer-links">
-                <h4>Links Rápidos</h4>
-                <ul>
-                    <li><a href="index.html">Início</a></li>
-                    <li><a href="veiculos.html">Veículos</a></li>
-                    <li><a href="servicos.html">Serviços</a></li>
-                    <li><a href="contatos.html">Contato</a></li>
-                </ul>
-            </div>
-            <div class="footer-contact">
-                <h4>Contato</h4>
-                <ul>
-                    <li><i class="fas fa-map-marker-alt"></i> Av. Brasil, 1500 - São Paulo, SP</li>
-                    <li><i class="fas fa-phone"></i> (11) 3456-7890</li>
-                    <li><i class="fas fa-envelope"></i> contato@autoelite.com.br</li>
-                    <li><i class="fas fa-clock"></i> Seg-Sex: 8h às 18h | Sáb: 9h às 14h</li>
-                </ul>
-            </div>
-            <div class="footer-newsletter">
-                <h4>Newsletter</h4>
-                <p>Receba nossas ofertas e novidades por e-mail</p>
-                <form class="newsletter-form">
-                    <input type="email" placeholder="Seu e-mail">
-                    <button type="submit" class="btn">Assinar</button>
-                </form>
-            </div>
+          </div>
+          <div class="footer-links">
+            <h4>Links Rápidos</h4>
+            <ul>
+              <li><a href="index.html">Início</a></li>
+              <li><a href="veiculos.html">Veículos</a></li>
+              <li><a href="servicos.html">Serviços</a></li>
+              <li><a href="contatos.html">Contato</a></li>
+            </ul>
+          </div>
+          <div class="footer-contact">
+            <h4>Contato</h4>
+            <ul>
+              <li><i class="fas fa-map-marker-alt"></i> Av. Brasil, 1500 - São Paulo, SP</li>
+              <li><i class="fas fa-phone"></i> (11) 3456-7890</li>
+              <li><i class="fas fa-envelope"></i> contato@autoelite.com.br</li>
+              <li><i class="fas fa-clock"></i> Seg-Sex: 8h às 18h | Sáb: 9h às 14h</li>
+            </ul>
+          </div>
+          <div class="footer-newsletter">
+            <h4>Newsletter</h4>
+            <p>Receba nossas ofertas e novidades por e-mail</p>
+            <form class="newsletter-form">
+              <input type="email" placeholder="Seu e-mail" required>
+              <button type="submit" class="btn">Assinar</button>
+            </form>
+          </div>
         </div>
         <div class="footer-bottom">
-            <p>&copy; 2025 AutoElite. Todos os direitos reservados.</p>
-            <div class="footer-bottom-links">
-                <a href="#">Política de Privacidade</a>
-                <a href="#">Termos de Uso</a>
-            </div>
+          <p>&copy; 2025 AutoElite. Todos os direitos reservados.</p>
+          <div class="footer-bottom-links">
+            <a href="#">Política de Privacidade</a>
+            <a href="#">Termos de Uso</a>
+          </div>
         </div>
-    </div>
-</footer>
-<script src="/routes/sessao.js" defer></script>
+      </div>
+    </footer>
+  </main>
 
+  <!-- Back to Top Button -->
+  <button id="back-to-top" aria-label="Voltar ao topo">
+    <i class="fas fa-chevron-up"></i>
+  </button>
+    <script src="/pages/index.js" defer></script>
+  <script src="/routes/sessao.js" defer></script>
+  <script src="scripts.js" defer></script>
 </body>
 </html>

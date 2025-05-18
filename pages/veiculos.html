@@ -1,633 +1,698 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Veículos - AutoElite</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Veículos - AutoElite</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="veiculos.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
-
 <body>
-    <!-- Header (mesmo da página inicial) -->
-    <header>
-        <div class="container">
-            <div class="logo">
-                <h1>Auto<span>Elite</span></h1>
-            </div>
-            <nav>
-                <ul>
-                    <li><a href="index.html">Início</a></li>
-                    <li><a href="veiculos.html">Veículos</a></li>
-                    <li><a href="servicos.html">Serviços</a></li>
-                    <li><a href="contatos.html">Contato</a></li>
-                    <li id="CrudUsuario"><a href="CRUDusuario.html">CRUDusuario</a></li>
-                    <li id="CrudVeiculos"><a href="CRUDveiculos.html">CRUDveiculos</a></li>
-                </ul>
-            </nav>
-            <div class="login-button" id="user-info">
-                <!-- Será preenchido via JavaScript -->
-                <a href="/autenticacao.html" class="btn-login" id="login-link">
-                    <i class="fas fa-user"></i> Login
-                    <div id="user-info" class="user-info"></div>
-                </a>
-            </div>
-    </header>
+  <!-- Sidebar Navigation -->
+  <header class="sidebar">
+    <div class="logo">
+      <h1>Auto<span>Elite</span></h1>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="/index.html">Início</a></li>
+        <li><a href="/veiculos.html" class="active">Veículos</a></li>
+        <li><a href="/servicos.html">Serviços</a></li>
+        <li><a href="/contatos.html">Contato</a></li>
+        <li id="CrudUsuario"><a href="/CRUDusuario.html">Gerenciar Usuários</a></li>
+        <li id="CrudVeiculos"><a href="/CRUDveiculos.html">Gerenciar Veículos</a></li>
+      </ul>
+    </nav>
+    <div class="login-button" id="user-info">
+      <a href="/autenticacao.html" class="btn-login" id="login-link">
+        <i class="fas fa-user"></i> Login
+      </a>
+    </div>
+  </header>
+
+  <!-- Mobile Header -->
+  <div class="mobile-header">
+    <div class="logo">
+      <h1>Auto<span>Elite</span></h1>
+    </div>
+    <button class="menu-toggle" aria-label="Abrir menu">
+      <i class="fas fa-bars"></i>
+    </button>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu">
+    <div class="mobile-menu-header">
+      <div class="logo">
+        <h1>Auto<span>Elite</span></h1>
+      </div>
+      <button class="menu-close" aria-label="Fechar menu">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="/index.html">Início</a></li>
+        <li><a href="/veiculos.html" class="active">Veículos</a></li>
+        <li><a href="/servicos.html">Serviços</a></li>
+        <li><a href="/contatos.html">Contato</a></li>
+        <li id="MobileCrudUsuario"><a href="/CRUDusuario.html">Gerenciar Usuários</a></li>
+        <li id="MobileCrudVeiculos"><a href="/CRUDveiculos.html">Gerenciar Veículos</a></li>
+      </ul>
+    </nav>
+    <div class="login-button">
+      <a href="/autenticacao.html" class="btn-login" id="mobile-login-link">
+        <i class="fas fa-user"></i> Login
+      </a>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <!-- Page Title -->
+    <section class="page-title">
+      <div class="container">
+        <h1>Nossos Veículos</h1>
+        <div class="breadcrumb">
+          <a href="index.html">Início</a> / <span>Veículos</span>
+        </div>
+      </div>
+    </section>
 
     <!-- Filters Section -->
     <section class="filters-section">
-        <div class="container">
-            <div class="filters-container">
-                <div class="filters-header">
-                    <h3>Filtrar Veículos</h3>
-                    <button class="btn-filter-toggle">
-                        <i class="fas fa-sliders-h"></i> Filtros
-                    </button>
-                </div>
-                <div class="filters-body">
-                    <div class="filter-group">
-                        <label for="filter-marca">Marca</label>
-                        <select id="filter-marca">
-                            <option value="">Todas as marcas</option>
-                            <option value="audi">Audi</option>
-                            <option value="bmw">BMW</option>
-                            <option value="chevrolet">Chevrolet</option>
-                            <option value="ford">Ford</option>
-                            <option value="honda">Honda</option>
-                            <option value="hyundai">Hyundai</option>
-                            <option value="mercedes">Mercedes-Benz</option>
-                            <option value="toyota">Toyota</option>
-                            <option value="volkswagen">Volkswagen</option>
-                        </select>
-                    </div>
-                    <div class="filter-group">
-                        <label for="filter-modelo">Modelo</label>
-                        <select id="filter-modelo">
-                            <option value="">Todos os modelos</option>
-                            <option value="">1</option>
-                            <option value="">2</option>
-                            <option value="">3</option>
-                            <option value="">4</option>
-                            <option value="">5</option>
-                        </select>
-                    </div>
-                    <div class="filter-group">
-                        <label for="filter-ano">Ano</label>
-                        <div class="range-inputs">
-                            <select id="filter-ano-min">
-                                <option value="">Mínimo</option>
-                                <option value="2018">2014</option>
-                                <option value="2019">2015</option>
-                                <option value="2020">2016</option>
-                                <option value="2021">2017</option>
-                                <option value="2022">2018</option>
-                                <option value="2023">2019</option>
-                            </select>
-                            <span>até</span>
-                            <select id="filter-ano-max">
-                                <option value="">Máximo</option>
-                                <option value="2018">2020</option>
-                                <option value="2019">2021</option>
-                                <option value="2020">2022</option>
-                                <option value="2021">2023</option>
-                                <option value="2022">2024</option>
-                                <option value="2023">2025</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="filter-group">
-                        <label for="filter-preco">Preço</label>
-                        <div class="range-inputs">
-                            <select id="filter-preco-min">
-                                <option value="">Mínimo</option>
-                                <option value="50000">R$ 50.000</option>
-                                <option value="100000">R$ 100.000</option>
-                                <option value="150000">R$ 150.000</option>
-                                <option value="200000">R$ 200.000</option>
-                                <option value="250000">R$ 250.000</option>
-                            </select>
-                            <span>até</span>
-                            <select id="filter-preco-max">
-                                <option value="">Máximo</option>
-                                <option value="100000">R$ 100.000</option>
-                                <option value="200000">R$ 200.000</option>
-                                <option value="300000">R$ 300.000</option>
-                                <option value="500000">R$ 500.000</option>
-                                <option value="1000000">R$ 1.000.000</option>
-                                <option value="2000000">R$ 2.000.000</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="filter-group">
-                        <label for="filter-km">Quilometragem</label>
-                        <div class="range-inputs">
-                            <select id="filter-km-min">
-                                <option value="">Mínimo</option>
-                                <option value="0">0 km</option>
-                                <option value="10000">10.000 km</option>
-                                <option value="30000">30.000 km</option>
-                                <option value="50000">50.000 km</option>
-                            </select>
-                            <span>até</span>
-                            <select id="filter-km-max">
-                                <option value="">Máximo</option>
-                                <option value="10000">10.000 km</option>
-                                <option value="30000">30.000 km</option>
-                                <option value="50000">50.000 km</option>
-                                <option value="100000">100.000 km</option>
-                                <option value="150000">150.000 km</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="filter-group">
-                        <label for="filter-combustivel">Combustível</label>
-                        <select id="filter-combustivel">
-                            <option value="">Todos</option>
-                            <option value="gasolina">Gasolina</option>
-                            <option value="etanol">Etanol</option>
-                            <option value="flex">Flex</option>
-                            <option value="diesel">Diesel</option>
-                            <option value="hibrido">Híbrido</option>
-                            <option value="eletrico">Elétrico</option>
-                        </select>
-                    </div>
-                    <div class="filter-group">
-                        <label for="filter-cambio">Câmbio</label>
-                        <select id="filter-cambio">
-                            <option value="">Todos</option>
-                            <option value="manual">Manual</option>
-                            <option value="automatico">Automático</option>
-                            <option value="cvt">CVT</option>
-                            <option value="semi-automatico">Semi-automático</option>
-                        </select>
-                    </div>
-                    <div class="filter-group">
-                        <label>Condição</label>
-                        <div class="checkbox-group">
-                            <label class="checkbox-label">
-                                <input type="checkbox" name="condicao" value="novo"> Novo
-                            </label>
-                            <label class="checkbox-label">
-                                <input type="checkbox" name="condicao" value="seminovo"> Seminovo
-                            </label>
-                            <label class="checkbox-label">
-                                <input type="checkbox" name="condicao" value="usado"> Usado
-                            </label>
-                        </div>
-                    </div>
-                    <div class="filter-buttons">
-                        <button class="btn btn-primary">Aplicar Filtros</button>
-                        <button class="btn btn-outline">Limpar Filtros</button>
-                    </div>
-                </div>
+      <div class="container">
+        <div class="filters-container">
+          <div class="filters-header">
+            <h3>Filtrar Veículos</h3>
+            <button class="btn-filter-toggle">
+              <i class="fas fa-sliders-h"></i> Filtros
+            </button>
+          </div>
+          <div class="filters-body">
+            <div class="filter-group">
+              <label for="filter-marca">Marca</label>
+              <select id="filter-marca">
+                <option value="">Todas as marcas</option>
+                <option value="audi">Audi</option>
+                <option value="bmw">BMW</option>
+                <option value="chevrolet">Chevrolet</option>
+                <option value="ford">Ford</option>
+                <option value="honda">Honda</option>
+                <option value="hyundai">Hyundai</option>
+                <option value="mercedes">Mercedes-Benz</option>
+                <option value="toyota">Toyota</option>
+                <option value="volkswagen">Volkswagen</option>
+              </select>
             </div>
+            <div class="filter-group">
+              <label for="filter-modelo">Modelo</label>
+              <select id="filter-modelo">
+                <option value="">Todos os modelos</option>
+                <option value="">1</option>
+                <option value="">2</option>
+                <option value="">3</option>
+                <option value="">4</option>
+                <option value="">5</option>
+              </select>
+            </div>
+            <div class="filter-group">
+              <label for="filter-ano">Ano</label>
+              <div class="range-inputs">
+                <select id="filter-ano-min">
+                  <option value="">Mínimo</option>
+                  <option value="2018">2014</option>
+                  <option value="2019">2015</option>
+                  <option value="2020">2016</option>
+                  <option value="2021">2017</option>
+                  <option value="2022">2018</option>
+                  <option value="2023">2019</option>
+                </select>
+                <span>até</span>
+                <select id="filter-ano-max">
+                  <option value="">Máximo</option>
+                  <option value="2018">2020</option>
+                  <option value="2019">2021</option>
+                  <option value="2020">2022</option>
+                  <option value="2021">2023</option>
+                  <option value="2022">2024</option>
+                  <option value="2023">2025</option>
+                </select>
+              </div>
+            </div>
+            <div class="filter-group">
+              <label for="filter-preco">Preço</label>
+              <div class="range-inputs">
+                <select id="filter-preco-min">
+                  <option value="">Mínimo</option>
+                  <option value="50000">R$ 50.000</option>
+                  <option value="100000">R$ 100.000</option>
+                  <option value="150000">R$ 150.000</option>
+                  <option value="200000">R$ 200.000</option>
+                  <option value="250000">R$ 250.000</option>
+                </select>
+                <span>até</span>
+                <select id="filter-preco-max">
+                  <option value="">Máximo</option>
+                  <option value="100000">R$ 100.000</option>
+                  <option value="200000">R$ 200.000</option>
+                  <option value="300000">R$ 300.000</option>
+                  <option value="500000">R$ 500.000</option>
+                  <option value="1000000">R$ 1.000.000</option>
+                  <option value="2000000">R$ 2.000.000</option>
+                </select>
+              </div>
+            </div>
+            <div class="filter-group">
+              <label for="filter-km">Quilometragem</label>
+              <div class="range-inputs">
+                <select id="filter-km-min">
+                  <option value="">Mínimo</option>
+                  <option value="0">0 km</option>
+                  <option value="10000">10.000 km</option>
+                  <option value="30000">30.000 km</option>
+                  <option value="50000">50.000 km</option>
+                </select>
+                <span>até</span>
+                <select id="filter-km-max">
+                  <option value="">Máximo</option>
+                  <option value="10000">10.000 km</option>
+                  <option value="30000">30.000 km</option>
+                  <option value="50000">50.000 km</option>
+                  <option value="100000">100.000 km</option>
+                  <option value="150000">150.000 km</option>
+                </select>
+              </div>
+            </div>
+            <div class="filter-group">
+              <label for="filter-combustivel">Combustível</label>
+              <select id="filter-combustivel">
+                <option value="">Todos</option>
+                <option value="gasolina">Gasolina</option>
+                <option value="etanol">Etanol</option>
+                <option value="flex">Flex</option>
+                <option value="diesel">Diesel</option>
+                <option value="hibrido">Híbrido</option>
+                <option value="eletrico">Elétrico</option>
+              </select>
+            </div>
+            <div class="filter-group">
+              <label for="filter-cambio">Câmbio</label>
+              <select id="filter-cambio">
+                <option value="">Todos</option>
+                <option value="manual">Manual</option>
+                <option value="automatico">Automático</option>
+                <option value="cvt">CVT</option>
+                <option value="semi-automatico">Semi-automático</option>
+              </select>
+            </div>
+            <div class="filter-group">
+              <label>Condição</label>
+              <div class="checkbox-group">
+                <label class="checkbox-label">
+                  <input type="checkbox" name="condicao" value="novo"> Novo
+                </label>
+                <label class="checkbox-label">
+                  <input type="checkbox" name="condicao" value="seminovo"> Seminovo
+                </label>
+                <label class="checkbox-label">
+                  <input type="checkbox" name="condicao" value="usado"> Usado
+                </label>
+              </div>
+            </div>
+            <div class="filter-buttons">
+              <button class="btn btn-primary">Aplicar Filtros</button>
+              <button class="btn btn-outline">Limpar Filtros</button>
+            </div>
+          </div>
         </div>
+      </div>
     </section>
 
     <!-- Vehicles Listing -->
     <section class="vehicles-listing">
-        <div class="container">
-            <div class="listing-header">
-                <div class="results-count">
-                    <p>Exibindo <strong>12</strong> de <strong>60</strong> veículos</p>
-                </div>
-                <div class="sorting">
-                    <label for="sort-by">Ordenar por:</label>
-                    <select id="sort-by">
-                        <option value="relevancia">Relevância</option>
-                        <option value="preco-asc">Preço (Menor para maior)</option>
-                        <option value="preco-desc">Preço (Maior para menor)</option>
-                        <option value="ano-desc">Ano (Menor para maior)</option>
-                        <option value="ano-desc">Ano (Maior para menor)</option>
-                        <option value="km-asc">Quilometragem (0KM)</option>
-                        <option value="km-asc">Quilometragem (Acima de 5000 KM)</option>
-                        <option value="km-asc">Quilometragem (Menor que 50000 KM)</option>
-                    </select>
-                </div>
-                <div class="view-options">
-                    <button class="view-option active" data-view="grid">
-                        <i class="fas fa-th-large"></i>
-                    </button>
-                    <button class="view-option" data-view="list">
-                        <i class="fas fa-list"></i>
-                    </button>
-                </div>
-            </div>
-
-            <div class="vehicles-grid">
-                <!-- Veículo 1 -->
-                <div class="car-card">
-                    <div class="car-image">
-                        <span class="tag">Novo</span>
-                        <img src="/fotos/Mercedes-Benz SL.webp" alt="Mercedes-Benz SL">
-                        <div class="car-actions">
-                            <button class="car-action-btn"><i class="far fa-heart"></i></button>
-                            <button class="car-action-btn"><i class="fas fa-exchange-alt"></i></button>
-                        </div>
-                    </div>
-                    <div class="car-details">
-                        <h3>Mercedes-Benz SL</h3>
-                        <div class="car-info">
-                            <span><i class="fas fa-calendar"></i> 2023</span>
-                            <span><i class="fas fa-tachometer-alt"></i> 0 km</span>
-                            <span><i class="fas fa-gas-pump"></i> Gasolina</span>
-                        </div>
-                        <div class="car-features">
-                            <span><i class="fas fa-cog"></i> Automático</span>
-                            <span><i class="fas fa-car"></i> 2 portas</span>
-                            <span><i class="fas fa-palette"></i> Vermelho</span>
-                        </div>
-                        <div class="car-price">
-                            <span class="price">R$ 890.000</span>
-                            <a href="/Carros/detalhesMercedes-Benz.html" class="btn btn-sm">Ver Detalhes</a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Veículo 2 -->
-                <div class="car-card">
-                    <div class="car-image">
-                        <span class="tag tag-offer">Oferta</span>
-                        <img src="/fotos/BMW-X3-.webp" alt="BMW X3">
-                        <div class="car-actions">
-                            <button class="car-action-btn"><i class="far fa-heart"></i></button>
-                            <button class="car-action-btn"><i class="fas fa-exchange-alt"></i></button>
-                        </div>
-                    </div>
-                    <div class="car-details">
-                        <h3>BMW X3</h3>
-                        <div class="car-info">
-                            <span><i class="fas fa-calendar"></i> 2022</span>
-                            <span><i class="fas fa-tachometer-alt"></i> 15.000 km</span>
-                            <span><i class="fas fa-gas-pump"></i> Diesel</span>
-                        </div>
-                        <div class="car-features">
-                            <span><i class="fas fa-cog"></i> Automático</span>
-                            <span><i class="fas fa-car"></i> 4 portas</span>
-                            <span><i class="fas fa-palette"></i> Azul</span>
-                        </div>
-                        <div class="car-price">
-                            <span class="price">R$ 420.000</span>
-                            <a href="/Carros/detalhesBMW X3.html" class="btn btn-sm">Ver Detalhes</a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Veículo 3 -->
-                <div class="car-card">
-                    <div class="car-image">
-                        <img src="/fotos/Volkswagen Golf GTI.webp" alt="Volkswagen Golf GTI">
-                        <div class="car-actions">
-                            <button class="car-action-btn"><i class="far fa-heart"></i></button>
-                            <button class="car-action-btn"><i class="fas fa-exchange-alt"></i></button>
-                        </div>
-                    </div>
-                    <div class="car-details">
-                        <h3>Volkswagen Golf GTI</h3>
-                        <div class="car-info">
-                            <span><i class="fas fa-calendar"></i> 2023</span>
-                            <span><i class="fas fa-tachometer-alt"></i> 5.000 km</span>
-                            <span><i class="fas fa-gas-pump"></i> Gasolina</span>
-                        </div>
-                        <div class="car-features">
-                            <span><i class="fas fa-cog"></i> Automático</span>
-                            <span><i class="fas fa-car"></i> 4 portas</span>
-                            <span><i class="fas fa-palette"></i> Vermelho</span>
-                        </div>
-                        <div class="car-price">
-                            <span class="price">R$ 280.000</span>
-                            <a href="/Carros/detalhesGolfGTI.html" class="btn btn-sm">Ver Detalhes</a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Veículo 4 -->
-                <div class="car-card">
-                    <div class="car-image">
-                        <span class="tag tag-sold">Vendido</span>
-                        <img src="/fotos/Toyota Corolla Cross.jpg" alt="Toyota Corolla Cross">
-                        <div class="car-actions">
-                            <button class="car-action-btn"><i class="far fa-heart"></i></button>
-                            <button class="car-action-btn"><i class="fas fa-exchange-alt"></i></button>
-                        </div>
-                    </div>
-                    <div class="car-details">
-                        <h3>Toyota Corolla Cross</h3>
-                        <div class="car-info">
-                            <span><i class="fas fa-calendar"></i> 2023</span>
-                            <span><i class="fas fa-tachometer-alt"></i> 0 km</span>
-                            <span><i class="fas fa-gas-pump"></i> Híbrido</span>
-                        </div>
-                        <div class="car-features">
-                            <span><i class="fas fa-cog"></i> Automático</span>
-                            <span><i class="fas fa-car"></i> 4 portas</span>
-                            <span><i class="fas fa-palette"></i> Prata</span>
-                        </div>
-                        <div class="car-price">
-                            <span class="price">R$ 195.000</span>
-                            <a href="#" class="btn btn-sm btn-disabled">Indisponível</a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Veículo 5 -->
-                <div class="car-card">
-                    <div class="car-image">
-                        <img src="/fotos/Honda Civic 22.jpg" alt="Honda Civic">
-                        <div class="car-actions">
-                            <button class="car-action-btn"><i class="far fa-heart"></i></button>
-                            <button class="car-action-btn"><i class="fas fa-exchange-alt"></i></button>
-                        </div>
-                    </div>
-                    <div class="car-details">
-                        <h3>Honda Civic</h3>
-                        <div class="car-info">
-                            <span><i class="fas fa-calendar"></i> 2022</span>
-                            <span><i class="fas fa-tachometer-alt"></i> 12.000 km</span>
-                            <span><i class="fas fa-gas-pump"></i> Flex</span>
-                        </div>
-                        <div class="car-features">
-                            <span><i class="fas fa-cog"></i> Automático</span>
-                            <span><i class="fas fa-car"></i> 4 portas</span>
-                            <span><i class="fas fa-palette"></i> Cinza</span>
-                        </div>
-                        <div class="car-price">
-                            <span class="price">R$ 145.000</span>
-                            <a href="#" class="btn btn-sm">Ver Detalhes</a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Veículo 6 -->
-                <div class="car-card">
-                    <div class="car-image">
-                        <span class="tag tag-offer">Oferta</span>
-                        <img src="/fotos/Chevrolet S10.jpg" alt="Chevrolet S10">
-                        <div class="car-actions">
-                            <button class="car-action-btn"><i class="far fa-heart"></i></button>
-                            <button class="car-action-btn"><i class="fas fa-exchange-alt"></i></button>
-                        </div>
-                    </div>
-                    <div class="car-details">
-                        <h3>Chevrolet S10</h3>
-                        <div class="car-info">
-                            <span><i class="fas fa-calendar"></i> 2023</span>
-                            <span><i class="fas fa-tachometer-alt"></i> 0 km</span>
-                            <span><i class="fas fa-gas-pump"></i> Diesel</span>
-                        </div>
-                        <div class="car-features">
-                            <span><i class="fas fa-cog"></i> Automático</span>
-                            <span><i class="fas fa-car"></i> 4 portas</span>
-                            <span><i class="fas fa-palette"></i> Preto</span>
-                        </div>
-                        <div class="car-price">
-                            <span class="price">R$ 230.000</span>
-                            <a href="#" class="btn btn-sm">Ver Detalhes</a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Veículo 7 -->
-                <div class="car-card">
-                    <div class="car-image">
-                        <span class="tag">Novo</span>
-                        <img src="/fotos/audi_rs_e-tron.webp" alt="Audi RS e-tron GT">
-                        <div class="car-actions">
-                            <button class="car-action-btn"><i class="far fa-heart"></i></button>
-                            <button class="car-action-btn"><i class="fas fa-exchange-alt"></i></button>
-                        </div>
-                    </div>
-                    <div class="car-details">
-                        <h3>Audi RS e-tron GT</h3>
-                        <div class="car-info">
-                            <span><i class="fas fa-calendar"></i> 2023</span>
-                            <span><i class="fas fa-tachometer-alt"></i> 0 km</span>
-                            <span><i class="fas fa-gas-pump"></i> Elétrico</span>
-                        </div>
-                        <div class="car-features">
-                            <span><i class="fas fa-cog"></i> Automático</span>
-                            <span><i class="fas fa-car"></i> 4 portas</span>
-                            <span><i class="fas fa-palette"></i> Cinza</span>
-                        </div>
-                        <div class="car-price">
-                            <span class="price">R$ 1.250.000</span>
-                            <a href="#" class="btn btn-sm">Ver Detalhes</a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Veículo 8 -->
-                <div class="car-card">
-                    <div class="car-image">
-                        <img src="/fotos/Porsche 911 GT3.jpg" alt="Porsche 911 GT3">
-                        <div class="car-actions">
-                            <button class="car-action-btn"><i class="far fa-heart"></i></button>
-                            <button class="car-action-btn"><i class="fas fa-exchange-alt"></i></button>
-                        </div>
-                    </div>
-                    <div class="car-details">
-                        <h3>Porsche 911 GT3</h3>
-                        <div class="car-info">
-                            <span><i class="fas fa-calendar"></i> 2022</span>
-                            <span><i class="fas fa-tachometer-alt"></i> 3.500 km</span>
-                            <span><i class="fas fa-gas-pump"></i> Gasolina</span>
-                        </div>
-                        <div class="car-features">
-                            <span><i class="fas fa-cog"></i> PDK</span>
-                            <span><i class="fas fa-car"></i> 2 portas</span>
-                            <span><i class="fas fa-palette"></i> Azul</span>
-                        </div>
-                        <div class="car-price">
-                            <span class="price">R$ 1.850.000</span>
-                            <a href="#" class="btn btn-sm">Ver Detalhes</a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Veículo 9 -->
-                <div class="car-card">
-                    <div class="car-image">
-                        <span class="tag tag-offer">Oferta</span>
-                        <img src="/fotos/Ford Bronco.webp" alt="Ford Bronco">
-                        <div class="car-actions">
-                            <button class="car-action-btn"><i class="far fa-heart"></i></button>
-                            <button class="car-action-btn"><i class="fas fa-exchange-alt"></i></button>
-                        </div>
-                    </div>
-                    <div class="car-details">
-                        <h3>Ford Bronco</h3>
-                        <div class="car-info">
-                            <span><i class="fas fa-calendar"></i> 2023</span>
-                            <span><i class="fas fa-tachometer-alt"></i> 0 km</span>
-                            <span><i class="fas fa-gas-pump"></i> Gasolina</span>
-                        </div>
-                        <div class="car-features">
-                            <span><i class="fas fa-cog"></i> Automático</span>
-                            <span><i class="fas fa-car"></i> 2 portas</span>
-                            <span><i class="fas fa-palette"></i> Verde</span>
-                        </div>
-                        <div class="car-price">
-                            <span class="price">R$ 320.000</span>
-                            <a href="#" class="btn btn-sm">Ver Detalhes</a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Veículo 10 -->
-                <div class="car-card">
-                    <div class="car-image">
-                        <img src="/fotos/Toyota Land Cruiser.webp" alt="Toyota Land Cruiser">
-                        <div class="car-actions">
-                            <button class="car-action-btn"><i class="far fa-heart"></i></button>
-                            <button class="car-action-btn"><i class="fas fa-exchange-alt"></i></button>
-                        </div>
-                    </div>
-                    <div class="car-details">
-                        <h3>Toyota Land Cruiser</h3>
-                        <div class="car-info">
-                            <span><i class="fas fa-calendar"></i> 2022</span>
-                            <span><i class="fas fa-tachometer-alt"></i> 18.000 km</span>
-                            <span><i class="fas fa-gas-pump"></i> Diesel</span>
-                        </div>
-                        <div class="car-features">
-                            <span><i class="fas fa-cog"></i> Automático</span>
-                            <span><i class="fas fa-car"></i> 4 portas</span>
-                            <span><i class="fas fa-palette"></i> Branco</span>
-                        </div>
-                        <div class="car-price">
-                            <span class="price">R$ 580.000</span>
-                            <a href="#" class="btn btn-sm">Ver Detalhes</a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Veículo 11 -->
-                <div class="car-card">
-                    <div class="car-image">
-                        <span class="tag">Novo</span>
-                        <img src="/fotos/Range Rover Sport.jpg" alt="Range Rover Sport">
-                        <div class="car-actions">
-                            <button class="car-action-btn"><i class="far fa-heart"></i></button>
-                            <button class="car-action-btn"><i class="fas fa-exchange-alt"></i></button>
-                        </div>
-                    </div>
-                    <div class="car-details">
-                        <h3>Range Rover Sport</h3>
-                        <div class="car-info">
-                            <span><i class="fas fa-calendar"></i> 2023</span>
-                            <span><i class="fas fa-tachometer-alt"></i> 0 km</span>
-                            <span><i class="fas fa-gas-pump"></i> Diesel</span>
-                        </div>
-                        <div class="car-features">
-                            <span><i class="fas fa-cog"></i> Automático</span>
-                            <span><i class="fas fa-car"></i> 4 portas</span>
-                            <span><i class="fas fa-palette"></i> Preto</span>
-                        </div>
-                        <div class="car-price">
-                            <span class="price">R$ 950.000</span>
-                            <a href="#" class="btn btn-sm">Ver Detalhes</a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Veículo 12 -->
-                <div class="car-card">
-                    <div class="car-image">
-                        <span class="tag tag-offer">Oferta</span>
-                        <img src="/fotos/Hyundai Tucson.jpg" alt="Hyundai Tucson">
-                        <div class="car-actions">
-                            <button class="car-action-btn"><i class="far fa-heart"></i></button>
-                            <button class="car-action-btn"><i class="fas fa-exchange-alt"></i></button>
-                        </div>
-                    </div>
-                    <div class="car-details">
-                        <h3>Hyundai Tucson</h3>
-                        <div class="car-info">
-                            <span><i class="fas fa-calendar"></i> 2022</span>
-                            <span><i class="fas fa-tachometer-alt"></i> 22.000 km</span>
-                            <span><i class="fas fa-gas-pump"></i> Flex</span>
-                        </div>
-                        <div class="car-features">
-                            <span><i class="fas fa-cog"></i> Automático</span>
-                            <span><i class="fas fa-car"></i> 4 portas</span>
-                            <span><i class="fas fa-palette"></i> Vermelho</span>
-                        </div>
-                        <div class="car-price">
-                            <span class="price">R$ 175.000</span>
-                            <a href="#" class="btn btn-sm">Ver Detalhes</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Pagination -->
-            <div class="pagination">
-                <a href="#" class="page-link active">1</a>
-                <a href="#" class="page-link">2</a>
-                <a href="#" class="page-link">3</a>
-                <a href="#" class="page-link">4</a>
-                <a href="#" class="page-link">5</a>
-                <a href="#" class="page-link next">
-                    <i class="fas fa-chevron-right"></i>
-                </a>
-            </div>
+      <div class="container">
+        <div class="listing-header">
+          <div class="results-count">
+            <p>Exibindo <strong>12</strong> de <strong>60</strong> veículos</p>
+          </div>
+          <div class="sorting">
+            <label for="sort-by">Ordenar por:</label>
+            <select id="sort-by">
+              <option value="relevancia">Relevância</option>
+              <option value="preco-asc">Preço (Menor para maior)</option>
+              <option value="preco-desc">Preço (Maior para menor)</option>
+              <option value="ano-desc">Ano (Menor para maior)</option>
+              <option value="ano-desc">Ano (Maior para menor)</option>
+              <option value="km-asc">Quilometragem (0KM)</option>
+              <option value="km-asc">Quilometragem (Acima de 5000 KM)</option>
+              <option value="km-asc">Quilometragem (Menor que 50000 KM)</option>
+            </select>
+          </div>
+          <div class="view-options">
+            <button class="view-option active" data-view="grid" aria-label="Visualização em grade">
+              <i class="fas fa-th-large"></i>
+            </button>
+            <button class="view-option" data-view="list" aria-label="Visualização em lista">
+              <i class="fas fa-list"></i>
+            </button>
+          </div>
         </div>
+
+        <div class="vehicles-grid">
+          <!-- Veículo 1 -->
+          <div class="car-card">
+            <div class="car-image">
+              <span class="tag">Novo</span>
+              <img src="/fotos/Mercedes-Benz SL.webp" alt="Mercedes-Benz SL">
+              <div class="car-actions">
+                <button class="car-action-btn" aria-label="Favoritar"><i class="far fa-heart"></i></button>
+                <button class="car-action-btn" aria-label="Comparar"><i class="fas fa-exchange-alt"></i></button>
+              </div>
+            </div>
+            <div class="car-details">
+              <h3>Mercedes-Benz SL</h3>
+              <div class="car-info">
+                <span><i class="fas fa-calendar"></i> 2023</span>
+                <span><i class="fas fa-tachometer-alt"></i> 0 km</span>
+                <span><i class="fas fa-gas-pump"></i> Gasolina</span>
+              </div>
+              <div class="car-features">
+                <span><i class="fas fa-cog"></i> Automático</span>
+                <span><i class="fas fa-car"></i> 2 portas</span>
+                <span><i class="fas fa-palette"></i> Vermelho</span>
+              </div>
+              <div class="car-price">
+                <span class="price">R$ 890.000</span>
+                <a href="/Carros/detalhesMercedes-Benz.html" class="btn btn-sm">Ver Detalhes</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Veículo 2 -->
+          <div class="car-card">
+            <div class="car-image">
+              <span class="tag tag-offer">Oferta</span>
+              <img src="/fotos/BMW-X3-.webp" alt="BMW X3">
+              <div class="car-actions">
+                <button class="car-action-btn" aria-label="Favoritar"><i class="far fa-heart"></i></button>
+                <button class="car-action-btn" aria-label="Comparar"><i class="fas fa-exchange-alt"></i></button>
+              </div>
+            </div>
+            <div class="car-details">
+              <h3>BMW X3</h3>
+              <div class="car-info">
+                <span><i class="fas fa-calendar"></i> 2022</span>
+                <span><i class="fas fa-tachometer-alt"></i> 15.000 km</span>
+                <span><i class="fas fa-gas-pump"></i> Diesel</span>
+              </div>
+              <div class="car-features">
+                <span><i class="fas fa-cog"></i> Automático</span>
+                <span><i class="fas fa-car"></i> 4 portas</span>
+                <span><i class="fas fa-palette"></i> Azul</span>
+              </div>
+              <div class="car-price">
+                <span class="price">R$ 420.000</span>
+                <a href="/Carros/detalhesBMW X3.html" class="btn btn-sm">Ver Detalhes</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Veículo 3 -->
+          <div class="car-card">
+            <div class="car-image">
+              <img src="/fotos/Volkswagen Golf GTI.webp" alt="Volkswagen Golf GTI">
+              <div class="car-actions">
+                <button class="car-action-btn" aria-label="Favoritar"><i class="far fa-heart"></i></button>
+                <button class="car-action-btn" aria-label="Comparar"><i class="fas fa-exchange-alt"></i></button>
+              </div>
+            </div>
+            <div class="car-details">
+              <h3>Volkswagen Golf GTI</h3>
+              <div class="car-info">
+                <span><i class="fas fa-calendar"></i> 2023</span>
+                <span><i class="fas fa-tachometer-alt"></i> 5.000 km</span>
+                <span><i class="fas fa-gas-pump"></i> Gasolina</span>
+              </div>
+              <div class="car-features">
+                <span><i class="fas fa-cog"></i> Automático</span>
+                <span><i class="fas fa-car"></i> 4 portas</span>
+                <span><i class="fas fa-palette"></i> Vermelho</span>
+              </div>
+              <div class="car-price">
+                <span class="price">R$ 280.000</span>
+                <a href="/Carros/detalhesGolfGTI.html" class="btn btn-sm">Ver Detalhes</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Veículo 4 -->
+          <div class="car-card">
+            <div class="car-image">
+              <span class="tag tag-sold">Vendido</span>
+              <img src="/fotos/Toyota Corolla Cross.jpg" alt="Toyota Corolla Cross">
+              <div class="car-actions">
+                <button class="car-action-btn" aria-label="Favoritar"><i class="far fa-heart"></i></button>
+                <button class="car-action-btn" aria-label="Comparar"><i class="fas fa-exchange-alt"></i></button>
+              </div>
+            </div>
+            <div class="car-details">
+              <h3>Toyota Corolla Cross</h3>
+              <div class="car-info">
+                <span><i class="fas fa-calendar"></i> 2023</span>
+                <span><i class="fas fa-tachometer-alt"></i> 0 km</span>
+                <span><i class="fas fa-gas-pump"></i> Híbrido</span>
+              </div>
+              <div class="car-features">
+                <span><i class="fas fa-cog"></i> Automático</span>
+                <span><i class="fas fa-car"></i> 4 portas</span>
+                <span><i class="fas fa-palette"></i> Prata</span>
+              </div>
+              <div class="car-price">
+                <span class="price">R$ 195.000</span>
+                <a href="#" class="btn btn-sm btn-disabled">Indisponível</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Veículo 5 -->
+          <div class="car-card">
+            <div class="car-image">
+              <img src="/fotos/Honda Civic 22.jpg" alt="Honda Civic">
+              <div class="car-actions">
+                <button class="car-action-btn" aria-label="Favoritar"><i class="far fa-heart"></i></button>
+                <button class="car-action-btn" aria-label="Comparar"><i class="fas fa-exchange-alt"></i></button>
+              </div>
+            </div>
+            <div class="car-details">
+              <h3>Honda Civic</h3>
+              <div class="car-info">
+                <span><i class="fas fa-calendar"></i> 2022</span>
+                <span><i class="fas fa-tachometer-alt"></i> 12.000 km</span>
+                <span><i class="fas fa-gas-pump"></i> Flex</span>
+              </div>
+              <div class="car-features">
+                <span><i class="fas fa-cog"></i> Automático</span>
+                <span><i class="fas fa-car"></i> 4 portas</span>
+                <span><i class="fas fa-palette"></i> Cinza</span>
+              </div>
+              <div class="car-price">
+                <span class="price">R$ 145.000</span>
+                <a href="#" class="btn btn-sm">Ver Detalhes</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Veículo 6 -->
+          <div class="car-card">
+            <div class="car-image">
+              <span class="tag tag-offer">Oferta</span>
+              <img src="/fotos/Chevrolet S10.jpg" alt="Chevrolet S10">
+              <div class="car-actions">
+                <button class="car-action-btn" aria-label="Favoritar"><i class="far fa-heart"></i></button>
+                <button class="car-action-btn" aria-label="Comparar"><i class="fas fa-exchange-alt"></i></button>
+              </div>
+            </div>
+            <div class="car-details">
+              <h3>Chevrolet S10</h3>
+              <div class="car-info">
+                <span><i class="fas fa-calendar"></i> 2023</span>
+                <span><i class="fas fa-tachometer-alt"></i> 0 km</span>
+                <span><i class="fas fa-gas-pump"></i> Diesel</span>
+              </div>
+              <div class="car-features">
+                <span><i class="fas fa-cog"></i> Automático</span>
+                <span><i class="fas fa-car"></i> 4 portas</span>
+                <span><i class="fas fa-palette"></i> Preto</span>
+              </div>
+              <div class="car-price">
+                <span class="price">R$ 230.000</span>
+                <a href="#" class="btn btn-sm">Ver Detalhes</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Veículo 7 -->
+          <div class="car-card">
+            <div class="car-image">
+              <span class="tag">Novo</span>
+              <img src="/fotos/audi_rs_e-tron.webp" alt="Audi RS e-tron GT">
+              <div class="car-actions">
+                <button class="car-action-btn" aria-label="Favoritar"><i class="far fa-heart"></i></button>
+                <button class="car-action-btn" aria-label="Comparar"><i class="fas fa-exchange-alt"></i></button>
+              </div>
+            </div>
+            <div class="car-details">
+              <h3>Audi RS e-tron GT</h3>
+              <div class="car-info">
+                <span><i class="fas fa-calendar"></i> 2023</span>
+                <span><i class="fas fa-tachometer-alt"></i> 0 km</span>
+                <span><i class="fas fa-gas-pump"></i> Elétrico</span>
+              </div>
+              <div class="car-features">
+                <span><i class="fas fa-cog"></i> Automático</span>
+                <span><i class="fas fa-car"></i> 4 portas</span>
+                <span><i class="fas fa-palette"></i> Cinza</span>
+              </div>
+              <div class="car-price">
+                <span class="price">R$ 1.250.000</span>
+                <a href="#" class="btn btn-sm">Ver Detalhes</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Veículo 8 -->
+          <div class="car-card">
+            <div class="car-image">
+              <img src="/fotos/Porsche 911 GT3.jpg" alt="Porsche 911 GT3">
+              <div class="car-actions">
+                <button class="car-action-btn" aria-label="Favoritar"><i class="far fa-heart"></i></button>
+                <button class="car-action-btn" aria-label="Comparar"><i class="fas fa-exchange-alt"></i></button>
+              </div>
+            </div>
+            <div class="car-details">
+              <h3>Porsche 911 GT3</h3>
+              <div class="car-info">
+                <span><i class="fas fa-calendar"></i> 2022</span>
+                <span><i class="fas fa-tachometer-alt"></i> 3.500 km</span>
+                <span><i class="fas fa-gas-pump"></i> Gasolina</span>
+              </div>
+              <div class="car-features">
+                <span><i class="fas fa-cog"></i> PDK</span>
+                <span><i class="fas fa-car"></i> 2 portas</span>
+                <span><i class="fas fa-palette"></i> Azul</span>
+              </div>
+              <div class="car-price">
+                <span class="price">R$ 1.850.000</span>
+                <a href="#" class="btn btn-sm">Ver Detalhes</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Veículo 9 -->
+          <div class="car-card">
+            <div class="car-image">
+              <span class="tag tag-offer">Oferta</span>
+              <img src="/fotos/Ford Bronco.webp" alt="Ford Bronco">
+              <div class="car-actions">
+                <button class="car-action-btn" aria-label="Favoritar"><i class="far fa-heart"></i></button>
+                <button class="car-action-btn" aria-label="Comparar"><i class="fas fa-exchange-alt"></i></button>
+              </div>
+            </div>
+            <div class="car-details">
+              <h3>Ford Bronco</h3>
+              <div class="car-info">
+                <span><i class="fas fa-calendar"></i> 2023</span>
+                <span><i class="fas fa-tachometer-alt"></i> 0 km</span>
+                <span><i class="fas fa-gas-pump"></i> Gasolina</span>
+              </div>
+              <div class="car-features">
+                <span><i class="fas fa-cog"></i> Automático</span>
+                <span><i class="fas fa-car"></i> 2 portas</span>
+                <span><i class="fas fa-palette"></i> Verde</span>
+              </div>
+              <div class="car-price">
+                <span class="price">R$ 320.000</span>
+                <a href="#" class="btn btn-sm">Ver Detalhes</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Veículo 10 -->
+          <div class="car-card">
+            <div class="car-image">
+              <img src="/fotos/Toyota Land Cruiser.webp" alt="Toyota Land Cruiser">
+              <div class="car-actions">
+                <button class="car-action-btn" aria-label="Favoritar"><i class="far fa-heart"></i></button>
+                <button class="car-action-btn" aria-label="Comparar"><i class="fas fa-exchange-alt"></i></button>
+              </div>
+            </div>
+            <div class="car-details">
+              <h3>Toyota Land Cruiser</h3>
+              <div class="car-info">
+                <span><i class="fas fa-calendar"></i> 2022</span>
+                <span><i class="fas fa-tachometer-alt"></i> 18.000 km</span>
+                <span><i class="fas fa-gas-pump"></i> Diesel</span>
+              </div>
+              <div class="car-features">
+                <span><i class="fas fa-cog"></i> Automático</span>
+                <span><i class="fas fa-car"></i> 4 portas</span>
+                <span><i class="fas fa-palette"></i> Branco</span>
+              </div>
+              <div class="car-price">
+                <span class="price">R$ 580.000</span>
+                <a href="#" class="btn btn-sm">Ver Detalhes</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Veículo 11 -->
+          <div class="car-card">
+            <div class="car-image">
+              <span class="tag">Novo</span>
+              <img src="/fotos/Range Rover Sport.jpg" alt="Range Rover Sport">
+              <div class="car-actions">
+                <button class="car-action-btn" aria-label="Favoritar"><i class="far fa-heart"></i></button>
+                <button class="car-action-btn" aria-label="Comparar"><i class="fas fa-exchange-alt"></i></button>
+              </div>
+            </div>
+            <div class="car-details">
+              <h3>Range Rover Sport</h3>
+              <div class="car-info">
+                <span><i class="fas fa-calendar"></i> 2023</span>
+                <span><i class="fas fa-tachometer-alt"></i> 0 km</span>
+                <span><i class="fas fa-gas-pump"></i> Diesel</span>
+              </div>
+              <div class="car-features">
+                <span><i class="fas fa-cog"></i> Automático</span>
+                <span><i class="fas fa-car"></i> 4 portas</span>
+                <span><i class="fas fa-palette"></i> Preto</span>
+              </div>
+              <div class="car-price">
+                <span class="price">R$ 950.000</span>
+                <a href="#" class="btn btn-sm">Ver Detalhes</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Veículo 12 -->
+          <div class="car-card">
+            <div class="car-image">
+              <span class="tag tag-offer">Oferta</span>
+              <img src="/fotos/Hyundai Tucson.jpg" alt="Hyundai Tucson">
+              <div class="car-actions">
+                <button class="car-action-btn" aria-label="Favoritar"><i class="far fa-heart"></i></button>
+                <button class="car-action-btn" aria-label="Comparar"><i class="fas fa-exchange-alt"></i></button>
+              </div>
+            </div>
+            <div class="car-details">
+              <h3>Hyundai Tucson</h3>
+              <div class="car-info">
+                <span><i class="fas fa-calendar"></i> 2022</span>
+                <span><i class="fas fa-tachometer-alt"></i> 22.000 km</span>
+                <span><i class="fas fa-gas-pump"></i> Flex</span>
+              </div>
+              <div class="car-features">
+                <span><i class="fas fa-cog"></i> Automático</span>
+                <span><i class="fas fa-car"></i> 4 portas</span>
+                <span><i class="fas fa-palette"></i> Vermelho</span>
+              </div>
+              <div class="car-price">
+                <span class="price">R$ 175.000</span>
+                <a href="#" class="btn btn-sm">Ver Detalhes</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pagination -->
+        <div class="pagination">
+          <a href="#" class="page-link active" aria-label="Página 1">1</a>
+          <a href="#" class="page-link" aria-label="Página 2">2</a>
+          <a href="#" class="page-link" aria-label="Página 3">3</a>
+          <a href="#" class="page-link" aria-label="Página 4">4</a>
+          <a href="#" class="page-link" aria-label="Página 5">5</a>
+          <a href="#" class="page-link next" aria-label="Próxima página">
+            <i class="fas fa-chevron-right"></i>
+          </a>
+        </div>
+      </div>
     </section>
 
-    <!-- Footer (mesmo da página inicial) -->
+    <!-- Footer -->
     <footer>
-        <div class="container">
-            <div class="footer-grid">
-                <div class="footer-about">
-                    <h3>Auto<span>Elite</span></h3>
-                    <p>Há mais de 15 anos oferecendo os melhores veículos e serviços para nossos clientes.</p>
-                    <div class="social-links">
-                        <a href="#"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                        <a href="#"><i class="fab fa-youtube"></i></a>
-                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                    </div>
-                </div>
-                <div class="footer-links">
-                    <h4>Links Rápidos</h4>
-                    <ul>
-                        <li><a href="index.html">Início</a></li>
-                        <li><a href="veiculos.html">Veículos</a></li>
-                        <li><a href="servicos.html">Serviços</a></li>
-                        <li><a href="contatos.html">Contato</a></li>
-                    </ul>
-                </div>
-                <div class="footer-contact">
-                    <h4>Contato</h4>
-                    <ul>
-                        <li><i class="fas fa-map-marker-alt"></i> Av. Brasil, 1500 - São Paulo, SP</li>
-                        <li><i class="fas fa-phone"></i> (11) 3456-7890</li>
-                        <li><i class="fas fa-envelope"></i> contato@autoelite.com.br</li>
-                        <li><i class="fas fa-clock"></i> Seg-Sex: 8h às 18h | Sáb: 9h às 14h</li>
-                    </ul>
-                </div>
-                <div class="footer-newsletter">
-                    <h4>Newsletter</h4>
-                    <p>Receba nossas ofertas e novidades por e-mail</p>
-                    <form class="newsletter-form">
-                        <input type="email" placeholder="Seu e-mail">
-                        <button type="submit" class="btn">Assinar</button>
-                    </form>
-                </div>
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-about">
+            <h3>Auto<span>Elite</span></h3>
+            <p>Há mais de 15 anos oferecendo os melhores veículos e serviços para nossos clientes.</p>
+            <div class="social-links">
+              <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+              <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+              <a href="#" aria-label="Youtube"><i class="fab fa-youtube"></i></a>
+              <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
             </div>
-            <div class="footer-bottom">
-                <p>&copy; 2025 AutoElite. Todos os direitos reservados.</p>
-                <div class="footer-bottom-links">
-                    <a href="#">Política de Privacidade</a>
-                    <a href="#">Termos de Uso</a>
-                </div>
-            </div>
+          </div>
+          <div class="footer-links">
+            <h4>Links Rápidos</h4>
+            <ul>
+              <li><a href="index.html">Início</a></li>
+              <li><a href="veiculos.html">Veículos</a></li>
+              <li><a href="servicos.html">Serviços</a></li>
+              <li><a href="contatos.html">Contato</a></li>
+            </ul>
+          </div>
+          <div class="footer-contact">
+            <h4>Contato</h4>
+            <ul>
+              <li><i class="fas fa-map-marker-alt"></i> Av. Brasil, 1500 - São Paulo, SP</li>
+              <li><i class="fas fa-phone"></i> (11) 3456-7890</li>
+              <li><i class="fas fa-envelope"></i> contato@autoelite.com.br</li>
+              <li><i class="fas fa-clock"></i> Seg-Sex: 8h às 18h | Sáb: 9h às 14h</li>
+            </ul>
+          </div>
+          <div class="footer-newsletter">
+            <h4>Newsletter</h4>
+            <p>Receba nossas ofertas e novidades por e-mail</p>
+            <form class="newsletter-form">
+              <input type="email" placeholder="Seu e-mail" required>
+              <button type="submit" class="btn">Assinar</button>
+            </form>
+          </div>
         </div>
+        <div class="footer-bottom">
+          <p>&copy; 2025 AutoElite. Todos os direitos reservados.</p>
+          <div class="footer-bottom-links">
+            <a href="#">Política de Privacidade</a>
+            <a href="#">Termos de Uso</a>
+          </div>
+        </div>
+      </div>
     </footer>
-    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
-    <script src="/routes/sessao.js" type="module" defer></script>
-</body>
+  </main>
 
+  <!-- Back to Top Button -->
+  <button id="back-to-top" aria-label="Voltar ao topo">
+    <i class="fas fa-chevron-up"></i>
+  </button>
+
+  <!-- Notification -->
+  <div class="notification" id="notification">
+    <div class="notification-content">
+      <i class="notification-icon"></i>
+      <span class="notification-message"></span>
+    </div>
+    <button class="notification-close" aria-label="Fechar notificação">
+      <i class="fas fa-times"></i>
+    </button>
+  </div>
+
+  <script src="/routes/sessao.js" defer></script>
+  <script src="scripts.js" defer></script>
+  <script src="veiculos.js" defer></script>
+</body>
 </html>
-``` 

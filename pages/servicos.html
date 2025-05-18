@@ -1,368 +1,414 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Serviços</title>
-    <link rel="stylesheet" href="/styles.css">
-    <link rel="stylesheet" href="servicos.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
-        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
-        crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
-        integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
-        crossorigin="anonymous"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Serviços - AutoElite</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="servicos.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
-
 <body>
-    <header>
-        <div class="container">
-            <div class="logo">
-                <h1>Auto<span>Elite</span></h1>
-            </div>
-            <nav>
-                <ul>
-                    <li><a href="index.html">Início</a></li>
-                    <li><a href="veiculos.html">Veículos</a></li>
-                    <li><a href="servicos.html">Serviços</a></li>
-                    <li><a href="contatos.html">Contato</a></li>
-                    <li id="CrudUsuario"><a href="CRUDusuario.html">CRUDusuario</a></li>
-                    <li id="CrudVeiculos"><a href="CRUDveiculos.html">CRUDveiculos</a></li>
-                </ul>
-            </nav>
-            <div class="login-button" id="user-info">
-                <!-- Será preenchido via JavaScript -->
-                <a href="/autenticacao.html" class="btn-login" id="login-link">
-                    <i class="fas fa-user"></i> Login
-                    <div id="user-info" class="user-info"></div>
+  <!-- Sidebar Navigation -->
+  <header class="sidebar">
+    <div class="logo">
+      <h1>Auto<span>Elite</span></h1>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="/index.html">Início</a></li>
+        <li><a href="/veiculos.html">Veículos</a></li>
+        <li><a href="/servicos.html" class="active">Serviços</a></li>
+        <li><a href="/contatos.html">Contato</a></li>
+        <li id="CrudUsuario"><a href="/CRUDusuario.html">Gerenciar Usuários</a></li>
+        <li id="CrudVeiculos"><a href="/CRUDveiculos.html">Gerenciar Veículos</a></li>
+      </ul>
+    </nav>
+    <div class="login-button" id="user-info">
+      <a href="/autenticacao.html" class="btn-login" id="login-link">
+        <i class="fas fa-user"></i> Login
+      </a>
+    </div>
+  </header>
+
+  <!-- Mobile Header -->
+  <div class="mobile-header">
+    <div class="logo">
+      <h1>Auto<span>Elite</span></h1>
+    </div>
+    <button class="menu-toggle" aria-label="Abrir menu">
+      <i class="fas fa-bars"></i>
+    </button>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu">
+    <div class="mobile-menu-header">
+      <div class="logo">
+        <h1>Auto<span>Elite</span></h1>
+      </div>
+      <button class="menu-close" aria-label="Fechar menu">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="/index.html">Início</a></li>
+        <li><a href="/veiculos.html">Veículos</a></li>
+        <li><a href="/servicos.html" class="active">Serviços</a></li>
+        <li><a href="/contatos.html">Contato</a></li>
+        <li id="MobileCrudUsuario"><a href="/CRUDusuario.html">Gerenciar Usuários</a></li>
+        <li id="MobileCrudVeiculos"><a href="/CRUDveiculos.html">Gerenciar Veículos</a></li>
+      </ul>
+    </nav>
+    <div class="login-button">
+      <a href="/autenticacao.html" class="btn-login" id="mobile-login-link">
+        <i class="fas fa-user"></i> Login
+      </a>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <section>
+      <article>
+        <h2>Serviços</h2>
+        <p>
+          Realize a manutenção do seu veículo com os serviços automotivos da Auto Elite.
+          A Auto Elite tem tudo o que você precisa para garantir que você dirija com segurança e
+          tranquilidade.
+          Contamos com uma ampla oferta de serviços de manutenção e reparação para deixar seu carro sempre
+          novo.
+          Agende um horário para realizar a manutenção e fazer a revisão completa do seu carro. Na
+          revendedora Auto Elite garantimos o melhor serviço com excelente atendimento.
+          Consulte-nos para descobrir como economizar sem abrir mão da qualidade. Conheça os serviços Auto
+          Elite.
+        </p>
+      </article>
+
+      <div class="service-button">
+        <button>
+          Agendar Serviço
+        </button>
+      </div>
+
+      <img class="service-img" src="../fotos/Serviços.png" alt="Serviços">
+      
+      <article>
+        <h2>Clínica de Serviços</h2>
+        <p>
+          A Clínica de Serviços Auto Elite é um espaço reservado a serviços de manutenção de seu veículo, que
+          incluem check up e revisões para garantir a segurança de nossos clientes ao dirigir.
+        </p>
+      </article>
+      
+      <img class="service-img" src="../fotos/Clínica de Serviços.png" alt="Clinica de Serviços">
+      
+      <article>
+        <h2>Revisão Auto Elite</h2>
+        <p>
+          Atenção às necessidades do seu carro para que ele esteja sempre novo.
+          Para valorizar seu automóvel, manter a garantia de fábrica e o desempenho perfeito, é essencial
+          fazer as revisões recomendadas pela montadora nos prazos indicados.
+          A Sempre tem o plano de manutenção adequado ao seu veículo, conforme manual do proprietário,
+          acompanhando todas as recomendações dentro de checagem/substituições nos intervalos de 10mil km ou
+          12 meses.
+        </p>
+      </article>
+      
+      <article>
+        <h2>Manutenção Preventiva</h2>
+        <p>
+          A Manutenção Preventiva é importante para ter seu veículo sempre nas melhores condições de uso para
+          sua segurança e de seus familiares. Os Kits Instalados Auto Elite são pacotes de serviços para a
+          manutenção preventiva ou corretiva do seu veículo. Ao realizar o serviço, você tem garantia de 1 ano nas peças,
+          aproveita a qualidade e ainda a conveniência de agendar o seu horário de atendimento.
+        </p>
+      </article>
+      
+      <img class="service-img" src="../fotos/Revisão Auto Elite.png" alt="Revisão Auto Elite">
+      <img class="service-img" src="../fotos/Manutenção Preventiva.png" alt="Manutenção">
+      
+      <article>
+        <h2>Lubrificantes Automotivos</h2>
+        <p>
+          Mais saúde para o motor do seu carro.
+          A Auto Elite recomenda lubrificantes específicos para cada tipo de motor, desenvolvidos com os mais
+          rigorosos padrões de qualidade e tecnologia de ponta, atendendo às especificações técnicas e agindo
+          ativamente na manutenção do seu veículo.
+          Faça a troca de óleo dos períodos indicados pela marca de seu carro e mantenha o bom funcionamento
+          do motor além de economizar combustível.
+        </p>
+      </article>
+      
+      <div class="service-button">
+        <button>
+          Agendar Serviço
+        </button>
+      </div>
+      
+      <img class="service-img" src="../fotos/Lubrificantes Automotivos.png" alt="Lubrificantes Automotivos">
+      
+      <article>
+        <h2>Funilaria e Pintura</h2>
+        <p>
+          Seu carro sempre novo para você aqui na Auto Elite.
+          Seu carro sempre novo com serviços de funilaria e pintura da nossa rede. Os melhores profissionais
+          do mercado vão deixar seu carro como novo, temos os melhores serviços de estética automotivo e auto
+          detailing.
+          O atendimento exclusivo também deixa tudo mais fácil. Seu carro pode ficar pronto em, no máximo,
+          duas horas.
+        </p>
+      </article>
+      
+      <div class="service-button">
+        <button>
+          Agendar Serviço
+        </button>
+      </div>
+      
+      <img class="service-img" src="../fotos/Funilaria e Pintura.png" alt="Funilaria e Pintura">
+      
+      <article>
+        <h2>Troca de Pneus</h2>
+        <p>
+          Troque seu Pneu com a Auto Elite e mantenha seu carro seguro.
+          Os pneus são um dos principais itens de segurança do seu veículo, para evitar problemas maiores,
+          devemos ficar sempre atentos às condições de desgaste:
+          Se os cabos e/ou tecidos estiverem à mostra.
+          Se a banda de rolagem ou flanco estiver rachado ou com corte profundo.
+          Se há algum calo ou protuberância.
+          Por isso a Auto Elite está pronta para lhe atender para a troca do seu pneu. Aqui você encontra tudo
+          o que precisa para rodar tranquilo.
+        </p>
+      </article>
+      
+      <div class="service-button">
+        <button>
+          Agendar Serviço
+        </button>
+      </div>
+      
+      <img class="service-img" src="../fotos/Troca de Pneus.png" alt="Troca de Pneus">
+      
+      <article>
+        <h2>Alinhamento e Balanceamento</h2>
+        <p>
+          Quer ter o melhor desempenho no seu veículo e o menor desgaste nos pneus?
+          É simples! Mantenha o alinhamento e o balanceamento corretos dos pneus e siga as dicas de manutenção
+          presentes no manual do proprietário e no manual do fabricante do pneu. Estes cuidados fazem com que
+          os pneus e vários outros itens de segurança e estrutura do seu veículo não sofram nenhum desgaste
+          prematuro.
+          Por isso a Auto Elite está pronta para lhe atender, aqui você encontra tudo o que precisa para rodar
+          tranquilo.
+        </p>
+      </article>
+      
+      <div class="service-button">
+        <button>
+          Agendar Serviço
+        </button>
+      </div>
+      
+      <article>
+        <h2>Garantia Estendida</h2>
+        <p>
+          Quer ter a tranquilidade de contar com a proteção e segurança para você e o seu carro por um período
+          de até 5 anos?
+          O Seguro Proteção Mecânica Auto Elite é o produto certo. Com ele, a garantia de fábrica do seu
+          Chevrolet pode ser estendida por um período total de até 5 anos. Com esse serviço você garante economia para
+          casos de imprevistos com o seu carro durante o período estendido, realizando eventuais reparos em nossa
+          loja sempre com peças de fabrica e mão de obra gratuita para os itens cobertos.
+        </p>
+      </article>
+    </section>
     
-                </a>
-            </div>
-    </header>
-    <main>
-        <section>
-            <article>
-                <h2>Serviços</h2>
-                <p>
-                    Realize a manutenção do seu veículo com os serviços automotivos da Auto Elite.
-                    A Auto Elite tem tudo o que você precisa para garantir que você dirija com segurança e
-                    tranquilidade.
-                    Contamos com uma ampla oferta de serviços de manutenção e reparação para deixar seu carro sempre
-                    novo.
-                    Agende um horário para realizar a manutenção e fazer a revisão completa do seu carro. Na
-                    revendedora Auto Elite garantimos o melhor serviço com excelente atendimento.
-                    Consulte-nos para descobrir como economizar sem abrir mão da qualidade. Conheça os serviços Auto
-                    Elite.
-                </p>
-            </article>
+    <section>
+      <article>
+        <p>
+          Confira os itens de cobertura da garantia estendida:
+        </p>
+      </article>
+      
+      <article>
+        <h2>Cobertura Básica</h2>
+        <p>
+          Itens inclusos na cobertura básica:
+        </p>
+        <ul>
+          <li>Motor</li>
+          <li>Câmbio</li>
+          <li>Sistema de refrigeração</li>
+          <li>Transmissão e caixa de transferência</li>
+          <li>Diferencial (coroa e pinhão, eixos, engrenagens, rolamentos e buchas)</li>
+        </ul>
+      </article>
+      
+      <article>
+        <h2>Cobertura Completa</h2>
+        <p>
+          Todos os itens da cobertura básica, mais os itens abaixo
+        </p>
+        <ul>
+          <li>Sistema elétrico</li>
+          <li>Sistema de alimentação</li>
+          <li>Suspensão</li>
+          <li>Sistema de direção</li>
+          <li>Sistema de ar condicionado</li>
+          <li>Sistema de freios</li>
+        </ul>
+      </article>
+      
+      <img class="service-img" src="../fotos/Garantia Estendida.png" alt="Garantia Estendida">
+      
+      <div id="financiamento">
+        <h2>Financiamento</h2>
+        <button>
+          Solicitar Cotação
+        </button>
+      </div>
+      
+      <article>
+        <p>
+          O melhor caminho para você chegar até o seu carro 0KM.
+        </p>
+        <p>
+          A Auto Elite Serviços Financeiros procura desenvolver soluções que se encaixem ao seu perfil, sempre
+          atentos às suas necessidades. Ajudamos você a conquistar o seu sonho
+        </p>
+        <p>
+          Confira os produtos e serviços da Auto Elite Serviços Financeiros abaixo:
+        </p>
+      </article>
+      
+      <article>
+        <h3>Quer pagar sempre parcelas que cabem no seu bolso? Pode contar com a gente.</h3>
+        <p>
+          Entrada a partir de 0%.
+        </p>
+        <ul>
+          <li>Parcelas em até 60 meses.</li>
+          <li>Consecutivas e de mesmo valor.</li>
+        </ul>
+      </article>
+      
+      <article>
+        <h3>Quer estar sempre de carro 0KM? Aqui é o seu lugar.</h3>
+        <p>
+          Parcelas em até 48 meses (exclusividade da Auto Elite Serviços Financeiros).
+        </p>
+        <ul>
+          <li>Parcelas em até 60 meses.</li>
+          <li>Parcela final no valor de 15% a 40% do valor do carro.</li>
+        </ul>
+      </article>
+      
+      <article>
+        <p>
+          Use o próprio veículo para quitar a parcela final e aproveite o saldo para dar de entrada em um
+          novo.</p>
+        <p>
+          Assim você paga parcelas mensais menores do que em um financiamento regular e ainda pode trocar de
+          carro ao final do contrato, mantendo sua garagem sempre renovada. Venha até uma de nossas lojas
+          fazer uma simulação.
+        </p>
+      </article>
+      
+      <img class="service-img" src="../fotos/Financiamento.png" alt="Financiamento">
+      
+      <article>
+        <h3>Quer começar a pagar daqui a 2, 3 ou 4 meses? Aqui quem escolhe é você.</h3>
+        <p>
+          Entrada a partir de 20%
+        </p>
+        <ul>
+          <li>Parcelas fixas em até 60 meses</li>
+          <li>Comece a pagar depois de 2, 3 ou 4 meses, da forma que você escolher</li>
+        </ul>
+      </article>
+      
+      <article>
+        <p>
+          Aproveite esse tempo para começar a pagar e antecipe a compra do seu tão sonhado carro 0KM.
+        </p>
+        <p>
+          Se programe para pagar menos no início e não comprometer seus outros compromissos financeiros.
+        </p>
+      </article>
+      
+      <article>
+        <h3>Quer pagar menos durante 12 meses? Aqui você pode.</h3>
+        <p>
+          Entrada a partir de 30%
+        </p>
+        <ul>
+          <li>Parcelas em até 60 meses.</li>
+          <li>12 primeiras parcelas com valor 50% menor que as parcelas regulares.</li>
+        </ul>
+      </article>
+    </section>
 
-            <div class="service-button">
-                <button>
-                    Agendar Serviço.
-                </button>
-            </div>
-
-            <img class="service-img" class="service-img" src="../fotos/Serviços.png"
-                alt="Serviços">
-            <article>
-                <h2>Clínica de Serviços</h2>
-                <p>
-                    A Clínica de Serviços Auto Elite é um espaço reservado a serviços de manutenção de seu veículo, que
-                    incluem check up e revisões para garantir a segurança de nossos clientes ao dirigir.
-                </p>
-            </article>
-            <img class="service-img" class="service-img" src="../fotos/Clínica de Serviços.png"
-                alt="Clinica de Serviços">
-            <article>
-                <h2>Revisão Auto Elite</h2>
-                <p>
-                    Atenção às necessidades do seu carro para que ele esteja sempre novo.
-                    Para valorizar seu automóvel, manter a garantia de fábrica e o desempenho perfeito, é essencial
-                    fazer as
-                    revisões recomendadas pela montadora nos prazos indicados.
-                    A Sempre tem o plano de manutenção adequado ao seu veículo, conforme manual do proprietário,
-                    acompanhando todas as recomendações dentro de checagem/substituições nos intervalos de 10mil km ou
-                    12
-                    meses.
-                </p>
-            </article>
-            <article>
-                <h2>Manutenção Preventiva</h2>
-                <p>
-                    A Manutenção Preventiva é importante para ter seu veículo sempre nas melhores condições de uso para
-                    sua
-                    segurança e de seus familiares. Os Kits Instalados Auto Elite são pacotes de serviços para a
-                    manutenção
-                    preventiva ou corretiva do seu veículo. Ao realizar o serviço, você tem garantia de 1 ano nas peças,
-                    aproveita a qualidade e ainda a conveniência de agendar o seu horário de atendimento.
-                </p>
-            </article>
-            <img class="service-img" class="service-img" src="../fotos/Revisão Auto Elite.png"
-                alt="Revisão Auto Elite">
-            <img class="service-img" class="service-img" src="../fotos/Manutenção Preventiva.png"
-                alt="Manutenção">
-            <article>
-                <h2>Lubrificantes Automotivos</h2>
-                <p>
-                    Mais saúde para o motor do seu carro.
-                    A Auto Elite recomenda lubrificantes específicos para cada tipo de motor, desenvolvidos com os mais
-                    rigorosos padrões de qualidade e tecnologia de ponta, atendendo às especificações técnicas e agindo
-                    ativamente na manutenção do seu veículo.
-                    Faça a troca de óleo dos períodos indicados pela marca de seu carro e mantenha o bom funcionamento
-                    do
-                    motor além de economizar combustível.
-                </p>
-            </article>
-            <div class="service-button">
-                <button>
-                    Agendar Serviço.
-                </button>
-            </div>
-            <img class="service-img" src="../fotos/Lubrificantes Automotivos.png"
-                alt="Lubrificantes Automotivos">
-            <article>
-                <h2>Funilaria e Pintura</h2>
-                <p>
-                    Seu carro sempre novo para você aqui na Auto Elite.
-                    Seu carro sempre novo com serviços de funilaria e pintura da nossa rede. Os melhores profissionais
-                    do
-                    mercado vão deixar seu carro como novo, temos os melhores serviços de estética automotivo e auto
-                    detailing.
-                    O atendimento exclusivo também deixa tudo mais fácil. Seu carro pode ficar pronto em, no máximo,
-                    duas
-                    horas.
-                </p>
-            </article>
-            <div class="service-button">
-                <button>
-                    Agendar Serviço.
-                </button>
-            </div>
-            <img class="service-img" src="../fotos/Funilaria e Pintura.png"
-                alt="Funilaria e Pintura">
-            <article>
-                <h2>Troca de Pneus</h2>
-                <p>
-                    Troque seu Pneu com a Auto Elite e mantenha seu carro seguro.
-                    Os pneus são um dos principais itens de segurança do seu veículo, para evitar problemas maiores,
-                    devemos
-                    ficar sempre atentos às condições de desgaste:
-                    Se os cabos e/ou tecidos estiverem à mostra.
-                    Se a banda de rolagem ou flanco estiver rachado ou com corte profundo.
-                    Se há algum calo ou protuberância.
-                    Por isso a Auto Elite está pronta para lhe atender para a troca do seu pneu. Aqui você encontra tudo
-                    o
-                    que precisa para rodar tranquilo.
-                </p>
-            </article>
-            <div class="service-button">
-                <button>
-                    Agendar Serviço.
-                </button>
-            </div>
-            <img class="service-img" src="../fotos/Troca de Pneus.png"
-                alt="Troca de Pneus">
-            <article>
-                <h2>Alinhamento e Balanceamento</h2>
-                <p>
-                    Quer ter o melhor desempenho no seu veículo e o menor desgaste nos pneus?
-                    É simples! Mantenha o alinhamento e o balanceamento corretos dos pneus e siga as dicas de manutenção
-                    presentes no manual do proprietário e no manual do fabricante do pneu. Estes cuidados fazem com que
-                    os
-                    pneus e vários outros itens de segurança e estrutura do seu veículo não sofram nenhum desgaste
-                    prematuro.
-                    Por isso a Auto Elite está pronta para lhe atender, aqui você encontra tudo o que precisa para rodar
-                    tranquilo.
-                </p>
-            </article>
-            <div class="service-button">
-                <button>
-                    Agendar Serviço.
-                </button>
-            </div>
-            <article>
-                <h2>Garantia Estendida</h2>
-                <p>Quer ter a tranquilidade de contar com a proteção e segurança para você e o seu carro por um período
-                    de
-                    até 5 anos?
-                    O Seguro Proteção Mecânica Auto Elite é o produto certo. Com ele, a garantia de fábrica do seu
-                    Chevrolet
-                    pode ser estendida por um período total de até 5 anos. Com esse serviço você garante economia para
-                    casos
-                    de imprevistos com o seu carro durante o período estendido, realizando eventuais reparos em nossa
-                    loja
-                    sempre com peças de fabrica e mão de obra gratuita para os itens cobertos.
-                </p>
-            </article>
-        </section>
-        <section>
-            <article>
-                <p>
-                    Confira os itens de cobertura da garantia estendida:
-                </p>
-            </article>
-            <article>
-                <h2>Cobertura Básica</h2>
-                <p>
-                    Itens inclusos na cobertura básica:
-                </p>
-                <ul>
-                    <li>Motor</li>
-                    <li>Câmbio</li>
-                    <li>Sistema de refrigeração</li>
-                    <li>Transmissão e caixa de transferência</li>
-                    <li>Diferencial (coroa e pinhão, eixos, engrenagens, rolamentos e buchas)</li>
-                </ul>
-            </article>
-            <article>
-                <h2>Cobertura Completa</h2>
-                <p>
-                    Todos os itens da cobertura básica, mais os itens abaixo
-                </p>
-                <ul>
-                    Sistema elétrico
-                    <li>Sistema de alimentação</li>
-                    <li>Suspensão</li>
-                    <li>Sistema de direção</li>
-                    <li>Sistema de ar condicionado</li>
-                    <li>Sistema de freios</li>
-                </ul>
-            </article>
-            <img class="service-img" src="../fotos/Garantia Estendida.png"
-                alt="Garantia Estendida">
-            <div id="financiamento">
-                <h2>Financiamento</h2>
-                <button>
-                    Solicitar Cotação
-                </button>
-            </div>
-            <article>
-                <p>
-                    O melhor caminho para você chegar até o seu carro 0KM.
-                </p>
-                <p>
-                    A Auto Elite Serviços Financeiros procura desenvolver soluções que se encaixem ao seu perfil, sempre
-                    atentos às suas necessidades. Ajudamos você a conquistar o seu sonho
-                </p>
-                <p>
-                    Confira os produtos e serviços da Auto Elite Serviços Financeiros abaixo:
-                </p>
-            </article>
-            <article>
-                <h3>Quer pagar sempre parcelas que cabem no seu bolso? Pode contar com a gente.</h3>
-                <p>
-                    Entrada a partir de 0%.
-                </p>
-                <ul>
-                    <li>Parcelas em até 60 meses.</li>
-                    <li>Consecutivas e de mesmo valor.</li>
-                </ul>
-            </article>
-            <article>
-                <h3>Quer estar sempre de carro 0KM? Aqui é o seu lugar.</h3>
-                <p>
-                    Parcelas em até 48 meses (exclusividade da Auto Elite Serviços Financeiros).
-                </p>
-                <ul>
-                    <li>Parcelas em até 60 meses.</li>
-                    <li>Parcela final no valor de 15% a 40% do valor do carro.</li>
-                </ul>
-            </article>
-            <article>
-                <p>
-                    Use o próprio veículo para quitar a parcela final e aproveite o saldo para dar de entrada em um
-                    novo.</p>
-                <p>
-                    Assim você paga parcelas mensais menores do que em um financiamento regular e ainda pode trocar de
-                    carro ao final do contrato, mantendo sua garagem sempre renovada. Venha até uma de nossas lojas
-                    fazer uma simulação.
-                </p>
-            </article>
-            <img class="service-img" src="../fotos/Financiamento.png"
-                alt="Financiamento">
-            <article>
-                <h3>Quer começar a pagar daqui a 2, 3 ou 4 meses? Aqui quem escolhe é você.</h3>
-                <p>
-                    Entrada a partir de 20%
-                </p>
-                <ul>
-                    <li>Parcelas fixas em até 60 meses</li>
-                    <li>Comece a pagar depois de 2, 3 ou 4 meses, da forma que você escolher</li>
-                </ul>
-            </article>
-            <article>
-                <p>
-                    Aproveite esse tempo para começar a pagar e antecipe a compra do seu tão sonhado carro 0KM.
-                </p>
-                <p>
-                    Se programe para pagar menos no início e não comprometer seus outros compromissos financeiros.
-                </p>
-            </article>
-            <article>
-                <h3>Quer pagar menos durante 12 meses? Aqui você pode.</h3>
-                <p>
-                    Entrada a partir de 30%
-                </p>
-                <ul>
-                    <li>Parcelas em até 60 meses.</li>
-                    <li>12 primeiras parcelas com valor 50% menor que as parcelas regulares.</li>
-                </ul>
-            </article>
-        </section>
-    </main>
+    <!-- Footer -->
     <footer>
-        <div class="container">
-            <div class="footer-grid">
-                <div class="footer-about">
-                    <h3>Auto<span>Elite</span></h3>
-                    <p>Há mais de 15 anos oferecendo os melhores veículos e serviços para nossos clientes.</p>
-                    <div class="social-links">
-                        <a href="#"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                        <a href="#"><i class="fab fa-youtube"></i></a>
-                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                    </div>
-                </div>
-                <div class="footer-links">
-                    <h4>Links Rápidos</h4>
-                    <ul>
-                        <li><a href="index.html">Início</a></li>
-                        <li><a href="veiculos.html">Veículos</a></li>
-                        <li><a href="servicos.html">Serviços</a></li>
-                        <li><a href="contatos.html">Contato</a></li>
-                    </ul>
-                </div>
-                <div class="footer-contact">
-                    <h4>Contato</h4>
-                    <ul>
-                        <li><i class="fas fa-map-marker-alt"></i> Av. Brasil, 1500 - São Paulo, SP</li>
-                        <li><i class="fas fa-phone"></i> (11) 3456-7890</li>
-                        <li><i class="fas fa-envelope"></i> contato@autoelite.com.br</li>
-                        <li><i class="fas fa-clock"></i> Seg-Sex: 8h às 18h | Sáb: 9h às 14h</li>
-                    </ul>
-                </div>
-                <div class="footer-newsletter">
-                    <h4>Newsletter</h4>
-                    <p>Receba nossas ofertas e novidades por e-mail</p>
-                    <form class="newsletter-form">
-                        <input type="email" placeholder="Seu e-mail">
-                        <button type="submit" class="btn">Assinar</button>
-                    </form>
-                </div>
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-about">
+            <h3>Auto<span>Elite</span></h3>
+            <p>Há mais de 15 anos oferecendo os melhores veículos e serviços para nossos clientes.</p>
+            <div class="social-links">
+              <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+              <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+              <a href="#" aria-label="Youtube"><i class="fab fa-youtube"></i></a>
+              <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
             </div>
-            <div class="footer-bottom">
-                <p>&copy; 2025 AutoElite. Todos os direitos reservados.</p>
-                <div class="footer-bottom-links">
-                    <a href="#">Política de Privacidade</a>
-                    <a href="#">Termos de Uso</a>
-                </div>
-            </div>
+          </div>
+          <div class="footer-links">
+            <h4>Links Rápidos</h4>
+            <ul>
+              <li><a href="index.html">Início</a></li>
+              <li><a href="veiculos.html">Veículos</a></li>
+              <li><a href="servicos.html">Serviços</a></li>
+              <li><a href="contatos.html">Contato</a></li>
+            </ul>
+          </div>
+          <div class="footer-contact">
+            <h4>Contato</h4>
+            <ul>
+              <li><i class="fas fa-map-marker-alt"></i> Av. Brasil, 1500 - São Paulo, SP</li>
+              <li><i class="fas fa-phone"></i> (11) 3456-7890</li>
+              <li><i class="fas fa-envelope"></i> contato@autoelite.com.br</li>
+              <li><i class="fas fa-clock"></i> Seg-Sex: 8h às 18h | Sáb: 9h às 14h</li>
+            </ul>
+          </div>
+          <div class="footer-newsletter">
+            <h4>Newsletter</h4>
+            <p>Receba nossas ofertas e novidades por e-mail</p>
+            <form class="newsletter-form">
+              <input type="email" placeholder="Seu e-mail" required>
+              <button type="submit" class="btn">Assinar</button>
+            </form>
+          </div>
         </div>
+        <div class="footer-bottom">
+          <p>&copy; 2025 AutoElite. Todos os direitos reservados.</p>
+          <div class="footer-bottom-links">
+            <a href="#">Política de Privacidade</a>
+            <a href="#">Termos de Uso</a>
+          </div>
+        </div>
+      </div>
     </footer>
-    <script src="/routes/sessao.js" defer></script>
+  </main>
+
+  <!-- Back to Top Button -->
+  <button id="back-to-top" aria-label="Voltar ao topo">
+    <i class="fas fa-chevron-up"></i>
+  </button>
+
+  <script src="/routes/sessao.js" defer></script>
+  <script src="scripts.js" defer></script>
 </body>
-
-
 </html>

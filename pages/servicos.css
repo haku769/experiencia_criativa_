@@ -1,62 +1,178 @@
-main {
-    margin: auto;
-    width: 100%;
-    max-width: 1200px;
-    padding: 20px;
-    text-align: justify;
+/* Estilos específicos para a página de serviços */
+
+/* Conteúdo principal */
+.main-content {
+  padding-top: 30px;
 }
 
+/* Artigos */
 article {
-    align-content: center;
-    background-color: white;
-    margin-top: 5px;
-    border-radius: 20px;
-    padding: 30px;
-    /* border: 1px solid black; */
-    box-shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.2);
+  align-content: center;
+  background-color: white;
+  margin: 20px 0;
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.2);
 }
 
+article h2 {
+  color: var(--text-color);
+  margin-bottom: 15px;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+article h3 {
+  color: var(--text-color);
+  margin: 10px 0;
+  font-size: 20px;
+  font-weight: 500;
+}
+
+article p {
+  margin-bottom: 15px;
+  line-height: 1.6;
+  color: var(--text-light);
+}
+
+/* Imagens de serviço */
 .service-img {
-    display: block;
-    max-width: 600px;
-    padding: 20px 0;
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 20px auto;
+  border-radius: 10px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
 }
 
+/* Botões de serviço */
 .service-button {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    padding: 20px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 20px 0;
 }
 
-button {
-    padding: 4px;
-    background-color: #4290e4;
-    color: white;
+.service-button button {
+  padding: 12px 24px;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  font-size: 16px;
+  cursor: pointer;
+  transition: var(--transition);
 }
 
+.service-button button:hover {
+  background-color: var(--primary-dark);
+  transform: translateY(-2px);
+}
+
+/* Listas */
 main ul {
-    list-style: disc;
-    margin-left: 40px;
+  list-style: disc;
+  margin-left: 40px;
+  margin-bottom: 20px;
 }
 
-h3 {
-    margin: 10px 0;
+main ul li {
+  margin-bottom: 8px;
+  color: var(--text-light);
 }
 
+/* Seção de financiamento */
 #financiamento {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    border: 1px solid black;
-    background-color: #4290e485;
-    padding: 20px 0;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  border: 1px solid var(--border-color);
+  background-color: rgba(66, 144, 228, 0.1);
+  padding: 30px;
+  margin: 30px 0;
+  border-radius: var(--radius-md);
 }
 
+#financiamento h2 {
+  margin: 0;
+  color: var(--primary-color);
+  font-size: 28px;
+  font-weight: 700;
+}
+
+#financiamento button {
+  padding: 12px 24px;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  font-size: 16px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+#financiamento button:hover {
+  background-color: var(--primary-dark);
+  transform: translateY(-2px);
+}
+
+/* Footer alternativo */
 .footer-alter {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    margin: 20px 0;
-    padding-bottom: 60px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin: 20px 0;
+  padding-bottom: 60px;
+}
+
+/* Responsividade */
+@media (max-width: 992px) {
+  article {
+    padding: 25px;
+  }
+  
+  .service-img {
+    max-width: 90%;
+  }
+}
+
+@media (max-width: 768px) {
+  article {
+    padding: 20px;
+  }
+  
+  article h2 {
+    font-size: 22px;
+  }
+  
+  article h3 {
+    font-size: 18px;
+  }
+  
+  #financiamento {
+    flex-direction: column;
+    gap: 20px;
+    text-align: center;
+  }
+}
+
+@media (max-width: 576px) {
+  article {
+    padding: 15px;
+    border-radius: 15px;
+  }
+  
+  article h2 {
+    font-size: 20px;
+  }
+  
+  .service-button button {
+    width: 100%;
+  }
+  
+  main ul {
+    margin-left: 20px;
+  }
 }
