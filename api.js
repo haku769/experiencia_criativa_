@@ -47,7 +47,7 @@ function autenticarToken(req, res, next) {
   const token = authHeader && authHeader.split(' ')[1];
   
   if (!token) {
-    console.log('⚠️ Token não fornecido');
+    console.log('⚠️ Token não fornecido necessário login ');
     return res.sendStatus(401);
   }
 

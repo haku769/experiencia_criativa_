@@ -154,7 +154,7 @@ async function carregarUsuarios() {
       usuarios.forEach(usuario => {
         const tr = document.createElement('tr');
         tr.innerHTML = `
-          <td><img src="/fotos/comercial.png" class="avatar-table"></td>
+          <img src="http://localhost:3000/imagem/${usuario.CPF}" alt="Avatar" class="avatar-table" onerror="this.src='/fotos/default.png'">
           <td>${usuario.NOME}</td>
           <td>${usuario.EMAIL}</td>
           <td>${usuario.FUNCAO || 'Cliente'}</td>
@@ -225,7 +225,6 @@ async function editUser(cpf) {
       document.getElementById('cpf').value = usuario.CPF;
       document.getElementById('user-role').value = usuario.FUNCAO || '';
       document.getElementById('senha').value = '';
-
       openModal(true);
     })
     .catch(err => console.error('Erro ao buscar usuário:', err));
