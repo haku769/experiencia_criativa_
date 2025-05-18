@@ -1,0 +1,287 @@
+/* Estilos para o indicador de carregamento */
+.loading-indicator {
+  text-align: center;
+  padding: 40px 0;
+  color: #666;
+  font-size: 18px;
+  width: 100%;
+}
+
+.loading-indicator:before {
+  content: "";
+  display: block;
+  width: 40px;
+  height: 40px;
+  border: 4px solid #ddd;
+  border-top-color: #007bff;
+  border-radius: 50%;
+  margin: 0 auto 15px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Estilos para mensagem de erro */
+.error-message {
+  text-align: center;
+  padding: 40px 0;
+  color: #721c24;
+  width: 100%;
+}
+
+.error-message i {
+  font-size: 48px;
+  margin-bottom: 15px;
+  color: #dc3545;
+}
+
+/* Estilos para nenhum resultado */
+.no-results {
+  text-align: center;
+  padding: 40px 0;
+  color: #666;
+  width: 100%;
+}
+
+.no-results i {
+  font-size: 48px;
+  margin-bottom: 15px;
+  color: #ccc;
+}
+
+/* Estilo para o botão de favoritos */
+.car-action-btn {
+  background-color: rgba(255, 255, 255, 0.8);
+  border: none;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.car-action-btn:hover {
+  background-color: #fff;
+  transform: scale(1.1);
+}
+
+/* Estilo para o botão de favorito ativo */
+.car-action-btn.favorito-ativo {
+  background-color: #007bff;
+  color: white;
+}
+
+.car-action-btn.favorito-ativo:hover {
+  background-color: #0056b3;
+}
+
+/* Animação para o ícone de coração */
+.car-action-btn i.fa-heart {
+  transition: transform 0.3s ease;
+}
+
+.car-action-btn:hover i.fa-heart {
+  transform: scale(1.2);
+}
+
+/* Contador de favoritos no menu */
+.contador-favoritos {
+  background-color: #dc3545;
+  color: white;
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  font-size: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  top: -8px;
+  left: -5px;
+}
+
+/* Mensagem de feedback */
+.mensagem-feedback {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  padding: 12px 20px;
+  border-radius: 5px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  animation: slidein 0.5s ease;
+}
+
+.mensagem-feedback.sucesso {
+  background-color: #28a745;
+  color: white;
+}
+
+.mensagem-feedback.info {
+  background-color: #17a2b8;
+  color: white;
+}
+
+.mensagem-feedback.erro {
+  background-color: #dc3545;
+  color: white;
+}
+
+.mensagem-feedback.fadeout {
+  animation: fadeout 0.5s ease forwards;
+}
+
+@keyframes slidein {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeout {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+/* Estilo para visualização em lista */
+.vehicles-list .car-card {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 20px;
+}
+
+.vehicles-list .car-image {
+  width: 300px;
+  flex-shrink: 0;
+}
+
+.vehicles-list .car-details {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 15px;
+}
+
+.vehicles-list .car-info,
+.vehicles-list .car-features {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.vehicles-list .car-info span,
+.vehicles-list .car-features span {
+  margin-right: 20px;
+  margin-bottom: 10px;
+}
+
+.vehicles-list .car-price {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: auto;
+}
+
+/* Estilo para o botão de favoritos no menu */
+.btn-favoritos {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 10px;
+  color: #333;
+  text-decoration: none;
+  position: relative;
+}
+
+.btn-favoritos i {
+  font-size: 20px;
+  color: #dc3545;
+}
+
+/* Estilo para o link de favoritos no menu */
+.favoritos-link {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.favoritos-link i {
+  margin-right: 5px;
+  color: #dc3545;
+}
+
+.contador-favoritos {
+  background-color: #dc3545;
+  color: white;
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  font-size: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: -8px;
+  right: -8px;
+}
+
+/* Esconder o contador quando não há favoritos */
+.contador-favoritos:empty,
+.contador-favoritos[style*="display: none"] {
+  display: none !important;
+}
+
+/* Estilo para o botão grande de favoritos */
+.favoritos-button-container {
+  display: flex;
+  justify-content: flex-end;
+  margin: 20px 0;
+}
+
+.btn-favoritos-large {
+  display: inline-flex;
+  align-items: center;
+  background-color: #f8f9fa;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 10px 20px;
+  color: #333;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.btn-favoritos-large i {
+  font-size: 18px;
+  color: #dc3545;
+  margin-right: 8px;
+}
+
+.btn-favoritos-large:hover {
+  background-color: #e9ecef;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.btn-favoritos-large .contador-favoritos {
+  position: relative;
+  top: -8px;
+  right: auto;
+  margin-left: 5px;
+}

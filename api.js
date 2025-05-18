@@ -80,7 +80,7 @@ userRouter.get('/', autenticarToken, (req, res) => {
   });
 });
 userRouter.post('/', async (req, res) => {
-  const { cpf, nome, email, telefone, senha } = req.body;
+  const { cpf, nome, email, telefone, senha} = req.body;
   const hashedSenha = await bcrypt.hash(senha, 10);
 
   const query = 'INSERT INTO Usuario (CPF, NOME, EMAIL, TELEFONE, SENHA) VALUES (?, ?, ?, ?, ?)';
@@ -168,44 +168,123 @@ const veiculoRouter = express.Router();
 // GET /veiculos - listar todos
 veiculoRouter.get('/', (req, res) => {
   console.log('📥 Requisição GET /veiculos');
-  const query = 'SELECT * FROM Veiculo';
-  db.query(query, (err, results) => {
+  
+  // Construir a consulta SQL base
+  let query = 'SELECT * FROM Veiculo';
+  const params = [];
+  
+  // Adicionar filtros se existirem
+  const filtros = [];
+  
+  if (req.query.marca) {
+    filtros.push('MARCA = ?');
+    params.push(req.query.marca);
+  }
+  
+  if (req.query.modelo) {
+    filtros.push('MODELO = ?');
+    params.push(req.query.modelo);
+  }
+  
+  // Adicionar cláusula WHERE se houver filtros
+  if (filtros.length > 0) {
+    query += ' WHERE ' + filtros.join(' AND ');
+  }
+  
+  // Executar a consulta
+  db.query(query, params, (err, results) => {
     if (err) {
       console.error('❌ Erro ao buscar veículos:', err);
       return res.status(500).json({ erro: 'Erro ao buscar veículos' });
     }
+    
+    // Converter BLOBs para base64 para enviar ao cliente
+    const veiculosComImagens = results.map(veiculo => {
+      if (veiculo.IMAGEM) {
+        // Converter o BLOB para base64
+        const imagemBase64 = `data:image/jpeg;base64,${veiculo.IMAGEM.toString('base64')}`;
+        return { ...veiculo, IMAGEM: imagemBase64 };
+      }
+      return veiculo;
+    });
+    
     console.log('✅ Veículos encontrados:', results.length);
-    res.status(200).json(results);
+    res.status(200).json(veiculosComImagens);
   });
 });
 
 // POST /veiculos - cadastrar novo
-veiculoRouter.post('/', (req, res) => {
+veiculoRouter.post('/', upload.single('imagem'), (req, res) => {
   const { marca, modelo, ano, valor, quilometragem, combustivel, cambio, condicao } = req.body;
-  const query = `
-    INSERT INTO Veiculo (MARCA, MODELO, ANO, VALOR, QUILOMETRAGEM, COMBUSTIVEL, CAMBIO, CONDICAO)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-  `;
-  db.query(query, [marca, modelo, ano, valor, quilometragem, combustivel, cambio, condicao], (err) => {
+  
+  // Verificar se há uma imagem
+  const imagem = req.file ? req.file.buffer : null;
+  
+  let query;
+  let params;
+  
+  if (imagem) {
+    query = `
+      INSERT INTO Veiculo (MARCA, MODELO, ANO, VALOR, QUILOMETRAGEM, COMBUSTIVEL, CAMBIO, CONDICAO, IMAGEM)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `;
+    params = [marca, modelo, ano, valor, quilometragem, combustivel, cambio, condicao, imagem];
+  } else {
+    query = `
+      INSERT INTO Veiculo (MARCA, MODELO, ANO, VALOR, QUILOMETRAGEM, COMBUSTIVEL, CAMBIO, CONDICAO)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+    `;
+    params = [marca, modelo, ano, valor, quilometragem, combustivel, cambio, condicao];
+  }
+  
+  db.query(query, params, (err, result) => {
     if (err) {
       console.error('❌ Erro ao cadastrar veículo:', err);
       return res.status(500).json({ erro: 'Erro ao cadastrar veículo' });
     }
     console.log('✅ Veículo cadastrado com sucesso!');
-    res.status(201).json({ mensagem: 'Veículo cadastrado com sucesso' });
+    res.status(201).json({ mensagem: 'Veículo cadastrado com sucesso', id: result.insertId });
   });
 });
 
 // PUT /veiculos/:id - atualizar veículo
-veiculoRouter.put('/:id', (req, res) => {
+veiculoRouter.put('/:id', upload.single('imagem'), (req, res) => {
   const { id } = req.params;
-  const { marca, modelo, ano, valor, quilometragem, combustivel, cambio, condicao } = req.body;
-  const query = `
-    UPDATE Veiculo
-    SET MARCA = ?, MODELO = ?, ANO = ?, VALOR = ?, QUILOMETRAGEM = ?, COMBUSTIVEL = ?, CAMBIO = ?, CONDICAO = ?
-    WHERE ID_VEICULO = ?
-  `;
-  db.query(query, [marca, modelo, ano, valor, quilometragem, combustivel, cambio, condicao, id], (err) => {
+  const { marca, modelo, ano, valor, quilometragem, combustivel, cambio, condicao, removerImagem } = req.body;
+  
+  // Verificar se há uma imagem
+  const imagem = req.file ? req.file.buffer : null;
+  
+  let query;
+  let params;
+  
+  if (imagem) {
+    query = `
+      UPDATE Veiculo
+      SET MARCA = ?, MODELO = ?, ANO = ?, VALOR = ?, QUILOMETRAGEM = ?, COMBUSTIVEL = ?, CAMBIO = ?, CONDICAO = ?, IMAGEM = ?
+      WHERE ID_VEICULO = ?
+    `;
+    params = [marca, modelo, ano, valor, quilometragem, combustivel, cambio, condicao, imagem, id];
+  } else {
+    // Se não houver nova imagem, verificar se devemos remover a imagem existente
+    if (removerImagem === 'true') {
+      query = `
+        UPDATE Veiculo
+        SET MARCA = ?, MODELO = ?, ANO = ?, VALOR = ?, QUILOMETRAGEM = ?, COMBUSTIVEL = ?, CAMBIO = ?, CONDICAO = ?, IMAGEM = NULL
+        WHERE ID_VEICULO = ?
+      `;
+      params = [marca, modelo, ano, valor, quilometragem, combustivel, cambio, condicao, id];
+    } else {
+      query = `
+        UPDATE Veiculo
+        SET MARCA = ?, MODELO = ?, ANO = ?, VALOR = ?, QUILOMETRAGEM = ?, COMBUSTIVEL = ?, CAMBIO = ?, CONDICAO = ?
+        WHERE ID_VEICULO = ?
+      `;
+      params = [marca, modelo, ano, valor, quilometragem, combustivel, cambio, condicao, id];
+    }
+  }
+  
+  db.query(query, params, (err) => {
     if (err) {
       console.error(`❌ Erro ao atualizar veículo ${id}:`, err);
       return res.status(500).json({ erro: 'Erro ao atualizar veículo' });
@@ -245,8 +324,14 @@ veiculoRouter.get('/:id', (req, res) => {
       return res.status(404).json({ mensagem: 'Veículo não encontrado' });
     }
 
+    // Converter BLOB para base64
+    const veiculo = results[0];
+    if (veiculo.IMAGEM) {
+      veiculo.IMAGEM = `data:image/jpeg;base64,${veiculo.IMAGEM.toString('base64')}`;
+    }
+
     console.log(`✅ Veículo ${id} encontrado`);
-    res.status(200).json(results[0]);
+    res.status(200).json(veiculo);
   });
 });
 
@@ -328,5 +413,3 @@ app.get('/', (req, res) => {
 app.listen(PORT, () => {
   console.log(`🚀 Servidor rodando em http://localhost:${PORT}`);
 });
-
-
