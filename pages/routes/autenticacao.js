@@ -3,11 +3,13 @@ document.addEventListener('DOMContentLoaded', () => {
   const formContainers = document.querySelectorAll('.form-container');
   const forgotPasswordLink = document.getElementById('forgot-password-link');
   const backToLogin = document.getElementById('back-to-login');
-  const registerForm = document.querySelector('#register-form form');
+  const registerForm = document.getElementById('form-registro');
   const loginForm = document.querySelector('#login-form form');
   const recoveryForm = document.querySelector('#forgot-password-form form');
   const inputPhone = document.querySelector('#register-phone');
   const inputCPF = document.querySelector('#cpf');
+  
+  
 
   function showForm(formId) {
     formContainers.forEach(form => form.classList.remove('active'));
@@ -151,6 +153,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const registerPasswordInput = document.querySelector('#register-password');
   const registerConfirmPasswordInput = document.querySelector('#register-confirm-password');
   const termsCheckbox = document.querySelector('#terms'); 
+  
 
   setupRealTimeValidation(
     registerNameInput,
@@ -226,7 +229,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const cpf = inputCPF.value.replace(/\D/g, '');
     const senha = document.querySelector('#register-password').value;
     const confirmarSenha = document.querySelector('#register-confirm-password').value;
-    const termos = termsCheckbox.checked; // Use a variável termsCheckbox
+    const termos = termsCheckbox.checked;
     const foto = document.querySelector('#register-photo').files[0];
 
     // const dataNascimento = document.querySelector('#register-birthdate').value;
