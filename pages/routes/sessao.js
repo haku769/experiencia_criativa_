@@ -51,6 +51,10 @@ function renderUserInfo(usuario) {
 
   if (usuario.funcao !== "Admin") removeCrudIfAnonymous();
 }
+function addUser() { // Garantir que estamos adicionando um novo usuário
+  resetForm();          // Limpar o formulário
+  openModal(false);     // Abrir o modal em modo "Adicionar"
+}
 
 async function carregarUsuarios() {
   const tabela = document.getElementById('users-table-body');
@@ -62,7 +66,7 @@ async function carregarUsuarios() {
   usuarios.forEach(usuario => {
     const tr = document.createElement('tr');
     tr.innerHTML = `
-      <img src="http://localhost:3000/imagem/${usuario.CPF}" alt="Avatar" class="avatar-table" onerror="this.src='/fotos/default.png'">
+      <img src="http://localhost:3000/imagem/${usuario.CPF}" alt="Avatar" class="avatar-table" onerror="this.src='/fotos/comercial.png'">
       <td>${usuario.NOME}</td>
       <td>${usuario.EMAIL}</td>
       <td>${usuario.FUNCAO || 'Cliente'}</td>
@@ -74,6 +78,15 @@ async function carregarUsuarios() {
     `;
     tabela.appendChild(tr);
   });
+}
+function collectFormData() {
+  return {
+    nome: document.getElementById('nome').value,
+    email: document.getElementById('email').value,
+    telefone: document.getElementById('telefone').value,
+    funcao: document.getElementById('user-role').value,
+    senha: document.getElementById('senha').value
+  };
 }
 
 function setupFormHandlers() {
@@ -95,6 +108,10 @@ function setupFormHandlers() {
     } else {
       const cpf = document.getElementById('cpf').value;
       const senha = document.getElementById('senha').value;
+
+      console.log('Dados para cadastro:', { cpf, ...data, senha });
+      ;
+
       await fetchAutenticado('http://localhost:3000/usuarios', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
@@ -105,16 +122,6 @@ function setupFormHandlers() {
       carregarUsuarios();
     }
   });
-}
-
-function collectFormData() {
-  return {
-    nome: document.getElementById('nome').value,
-    email: document.getElementById('email').value,
-    telefone: document.getElementById('telefone').value,
-    funcao: document.getElementById('user-role').value,
-    senha: document.getElementById('senha').value || undefined
-  };
 }
 
 function setupAvatarHandlers() {
@@ -144,10 +151,19 @@ function closeModal() {
 
 function resetForm() {
   document.getElementById('user-form')?.reset();
-  document.getElementById('avatar-preview-img').src = '/fotos/comercial.png';
+  const previewImg = document.getElementById('avatar-preview-img');
+  if (previewImg) previewImg.src = '/fotos/comercial.png';
+
   currentUserId = null;
-  document.querySelectorAll('.form-tab-content').forEach(content => content.classList.remove('active'));
-  document.getElementById('tab-personal').classList.add('active');
+
+  document.querySelectorAll('.form-tab-content').forEach(content => {
+    content.classList.remove('active');
+  });
+
+  const tabPersonal = document.getElementById('tab-personal');
+  if (tabPersonal) {
+    tabPersonal.classList.add('active');
+  }
 }
 
 function viewUser(cpf) {

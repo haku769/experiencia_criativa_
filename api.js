@@ -105,20 +105,43 @@ userRouter.get('/:cpf', autenticarToken, (req, res) => {
 
 
 
-userRouter.post('/', async (req, res) => {
-  const { cpf, nome, email, telefone, senha} = req.body;
-  const hashedSenha = await bcrypt.hash(senha, 10);
+userRouter.post('/', upload.single('foto'), async (req, res) => {
+  try {
+    console.log('Recebido no POST /usuarios:', req.body);
+    let { cpf, nome, email, telefone, senha } = req.body;
 
-  const query = 'INSERT INTO Usuario (CPF, NOME, EMAIL, TELEFONE, SENHA) VALUES (?, ?, ?, ?, ?)';
-  db.query(query, [cpf, nome, email, telefone, hashedSenha], (err) => {
-    if (err) {
-      console.error('❌ Erro ao cadastrar usuário:', err);
-      return res.status(500).json({ erro: 'Erro ao cadastrar usuário' });
+    if (!cpf || !nome || !email || !telefone || !senha) {
+      return res.status(400).json({ erro: 'Campos obrigatórios faltando' });
     }
-    console.log('✅ Usuário cadastrado com sucesso!');
-    res.status(201).json({ mensagem: 'Usuário cadastrado com sucesso' });
-  });
+
+    // Limpa máscara do CPF
+    cpf = cpf.replace(/\D/g, '');
+
+    const hashedSenha = await bcrypt.hash(senha, 10);
+
+    // Se recebeu arquivo, pega o caminho. Senão, usa padrão
+    const caminhoFoto = req.file ? '/' + req.file.path.replace(/\\/g, '/') : '/fotos/comercial.png';
+
+    // Ajuste a query e nomes dos campos conforme seu banco
+    const query = 'INSERT INTO Usuario (CPF, NOME, EMAIL, TELEFONE, SENHA, FOTO) VALUES (?, ?, ?, ?, ?, ?)';
+
+    db.query(query, [cpf, nome, email, telefone, hashedSenha, caminhoFoto], (err) => {
+      if (err) {
+        console.error('❌ Erro ao cadastrar usuário:', err);
+        if (err.code === 'ER_DUP_ENTRY') {
+          return res.status(409).json({ erro: 'CPF já cadastrado' });
+        }
+        return res.status(500).json({ erro: 'Erro ao cadastrar usuário' });
+      }
+      console.log('✅ Usuário cadastrado com sucesso!');
+      res.status(201).json({ mensagem: 'Usuário cadastrado com sucesso' });
+    });
+  } catch (error) {
+    console.error('Erro inesperado no POST /usuarios:', error);
+    res.status(500).json({ erro: 'Erro inesperado no servidor' });
+  }
 });
+
 
 
 // ==============================

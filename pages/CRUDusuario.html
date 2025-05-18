@@ -2,260 +2,239 @@
 <html lang="pt-BR">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gerenciamento de Usuários - AutoElite</title>
-    <link rel="stylesheet" href="/styles.css">
-    <link rel="stylesheet" href="/CRUDusuario.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gerenciamento de Usuários - AutoElite</title>
+  <link rel="stylesheet" href="/styles.css" />
+  <link rel="stylesheet" href="/CRUDusuario.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer" />
 </head>
 
 <body>
-    <!-- Header -->
-    <header>
-        <div class="container">
-            <div class="logo">
-                <h1>Auto<span>Elite</span></h1>
-            </div>
-            <nav>
-                <ul>
-                    <li><a href="index.html">Início</a></li>
-                    <li><a href="veiculos.html">Veículos</a></li>
-                    <li><a href="servicos.html">Serviços</a></li>
-                    <li><a href="contatos.html">Contato</a></li>
-                    <li id="CrudUsuario"><a href="CRUDusuario.html">CRUDusuario</a></li>
-                    <li id="CrudVeiculos"><a href="CRUDveiculos.html">CRUDveiculos</a></li>
-                </ul>
-            </nav>
-            <div class="login-button">
-                <a href="/autenticacao.html" class="btn-login" id="login-link">
-                </a>
-                <div id="user-info" class="user-info"></div>
-            </div>
-        </div>
-    </header>
-
-    <!-- Breadcrumb -->
-    <div class="breadcrumb-container">
-        <div class="container">
-            <div class="breadcrumb">
-                <a href="/index.html"><i class="fas fa-home"></i> Início</a> &gt;
-                <a href="/admin/dashboard.html">Painel Admin</a> &gt;
-                <span>Gerenciamento de Usuários</span>
-            </div>
-        </div>
+  <!-- Header -->
+  <header>
+    <div class="container">
+      <div class="logo">
+        <h1>Auto<span>Elite</span></h1>
+      </div>
+      <nav>
+        <ul>
+          <li><a href="index.html">Início</a></li>
+          <li><a href="veiculos.html">Veículos</a></li>
+          <li><a href="servicos.html">Serviços</a></li>
+          <li><a href="contatos.html">Contato</a></li>
+          <li id="CrudUsuario"><a href="CRUDusuario.html">CRUDusuario</a></li>
+          <li id="CrudVeiculos"><a href="CRUDveiculos.html">CRUDveiculos</a></li>
+        </ul>
+      </nav>
+      <div class="login-button">
+        <a href="/autenticacao.html" class="btn-login" id="login-link"></a>
+        <div id="user-info" class="user-info"></div>
+      </div>
     </div>
+  </header>
 
-    <!-- Admin Content -->
-    <section class="admin-section">
-        <div class="container">
-            <div class="admin-header">
-                <div class="admin-title">
-                    <h1><i class="fas fa-users"></i> Gerenciamento de Usuários</h1>
-                </div>
-                <button class="btn btn-primary" id="btn-add-user" onclick="addUser()">Adicionar Usuário</button>
-            </div>
+  <!-- Breadcrumb -->
+  <div class="breadcrumb-container">
+    <div class="container">
+      <div class="breadcrumb">
+        <a href="/index.html"><i class="fas fa-home"></i> Início</a> &gt;
+        <a href="/admin/dashboard.html">Painel Admin</a> &gt;
+        <span>Gerenciamento de Usuários</span>
+      </div>
+    </div>
+  </div>
 
-            <!-- Tabela de Usuários -->
-            <div class="table-container">
-                <div class="table-responsive">
-                    <table class="admin-table">
-                        <thead>
-                            <tr>
-                                <th>Avatar</th>
-                                <th>Nome</th>
-                                <th>Email</th>
-                                <th>Função</th>
-                                <th>Ações</th>
-                            </tr>
-                        </thead>
-                        <tbody id="users-table-body">
-                            <!-- Linhas de usuários serão preenchidas via JavaScript -->
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+  <!-- Admin Content -->
+  <section class="admin-section">
+    <div class="container">
+      <div class="admin-header">
+        <div class="admin-title">
+          <h1><i class="fas fa-users"></i> Gerenciamento de Usuários</h1>
         </div>
-    </section>
+        <button class="btn btn-primary" id="btn-add-user" onclick="addUser()">Adicionar Usuário</button>
+      </div>
 
-    <!-- Modal de Formulário -->
-    <!-- Modal de Formulário -->
-<div id="user-modal" class="modal">
+      <!-- Tabela de Usuários -->
+      <div class="table-container">
+        <div class="table-responsive">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Avatar</th>
+                <th>Nome</th>
+                <th>Email</th>
+                <th>Função</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody id="users-table-body">
+              <!-- Linhas de usuários serão preenchidas via JavaScript -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Modal de Formulário -->
+  <div id="user-modal" class="modal">
     <div class="modal-content">
-        <div class="modal-header">
-            <h2 id="modal-title">Adicionar Usuário</h2>
-            <button class="close-modal" onclick="closeModal()"><i class="fas fa-times"></i></button>
-        </div>
-        <div class="modal-body">
-            <form id="user-form">
-                <input type="hidden" id="user-id" name="id">
+      <div class="modal-header">
+        <h2 id="modal-title">Adicionar Usuário</h2>
+        <button class="close-modal" onclick="closeModal()"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="modal-body">
+        <form id="user-form">
+          <input type="hidden" id="user-id" name="id" />
 
-                <div class="avatar-upload-container">
-                    <div class="avatar-preview">
-                        <img id="avatar-preview-img" src="/fotos/comercial.png" alt="Prévia do Avatar">
-                    </div>
-                    <div class="avatar-upload-wrapper">
-                        <label for="avatar-upload" class="avatar-upload-label">Escolher Foto</label>
-                        <input type="file" id="avatar-upload" accept="image/*" style="display:none;">
-                    </div>
-                </div>
+          <div class="avatar-upload-container">
+            <div class="avatar-preview">
+              <img id="avatar-preview-img" src="/fotos/comercial.png" alt="Prévia do Avatar" />
+            </div>
+            <div class="avatar-upload-wrapper">
+              <label for="avatar-upload" class="avatar-upload-label">Escolher Foto</label>
+              <input type="file" id="avatar-upload" accept="image/*" style="display:none;" />
+            </div>
+          </div>
 
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="nome">Nome completo</label>
-                        <input type="text" id="nome" name="nome" required>
-                        <small class="form-text text-muted validation-message">Digite o nome do usuário.</small>
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="email" id="email" name="email" required>
-                        <small class="form-text text-muted validation-message">Digite um email válido.</small>
-                    </div>
-                   <div class="form-group">
-                        <label for="senha">Senha:</label>
-                        <div class="password-input-container">
-                            <input type="password" id="senha" class="form-control">
-                            <span class="password-pisca" data-target="senha"><i class="fas fa-eye"></i></span>
-                        </div>
-                    </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="nome">Nome completo</label>
+              <input type="text" id="nome" name="nome" required />
+              <small class="form-text text-muted validation-message">Digite o nome do usuário.</small>
+            </div>
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email" required />
+              <small class="form-text text-muted validation-message">Digite um email válido.</small>
+            </div>
+            <div class="form-group">
+              <label for="senha">Senha:</label>
+              <div class="password-input-container">
+                <input type="password" id="senha" class="form-control" />
+                <span class="password-pisca" data-target="senha"><i class="fas fa-eye"></i></span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="confirmar-senha">Confirmar Senha:</label>
+              <div class="password-input-container">
+                <input type="password" id="confirmar-senha" class="form-control" />
+                <span class="password-pisca" data-target="confirmar-senha"><i class="fas fa-eye"></i></span>
+              </div>
+              <small class="form-text text-muted validation-message">Confirme a senha.</small>
+            </div>
+            <div class="form-group">
+              <label for="telefone">Telefone</label>
+              <input type="tel" id="telefone" name="telefone" />
+              <small class="form-text text-muted validation-message">Digite o telefone do usuário.</small>
+            </div>
+            <div class="form-group">
+              <label for="cpf">CPF</label>
+              <input type="text" id="cpf" name="cpf" required />
+              <small class="form-text text-muted validation-message">Digite o CPF do usuário.</small>
+            </div>
+          </div>
 
-                    <div class="form-group">
-                        <label for="confirmar-senha">Confirmar Senha:</label>
-                        <div class="password-input-container">
-                            <input type="password" id="confirmar-senha" class="form-control">
-                            <span class="password-pisca" data-target="confirmar-senha"><i class="fas fa-eye"></i></span>
-                        </div>
-                        <small class="form-text text-muted validation-message">Confirme a senha.</small>
-                    </div>
-                        
-                    </div>
-                    </body>
-                    </html>
-                    <div class="form-group">
-                        <label for="telefone">Telefone</label>
-                        <input type="tel" id="telefone"  name="telefone">
-                        <small class="form-text text-muted validation-message">Digite o telefone do usuário.</small>
-                    </div>
-                    <div class="form-group">
-                        <label for="cpf">CPF</label>
-                        <input type="text" id="cpf" name="cpf" required>
-                        <small class="form-text text-muted validation-message">Digite o CPF do usuário.</small>
-                    </div>
-                </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="user-role">Função</label>
+              <select id="user-role" name="role">
+                <option value="">Selecione uma função</option>
+                <option value="admin">Administrador</option>
+                <option value="Cliente">Cliente</option>
+              </select>
+            </div>
+          </div>
 
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="user-role">Função</label>
-                        <select id="user-role" name="role">
-                            <option value="">Selecione uma função</option>
-                            <option value="admin">Administrador</option>
-                            <option value="Cliente">Cliente</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="form-actions">
-                    <button type="button" class="btn btn-outline" onclick="closeModal()">Cancelar</button>
-                    <button type="submit" class="btn btn-primary">Salvar</button>
-
-                </div>
-            </form>
-        </div>
+          <div class="form-actions">
+            <button type="button" class="btn btn-outline" onclick="closeModal()">Cancelar</button>
+            <button type="submit" class="btn btn-primary">Salvar</button>
+          </div>
+        </form>
+      </div>
     </div>
-</div>
+  </div>
 
-<div id="delete-modal" class="modal">
+  <!-- Modal de Confirmação de Exclusão -->
+  <div id="delete-modal" class="modal">
     <div class="modal-content">
-        <div class="modal-header">
-            <h2 id="modal-title">Confirmar Exclusão</h2>
-            <button class="close-modal" onclick="closeDeleteModal()"><i class="fas fa-times"></i></button>
+      <div class="modal-header">
+        <h2>Confirmar Exclusão</h2>
+        <button class="close-modal" onclick="closeDeleteModal()"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="modal-body">
+        <div class="delete-icon">
+          <i class="fas fa-exclamation-triangle"></i>
         </div>
-        <div class="modal-body">
-            <p>Tem certeza que deseja excluir <strong id="delete-user-name">este usuário</strong>?</p>
-            <div class="modal-buttons">
-                <button onclick="confirmDelete()" class="btn btn-danger">Excluir</button>
-                <button onclick="closeDeleteModal()" class="btn btn-secondary">Cancelar</button>
-            </div>
+        <p>Tem certeza que deseja excluir o usuário <span id="delete-user-name">João Silva</span>?</p>
+        <p class="warning-text">Esta ação não pode ser desfeita.</p>
+        <div class="form-actions">
+          <button type="button" class="btn btn-outline" onclick="closeDeleteModal()">Cancelar</button>
+          <button type="button" class="btn btn-danger" onclick="confirmDelete()">Excluir</button>
         </div>
+      </div>
     </div>
-</div>
+  </div>
 
-
-    <!-- Modal de Confirmação de Exclusão -->
-    <div id="delete-modal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>Confirmar Exclusão</h2>
-                <button class="close-modal" onclick="closeDeleteModal()"><i class="fas fa-times"></i></button>
-            </div>
-            <div class="modal-body">
-                <div class="delete-icon">
-                    <i class="fas fa-exclamation-triangle"></i>
-                </div>
-                <p>Tem certeza que deseja excluir o usuário <span id="delete-user-name">João Silva</span>?</p>
-                <p class="warning-text">Esta ação não pode ser desfeita.</p>
-
-                <div class="form-actions">
-                    <button type="button" class="btn btn-outline" onclick="closeDeleteModal()">Cancelar</button>
-                    <button type="button" class="btn btn-danger" onclick="confirmDelete()">Excluir</button>
-                </div>
-            </div>
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-about">
+          <h3>Auto<span>Elite</span></h3>
+          <p>Há mais de 15 anos oferecendo os melhores veículos e serviços para nossos clientes.</p>
+          <div class="social-links">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-youtube"></i></a>
+            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+          </div>
         </div>
+        <div class="footer-links">
+          <h4>Links Rápidos</h4>
+          <ul>
+            <li><a href="/index.html">Início</a></li>
+            <li><a href="/veiculos.html">Veículos</a></li>
+            <li><a href="/servicos.html">Serviços</a></li>
+            <li><a href="/contatos.html">Contato</a></li>
+          </ul>
+        </div>
+        <div class="footer-contact">
+          <h4>Contato</h4>
+          <ul>
+            <li><i class="fas fa-map-marker-alt"></i> Av. Brasil, 1500 - São Paulo, SP</li>
+            <li><i class="fas fa-phone"></i> (11) 3456-7890</li>
+            <li><i class="fas fa-envelope"></i> contato@autoelite.com.br</li>
+            <li><i class="fas fa-clock"></i> Seg-Sex: 8h às 18h | Sáb: 9h às 14h</li>
+          </ul>
+        </div>
+        <div class="footer-newsletter">
+          <h4>Newsletter</h4>
+          <p>Receba nossas ofertas e novidades por e-mail</p>
+          <form class="newsletter-form">
+            <input type="email" placeholder="Seu e-mail" />
+            <button type="submit" class="btn">Assinar</button>
+          </form>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2025 AutoElite. Todos os direitos reservados.</p>
+        <div class="footer-bottom-links">
+          <a href="#">Política de Privacidade</a>
+          <a href="#">Termos de Uso</a>
+        </div>
+      </div>
     </div>
+  </footer>
 
-    <!-- Footer -->
-    <footer>
-        <div class="container">
-            <div class="footer-grid">
-                <div class="footer-about">
-                    <h3>Auto<span>Elite</span></h3>
-                    <p>Há mais de 15 anos oferecendo os melhores veículos e serviços para nossos clientes.</p>
-                    <div class="social-links">
-                        <a href="#"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                        <a href="#"><i class="fab fa-youtube"></i></a>
-                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                    </div>
-                </div>
-                <div class="footer-links">
-                    <h4>Links Rápidos</h4>
-                    <ul>
-                        <li><a href="/index.html">Início</a></li>
-                        <li><a href="/veiculos.html">Veículos</a></li>
-                        <li><a href="/servicos.html">Serviços</a></li>
-                        <li><a href="/contatos.html">Contato</a></li>
-                    </ul>
-                </div>
-                <div class="footer-contact">
-                    <h4>Contato</h4>
-                    <ul>
-                        <li><i class="fas fa-map-marker-alt"></i> Av. Brasil, 1500 - São Paulo, SP</li>
-                        <li><i class="fas fa-phone"></i> (11) 3456-7890</li>
-                        <li><i class="fas fa-envelope"></i> contato@autoelite.com.br</li>
-                        <li><i class="fas fa-clock"></i> Seg-Sex: 8h às 18h | Sáb: 9h às 14h</li>
-                    </ul>
-                </div>
-                <div class="footer-newsletter">
-                    <h4>Newsletter</h4>
-                    <p>Receba nossas ofertas e novidades por e-mail</p>
-                    <form class="newsletter-form">
-                        <input type="email" placeholder="Seu e-mail">
-                        <button type="submit" class="btn">Assinar</button>
-                    </form>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2025 AutoElite. Todos os direitos reservados.</p>
-                <div class="footer-bottom-links">
-                    <a href="#">Política de Privacidade</a>
-                    <a href="#">Termos de Uso</a>
-                </div>
-            </div>
-        </div>
-    </footer>
-    <script src="/routes/sessao.js" defer></script>
-    <script src="/routes/manuntencao.js" defer></script>
+  <script src="/routes/sessao.js" defer></script>
+  <script src="/routes/manuntencao.js" defer></script>
 </body>
 
 </html>
