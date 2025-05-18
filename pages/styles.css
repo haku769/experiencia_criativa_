@@ -1106,8 +1106,8 @@ footer {
 }
 
 .avatar-preview {
-    width: 120px; /* Aumente o tamanho conforme necessário */
-    height: 120px; /* Aumente o tamanho conforme necessário */
+    width: 80px; /* Aumente o tamanho conforme necessário */
+    height: 80px; /* Aumente o tamanho conforme necessário */
     border-radius: 50%;
     overflow: hidden;
     margin-bottom: 10px;
@@ -1118,8 +1118,8 @@ footer {
 }
 
 .avatar-preview img {
-    width: 100%;
-    height: 100%;
+    width: 60%;
+    height: 60%;
     object-fit: cover; /* Garante que a imagem cubra o container, cortando se necessário */
 }
 
@@ -1177,6 +1177,7 @@ footer {
   gap: 10px;
 }
 
+/*  perfil */
 .perfil-link {
   display: flex;
   align-items: center;
@@ -1238,4 +1239,12 @@ footer {
 
 .btn-home:hover {
   background-color: #7e2f2f;
+}
+.password-pisca {
+    position: absolute; /* Permite posicionar o ícone sobre o campo */
+    top: 50%; /* Centraliza verticalmente */
+    right: 10px; /* Ajuste a distância do ícone da borda direita */
+    transform: translateY(-50%); /* Ajuste fino para centralizar verticalmente */
+    cursor: pointer; /* Muda o cursor para indicar que é clicável */
+    color: #888; /* Cor do ícone */
 }

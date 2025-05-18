@@ -150,7 +150,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const registerEmailInput = document.querySelector('#register-email');
   const registerPasswordInput = document.querySelector('#register-password');
   const registerConfirmPasswordInput = document.querySelector('#register-confirm-password');
-  const termsCheckbox = document.querySelector('#terms'); // Adicionei a seleção do checkbox de termos
+  const termsCheckbox = document.querySelector('#terms'); 
 
   setupRealTimeValidation(
     registerNameInput,
@@ -390,23 +390,23 @@ document.addEventListener('DOMContentLoaded', () => {
 };
 
   }
+  
 });
-document.addEventListener('DOMContentLoaded', function() {
-    const passwordInputs = document.querySelectorAll('input[type="password"]');
-    const toggleButtons = document.querySelectorAll('.password-toggle');
+document.addEventListener('DOMContentLoaded', function () {
+  const toggleButtons = document.querySelectorAll('.password-toggle');
 
-    toggleButtons.forEach((toggle, index) => {
-        toggle.addEventListener('click', function() {
-            // Encontra o input de senha correto com base na estrutura HTML
-            const passwordInput = this.previousElementSibling;
-            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-            passwordInput.setAttribute('type', type);
+  toggleButtons.forEach((toggle) => {
+    toggle.addEventListener('click', function () {
+      const input = this.parentElement.querySelector('input');
+      if (input) {
+        input.type = input.type === 'password' ? 'text' : 'password';
+      }
 
-            const eyeIcon = this.querySelector('i');
-            if (eyeIcon) {
-                eyeIcon.classList.toggle('fa-eye');
-                eyeIcon.classList.toggle('fa-eye-slash');
-            }
-        });
+      const icon = this.querySelector('i');
+      if (icon) {
+        icon.classList.toggle('fa-eye');
+        icon.classList.toggle('fa-eye-slash');
+      }
     });
+  });
 });

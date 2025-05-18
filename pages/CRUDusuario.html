@@ -116,15 +116,22 @@
                         <label for="senha">Senha:</label>
                         <div class="password-input-container">
                             <input type="password" id="senha" class="form-control">
-                            <span class="password-toggle" data-target="senha"><i class="fas fa-eye"></i></span>
+                            <span class="password-pisca" data-target="senha"><i class="fas fa-eye"></i></span>
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label for="confirmar-senha">Confirmar Senha:</label>
-                        <input type="password" id="confirmar-senha" class="form-control">
+                        <div class="password-input-container">
+                            <input type="password" id="confirmar-senha" class="form-control">
+                            <span class="password-pisca" data-target="confirmar-senha"><i class="fas fa-eye"></i></span>
+                        </div>
                         <small class="form-text text-muted validation-message">Confirme a senha.</small>
                     </div>
+                        
+                    </div>
+                    </body>
+                    </html>
                     <div class="form-group">
                         <label for="telefone">Telefone</label>
                         <input type="tel" id="telefone"  name="telefone">
@@ -248,6 +255,7 @@
         </div>
     </footer>
     <script src="/routes/sessao.js" defer></script>
+    <script src="/routes/manuntencao.js" defer></script>
 </body>
 
 </html>
