@@ -23,6 +23,36 @@ document.addEventListener("DOMContentLoaded", async () => {
   setupAvatarHandlers();
 });
 
+// Funções de verificação de acesso - NOVAS FUNÇÕES
+function isLoggedIn() {
+  return localStorage.getItem('usuarioLogado') !== null;
+}
+
+function isAdmin() {
+  try {
+    const usuario = JSON.parse(localStorage.getItem('usuarioLogado') || '{}');
+    return usuario.funcao === 'Admin';
+  } catch (e) {
+    console.error("Erro ao verificar função do usuário:", e);
+    return false;
+  }
+}
+
+function protectAdminRoute() {
+  if (!isLoggedIn()) {
+    window.location.href = '/autenticacao.html';
+    return false;
+  }
+  
+  if (!isAdmin()) {
+    window.location.href = '/unauthorized.html';
+    return false;
+  }
+  
+  return true;
+}
+// Fim das novas funções
+
 function removeCrudIfAnonymous() {
   document.getElementById("CrudUsuario")?.remove();
   document.getElementById("CrudVeiculos")?.remove();
@@ -51,9 +81,11 @@ function renderUserInfo(usuario) {
 
   if (usuario.funcao !== "Admin") removeCrudIfAnonymous();
 }
-function addUser() { // Garantir que estamos adicionando um novo usuário
-  resetForm();          // Limpar o formulário
-  openModal(false);     // Abrir o modal em modo "Adicionar"
+
+// Resto do código original sem alterações
+function addUser() { 
+  resetForm();          
+  openModal(false);     
 }
 
 async function carregarUsuarios() {
@@ -79,6 +111,7 @@ async function carregarUsuarios() {
     tabela.appendChild(tr);
   });
 }
+
 function collectFormData() {
   return {
     nome: document.getElementById('nome').value,
@@ -230,6 +263,9 @@ function showPopup(message) {
   popup.appendChild(closeBtn);
   overlay.appendChild(popup);
   document.body.appendChild(overlay);
+  overlay.onclick = (e) => {
+    if (e.target === overlay) overlay.remove();
+  };
 }
 
 function isTokenExpirado(token) {
