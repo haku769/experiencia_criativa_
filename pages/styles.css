@@ -1248,3 +1248,9 @@ footer {
     cursor: pointer; /* Muda o cursor para indicar que é clicável */
     color: #888; /* Cor do ícone */
 }
+.erro {
+  color: #e74c3c;
+  font-size: 0.85rem;
+  margin-top: 4px;
+  display: block;
+}
