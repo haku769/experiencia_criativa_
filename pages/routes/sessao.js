@@ -1,3 +1,4 @@
+let currentUserId = null;
 document.addEventListener("DOMContentLoaded", function () {
   const userInfo = document.getElementById("user-info");
   const userForm = document.getElementById('user-form');
@@ -111,7 +112,6 @@ carregarUsuarios();
       .then(() => {
         showPopup('Usuário criado com sucesso!');
         closeModal();
-        setTimeout(() => location.reload(), 500);
       });
   }
 });
@@ -137,8 +137,6 @@ carregarUsuarios();
     }
   });
 });
-
-let currentUserId = null;
 
 function bufferToBase64(buffer) {
   let binary = "";
