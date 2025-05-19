@@ -64,57 +64,60 @@ document.addEventListener("DOMContentLoaded", function () {
 carregarUsuarios();
 
 
-  document.getElementById('user-form').addEventListener('submit', async function (e) {
-  e.preventDefault();
+  document.addEventListener("DOMContentLoaded", function () {
+  const userForm = document.getElementById('user-form');
+  if (!userForm) return;
 
-  const formData = new FormData();
-  const nome = document.getElementById('nome').value;
-  const email = document.getElementById('email').value;
-  const telefone = document.getElementById('telefone').value;
-  const funcao = document.getElementById('user-role')?.value;
-  const senha = document.getElementById('senha')?.value;
-  const cpf = document.getElementById('cpf')?.value;
-  const imagem = document.getElementById('imagem')?.files[0]; // Campo tipo <input type="file" id="imagem">
+  userForm.addEventListener('submit', async function (e) {
+    e.preventDefault();
 
-  if (nome) formData.append('nome', nome);
-  if (email) formData.append('email', email);
-  if (telefone) formData.append('telefone', telefone);
-  if (funcao) formData.append('funcao', funcao);
-  if (senha) formData.append('senha', senha);
-  if (cpf) formData.append('cpf', cpf);
-  if (imagem) formData.append('imagem', imagem); // Adiciona a nova imagem
+    const formData = new FormData();
+    const nome = document.getElementById('nome').value;
+    const email = document.getElementById('email').value;
+    const telefone = document.getElementById('telefone').value;
+    const funcao = document.getElementById('user-role')?.value;
+    const senha = document.getElementById('senha')?.value;
+    const cpf = document.getElementById('cpf')?.value;
+    const imagem = document.getElementById('imagem')?.files[0];
 
-  if (currentUserId) {
-    // Atualiza o usuário
-    await fetchAutenticado(`http://localhost:3000/usuarios/${currentUserId}`, {
-      method: 'PUT',
-      body: formData // Envia como multipart/form-data
-    })
-      .then(res => res.json())
-      .then(usuarioAtualizado => {
-        showPopup('Usuário atualizado com sucesso!');
-        closeModal();
-        const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
-        if (usuarioLogado && usuarioLogado.CPF === usuarioAtualizado.CPF) {
-          localStorage.setItem('usuarioLogado', JSON.stringify(usuarioAtualizado));
-        }
-        setTimeout(() => location.reload(), 500);
-      });
+    if (nome) formData.append('nome', nome);
+    if (email) formData.append('email', email);
+    if (telefone) formData.append('telefone', telefone);
+    if (funcao) formData.append('funcao', funcao);
+    if (senha) formData.append('senha', senha);
+    if (cpf) formData.append('cpf', cpf);
+    if (imagem) formData.append('imagem', imagem);
 
-  } else {
-    // Criação de novo usuário
-    await fetchAutenticado(`http://localhost:3000/usuarios`, {
-      method: 'POST',
-      body: formData
-    })
-      .then(res => res.json())
-      .then(() => {
-        showPopup('Usuário criado com sucesso!');
-        closeModal();
-        setTimeout(() => location.reload(), 500);
-      });
-  }
+    if (currentUserId) {
+      await fetchAutenticado(`http://localhost:3000/usuarios/${currentUserId}`, {
+        method: 'PUT',
+        body: formData
+      })
+        .then(res => res.json())
+        .then(usuarioAtualizado => {
+          showPopup('Usuário atualizado com sucesso!');
+          closeModal();
+          const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
+          if (usuarioLogado && usuarioLogado.CPF === usuarioAtualizado.CPF) {
+            localStorage.setItem('usuarioLogado', JSON.stringify(usuarioAtualizado));
+          }
+          setTimeout(() => location.reload(), 500);
+        });
+    } else {
+      await fetchAutenticado(`http://localhost:3000/usuarios`, {
+        method: 'POST',
+        body: formData
+      })
+        .then(res => res.json())
+        .then(() => {
+          showPopup('Usuário criado com sucesso!');
+          closeModal();
+          setTimeout(() => location.reload(), 500);
+        });
+    }
+  });
 });
+
 
 
 
@@ -465,3 +468,41 @@ cpfInput.addEventListener('input', function(e) {
   
   e.target.value = valor;
 });
+const emailInput = document.getElementById('email');
+emailInput.addEventListener('input', function(e) {
+  let valor = e.target.value;
+
+  // Remove o domínio se o usuário tentar digitar algo diferente
+  valor = valor.replace(/@[^@]*$/, '');
+
+  // Adiciona @gmail.com automaticamente se ainda não tiver
+  if (!valor.endsWith('@gmail.com')) {
+    valor = valor + '@gmail.com';
+  }
+
+  e.target.value = valor;
+});
+const senhaInput = document.getElementById('senha');
+const confirmarInput = document.getElementById('confirmar-senha');
+
+senhaInput.addEventListener('input', validarSenhas);
+confirmarInput.addEventListener('input', validarSenhas);
+
+function validarSenhaSegura(senha) {
+  const regex = /^(?=.*[0-9])(?=.*[!@#$%^&*()_+{}\[\]:;"'<>,.?/~\\-]).{8,}$/;
+  return regex.test(senha);
+}
+
+function validarSenhas() {
+  const senha = senhaInput.value;
+  const confirmar = confirmarInput.value;
+
+  const senhaValida = validarSenhaSegura(senha);
+  const confirmacaoCorreta = senha === confirmar && confirmar.length > 0;
+
+  // Cor da senha
+  senhaInput.style.borderColor = senhaValida ? 'green' : 'red';
+
+  // Cor da confirmação
+  confirmarInput.style.borderColor = confirmacaoCorreta ? 'green' : 'red';
+}
