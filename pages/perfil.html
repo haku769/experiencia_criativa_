@@ -6,17 +6,19 @@
   <title>Editar Perfil</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gradient-to-br from-blue-950 via-indigo-900 to-blue-800 min-h-screen font-sans text-white">
+<body class="bg-blue-50 min-h-screen font-sans text-gray-800">
+
   <!-- Alerta de sucesso fixo no topo -->
   <div id="alerta-sucesso" class="hidden fixed top-4 left-1/2 transform -translate-x-1/2 bg-green-600 text-white px-6 py-3 rounded-lg shadow-lg z-50 transition-opacity duration-500 opacity-0">
     Perfil atualizado com sucesso! Redirecionando...
   </div>
 
-  <div class="max-w-4xl mx-auto p-6 bg-gray-800 rounded-lg shadow-lg mt-10">
-    <h1 class="text-2xl font-semibold text-white mb-6">Editar Perfil</h1>
+  <!-- Container principal responsivo -->
+  <div class="max-w-4xl w-[95%] mx-auto p-6 bg-white text-gray-800 rounded-lg shadow-md mt-10">
+    <h1 class="text-2xl font-semibold mb-6 text-center sm:text-left">Editar Perfil</h1>
 
-    <div id="mensagemPerfil" class="hidden transition-opacity duration-500 ease-in-out opacity-0 max-w-md mx-auto mb-6 px-4 py-2 rounded-lg border-l-4 bg-green-900 border-green-500 text-green-100 shadow-md text-sm flex items-center gap-2">
-      <svg class="w-5 h-5 text-green-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+    <div id="mensagemPerfil" class="hidden transition-opacity duration-500 ease-in-out opacity-0 max-w-md mx-auto mb-6 px-4 py-2 rounded-lg border-l-4 bg-green-100 border-green-400 text-green-800 shadow-md text-sm flex items-center gap-2">
+      <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
       </svg>
       <span id="mensagemTexto"></span>
@@ -25,39 +27,39 @@
     <form id="form-perfil" class="space-y-6">
       <!-- Nome -->
       <div>
-        <label for="nome" class="block text-sm font-medium text-gray-200">Nome:</label>
-        <input type="text" id="nome" name="nome" required class="mt-1 p-3 w-full bg-gray-900 text-white border border-gray-700 rounded-md" />
-        <p id="erro-nome" class="text-red-400 text-sm hidden mt-1">Nome inválido (mínimo 3 caracteres).</p>
+        <label for="nome" class="block text-sm font-medium">Nome:</label>
+        <input type="text" id="nome" name="nome" required class="mt-1 p-3 w-full bg-white text-gray-800 border border-gray-300 rounded-md shadow-sm" />
+        <p id="erro-nome" class="text-red-500 text-sm hidden mt-1">Nome inválido (mínimo 3 caracteres).</p>
       </div>
 
       <!-- Email -->
       <div>
-        <label for="email" class="block text-sm font-medium text-gray-200">Email:</label>
-        <input type="email" id="email" name="email" required class="mt-1 p-3 w-full bg-gray-900 text-white border border-gray-700 rounded-md" />
-        <p id="erro-email" class="text-red-400 text-sm hidden mt-1">Email inválido.</p>
+        <label for="email" class="block text-sm font-medium">Email:</label>
+        <input type="email" id="email" name="email" required class="mt-1 p-3 w-full bg-white text-gray-800 border border-gray-300 rounded-md shadow-sm" />
+        <p id="erro-email" class="text-red-500 text-sm hidden mt-1">Email inválido.</p>
       </div>
 
       <!-- Telefone -->
       <div>
-        <label for="telefone" class="block text-sm font-medium text-gray-200">Telefone:</label>
-        <input type="tel" id="telefone" name="telefone" class="mt-1 p-3 w-full bg-gray-900 text-white border border-gray-700 rounded-md" />
-        <p id="erro-telefone" class="text-red-400 text-sm hidden mt-1">Telefone inválido.</p>
+        <label for="telefone" class="block text-sm font-medium">Telefone:</label>
+        <input type="tel" id="telefone" name="telefone" class="mt-1 p-3 w-full bg-white text-gray-800 border border-gray-300 rounded-md shadow-sm" />
+        <p id="erro-telefone" class="text-red-500 text-sm hidden mt-1">Telefone inválido.</p>
       </div>
 
       <!-- Foto de Perfil -->
       <div>
-        <label for="fotoPerfil" class="block text-sm font-medium text-gray-200">Foto de Perfil:</label>
-        <input type="file" id="fotoPerfil" name="foto" accept="image/*" class="mt-1 block w-full text-sm text-gray-300 bg-gray-900 border border-gray-700 rounded-md cursor-pointer" />
-        <p id="erro-foto" class="text-red-400 text-sm hidden mt-1"></p>
+        <label for="fotoPerfil" class="block text-sm font-medium">Foto de Perfil:</label>
+        <input type="file" id="fotoPerfil" name="foto" accept="image/*" class="mt-1 block w-full text-sm text-gray-700 bg-white border border-gray-300 rounded-md cursor-pointer" />
+        <p id="erro-foto" class="text-red-500 text-sm hidden mt-1"></p>
         <img id="imagemAtual" src="" alt="Imagem atual" class="mt-4 rounded-full w-24 h-24 hidden object-cover" />
       </div>
 
       <!-- Senha -->
       <div>
-        <label for="senha" class="block text-sm font-medium text-gray-200">Nova Senha:</label>
+        <label for="senha" class="block text-sm font-medium">Nova Senha:</label>
         <div class="relative">
-          <input type="password" id="senha" name="senha" class="mt-1 p-3 w-full bg-gray-900 text-white border border-gray-700 rounded-md pr-10" />
-          <button type="button" id="toggle-senha" class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400">
+          <input type="password" id="senha" name="senha" class="mt-1 p-3 w-full bg-white text-gray-800 border border-gray-300 rounded-md pr-10 shadow-sm" />
+          <button type="button" id="toggle-senha" class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500">
             <svg id="icone-senha" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-5 h-5">
               <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
               <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 
@@ -65,15 +67,15 @@
             </svg>
           </button>
         </div>
-        <p id="erro-senha" class="text-red-400 text-sm hidden mt-1">Senha deve ter no mínimo 6 caracteres.</p>
+        <p id="erro-senha" class="text-red-500 text-sm hidden mt-1">Senha deve ter no mínimo 6 caracteres.</p>
       </div>
 
       <!-- Confirmar Senha -->
       <div>
-        <label for="confirmarSenha" class="block text-sm font-medium text-gray-200">Confirmar Senha:</label>
+        <label for="confirmarSenha" class="block text-sm font-medium">Confirmar Senha:</label>
         <div class="relative">
-          <input type="password" id="confirmarSenha" name="confirmarSenha" class="mt-1 p-3 w-full bg-gray-900 text-white border border-gray-700 rounded-md pr-10" />
-          <button type="button" id="toggle-confirmar-senha" class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400">
+          <input type="password" id="confirmarSenha" name="confirmarSenha" class="mt-1 p-3 w-full bg-white text-gray-800 border border-gray-300 rounded-md pr-10 shadow-sm" />
+          <button type="button" id="toggle-confirmar-senha" class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500">
             <svg id="icone-confirmar" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-5 h-5">
               <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
               <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 
@@ -81,45 +83,36 @@
             </svg>
           </button>
         </div>
-        <p id="erro-confirmar-senha" class="text-red-400 text-sm hidden mt-1">As senhas não coincidem.</p>
+        <p id="erro-confirmar-senha" class="text-red-500 text-sm hidden mt-1">As senhas não coincidem.</p>
       </div>
 
       <!-- Botão -->
-      <div class="text-right">
-        <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 transition duration-300 text-white font-semibold py-2 px-6 rounded-lg">
+      <div class="text-center sm:text-right">
+        <button type="submit" class="bg-blue-400 hover:bg-blue-500 transition duration-300 text-white font-semibold py-2 px-6 rounded-lg shadow-md">
           Salvar Alterações
         </button>
       </div>
     </form>
   </div>
 
-  <!-- Suporte para exibir nome e imagem do usuário logado no topo (opcional) -->
-  <header class="absolute top-4 right-6 flex items-center gap-4" id="perfil-area" style="display: none;">
-    <span id="nome-usuario" class="text-white font-semibold"></span>
-    <img id="foto-perfil" src="" alt="Foto perfil" class="w-10 h-10 rounded-full object-cover border border-white" />
+  <!-- Header com nome e imagem do usuário -->
+  <header class="fixed top-4 right-4 flex items-center gap-3 sm:gap-4" id="perfil-area" style="display: none;">
+    <span id="nome-usuario" class="text-gray-800 text-sm sm:text-base font-semibold truncate max-w-[120px] sm:max-w-[180px]"></span>
+    <img id="foto-perfil" src="" alt="Foto perfil" class="w-9 h-9 sm:w-10 sm:h-10 rounded-full object-cover border border-gray-300" />
   </header>
 
-  <!-- Simulação de link de login (opcional) -->
-  <a href="/login.html" id="login-link" class="absolute top-4 right-6 text-white underline">Login</a>
+  <!-- Link de login -->
+  <a href="/login.html" id="login-link" class="fixed top-4 right-4 text-blue-600 underline text-sm sm:text-base">Login</a>
 
   <script src="perfil.js"></script>
   <script>
-  document.getElementById("form-perfil").addEventListener("submit", function (e) {
-    e.preventDefault();
-
-    // Aqui você pode incluir validações, envio ao backend, etc.
-    // Suponha que a atualização foi bem-sucedida...
-
-    const alerta = document.getElementById("alerta-sucesso");
-    alerta.classList.remove("hidden");
-    setTimeout(() => alerta.classList.remove("opacity-0"), 10); // animação fade-in
-
-    // Redireciona após 2.5 segundos
-    setTimeout(() => {
-      window.location.href = "index.html";
-    }, 2500);
-  });
-</script>
-
+    document.getElementById("form-perfil").addEventListener("submit", function (e) {
+      e.preventDefault();
+      const alerta = document.getElementById("alerta-sucesso");
+      alerta.classList.remove("hidden");
+      setTimeout(() => alerta.classList.remove("opacity-0"), 10);
+      setTimeout(() => window.location.href = "index.html", 1500);
+    });
+  </script>
 </body>
 </html>

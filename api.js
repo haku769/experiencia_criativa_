@@ -248,17 +248,28 @@ app.put('/usuario/perfil', autenticarToken, upload.single('foto'), async (req, r
 
 
 // PUT /usuarios/:cpf
-userRouter.put('/:cpf', (req, res) => {
+
+userRouter.put('/:cpf', upload.single('imagem'), (req, res) => {
   const { cpf } = req.params;
   const { nome, email, telefone } = req.body;
-  console.log(`📥 Requisição PUT /usuarios/${cpf}`, req.body);
-  const query = 'UPDATE Usuario SET NOME = ?, EMAIL = ?, TELEFONE = ? WHERE CPF = ?';
-  db.query(query, [nome, email, telefone, cpf], (err) => {
+  const imagem = req.file?.filename; // se a imagem for opcional
+
+  let query = 'UPDATE Usuario SET NOME = ?, EMAIL = ?, TELEFONE = ?';
+  const params = [nome, email, telefone];
+
+  if (imagem) {
+    query += ', FOTO = ?';
+    params.push(imagem);
+  }
+
+  query += ' WHERE CPF = ?';
+  params.push(cpf);
+
+  db.query(query, params, (err) => {
     if (err) {
       console.error(`❌ Erro ao atualizar usuário ${cpf}:`, err);
       return res.status(500).json({ erro: 'Erro ao atualizar usuário' });
     }
-    console.log(`✅ Usuário ${cpf} atualizado`);
     res.status(200).json({ mensagem: 'Usuário atualizado com sucesso!' });
   });
 });

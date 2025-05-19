@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (mensagem) mensagem.textContent = 'Não autorizado. Faça login novamente.';
     return;
   }
-
+  
   // Busca dados do perfil
   fetch('http://localhost:3000/usuario/perfil', {
     headers: {
