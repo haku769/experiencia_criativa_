@@ -16,6 +16,15 @@
 </head>
 
 <body>
+  <!-- Adicionar verificação de acesso no início do body -->
+  <script src="/routes/sessao.js"></script>
+  <script>
+    // Verificar autorização antes de carregar o conteúdo da página
+    if (!protectAdminRoute()) {
+      document.body.innerHTML = 'Redirecionando...';
+    }
+  </script>
+
   <!-- Header -->
   <header>
     <div class="container">
@@ -234,7 +243,7 @@
     </div>
   </footer>
 
-  <script src="/routes/sessao.js" defer></script>
+  <!-- Remover a segunda inclusão do script de sessão, pois já foi incluído no início -->
   <script src="/routes/manuntencao.js" defer></script>
 </body>
 
