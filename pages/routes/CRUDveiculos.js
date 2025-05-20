@@ -277,7 +277,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const id = botao.dataset.id;
       
       // Confirmação antes de excluir
-      if (confirm(`Tem certeza que deseja excluir este veículo?`)) {
+      if (confirmPopup(`Tem certeza que deseja excluir este veículo?`)) {
         try {
           const response = await fetch(`${endpoint}/${id}`, { method: "DELETE" });
           

@@ -3,14 +3,26 @@ document.addEventListener("DOMContentLoaded", () => {
   carregarFavoritos()
 
   // Configurar botão de limpar favoritos
-  const btnLimparFavoritos = document.getElementById("limpar-favoritos")
-  if (btnLimparFavoritos) {
-    btnLimparFavoritos.addEventListener("click", () => {
-      if (confirm("Tem certeza que deseja remover todos os veículos dos favoritos?")) {
-        limparTodosFavoritos()
-      }
-    })
-  }
+const btnLimparFavoritos = document.getElementById("limpar-favoritos");
+const popup = document.getElementById("popup-confirmacao");
+const btnConfirmar = document.getElementById("confirmar-limpar");
+const btnCancelar = document.getElementById("cancelar-limpar");
+
+if (btnLimparFavoritos) {
+  btnLimparFavoritos.addEventListener("click", () => {
+    popup.classList.remove("hidden");
+  });
+}
+
+btnConfirmar.addEventListener("click", () => {
+  limparTodosFavoritos();
+  popup.classList.add("hidden");
+});
+
+btnCancelar.addEventListener("click", () => {
+  popup.classList.add("hidden");
+});
+
 
   // Atualizar contador
   atualizarContadorFavoritos()
