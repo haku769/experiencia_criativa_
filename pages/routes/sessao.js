@@ -397,97 +397,92 @@ function showPopup(message) {
   }
 }
 
-function confirmPopup(message) {
-  return new Promise((resolve) => {
-    // Se já existe um popup, remove
-    const existingOverlay = document.getElementById('custom-popup-overlay');
-    if (existingOverlay) {
-      existingOverlay.remove();
-    }
+function showPopup(message) {
+  const existingOverlay = document.getElementById('custom-popup-overlay');
+  if (existingOverlay) existingOverlay.remove();
 
-    // Cria o overlay
-    const overlay = document.createElement('div');
-    overlay.id = 'custom-popup-overlay';
-    overlay.style.position = 'fixed';
-    overlay.style.top = '0';
-    overlay.style.left = '0';
-    overlay.style.width = '100vw';
-    overlay.style.height = '100vh';
-    overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
-    overlay.style.display = 'flex';
-    overlay.style.alignItems = 'center';
-    overlay.style.justifyContent = 'center';
-    overlay.style.zIndex = '10000';
-
-    // Cria o popup
-    const popup = document.createElement('div');
-    popup.style.backgroundColor = '#fff';
-    popup.style.padding = '30px';
-    popup.style.borderRadius = '10px';
-    popup.style.boxShadow = '0 4px 20px rgba(0,0,0,0.3)';
-    popup.style.width = '400px';
-    popup.style.maxWidth = '90%';
-    popup.style.textAlign = 'center';
-    popup.style.fontFamily = 'Arial, sans-serif';
-    popup.style.fontSize = '18px';
-    popup.style.position = 'relative';
-
-    // Mensagem
-    const messageEl = document.createElement('div');
-    messageEl.innerText = message;
-
-    // Botões
-    const buttonContainer = document.createElement('div');
-    buttonContainer.style.marginTop = '20px';
-    buttonContainer.style.display = 'flex';
-    buttonContainer.style.justifyContent = 'center';
-    buttonContainer.style.gap = '15px';
-
-    const confirmBtn = document.createElement('button');
-    confirmBtn.innerText = 'Confirmar';
-    confirmBtn.style.padding = '10px 20px';
-    confirmBtn.style.backgroundColor = '#28a745';
-    confirmBtn.style.color = '#fff';
-    confirmBtn.style.border = 'none';
-    confirmBtn.style.borderRadius = '5px';
-    confirmBtn.style.cursor = 'pointer';
-
-    const cancelBtn = document.createElement('button');
-    cancelBtn.innerText = 'Cancelar';
-    cancelBtn.style.padding = '10px 20px';
-    cancelBtn.style.backgroundColor = '#dc3545';
-    cancelBtn.style.color = '#fff';
-    cancelBtn.style.border = 'none';
-    cancelBtn.style.borderRadius = '5px';
-    cancelBtn.style.cursor = 'pointer';
-
-    confirmBtn.onclick = () => {
-      overlay.remove();
-      resolve(true);
-    };
-
-    cancelBtn.onclick = () => {
-      overlay.remove();
-      resolve(false);
-    };
-
-    // Monta o popup
-    buttonContainer.appendChild(confirmBtn);
-    buttonContainer.appendChild(cancelBtn);
-    popup.appendChild(messageEl);
-    popup.appendChild(buttonContainer);
-    overlay.appendChild(popup);
-    document.body.appendChild(overlay);
-
-    // Fechar ao clicar fora do popup
-    overlay.onclick = (e) => {
-      if (e.target === overlay) {
-        overlay.remove();
-        resolve(false);
-      }
-    };
+  const overlay = document.createElement('div');
+  overlay.id = 'custom-popup-overlay';
+  Object.assign(overlay.style, {
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    width: '100vw',
+    height: '100vh',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    zIndex: 10000
   });
+
+  const popup = document.createElement('div');
+  Object.assign(popup.style, {
+    backgroundColor: '#fff',
+    padding: '30px',
+    borderRadius: '10px',
+    boxShadow: '0 4px 20px rgba(0,0,0,0.3)',
+    width: '400px',
+    maxWidth: '90%',
+    textAlign: 'center',
+    fontFamily: 'Arial, sans-serif',
+    fontSize: '18px'
+  });
+
+  const messageEl = document.createElement('div');
+  messageEl.innerText = message;
+
+  const closeBtn = document.createElement('button');
+  closeBtn.innerText = 'Fechar';
+  Object.assign(closeBtn.style, {
+    marginTop: '20px',
+    padding: '10px 20px',
+    backgroundColor: '#333',
+    color: '#fff',
+    border: 'none',
+    borderRadius: '5px',
+    cursor: 'pointer'
+  });
+
+  // Ao clicar em "Fechar", remove overlay e redireciona
+  closeBtn.onclick = () => {
+    overlay.remove();
+    window.location.href = '/autenticacao.html'; // redirecionamento aqui
+  };
+
+  popup.appendChild(messageEl);
+  popup.appendChild(closeBtn);
+  overlay.appendChild(popup);
+  document.body.appendChild(overlay);
+
+  overlay.onclick = (e) => {
+    if (e.target === overlay) {
+      overlay.remove();
+      window.location.href = '/autenticacao.html'; // também redireciona se clicar fora do popup
+    }
+  };
 }
+
+
+document.addEventListener('DOMContentLoaded', function () {
+  const toggleButtons = document.querySelectorAll('.password-toggle');
+
+  toggleButtons.forEach((toggle) => {
+    toggle.addEventListener('click', function () {
+      const input = this.parentElement.querySelector('input');
+      if (input) {
+        input.type = input.type === 'password' ? 'text' : 'password';
+      }
+
+      const icon = this.querySelector('i');
+      if (icon) {
+        icon.classList.toggle('fa-eye');
+        icon.classList.toggle('fa-eye-slash');
+      }
+    });
+  });
+});
+
 
 
 // ========== NOVAS FUNÇÕES DE AUTENTICAÇÃO ==========
@@ -543,16 +538,16 @@ async function fetchAutenticado(url, options = {}) {
     return fetch(url, options); 
   }
 
-  if (isTokenExpirado(token)) {
-    token = await renovarToken();
-    if (!token) {
-      showPopup('Sessão expirada. Faça login novamente.');
-      localStorage.removeItem('token');
-      localStorage.removeItem('usuarioLogado');
-      window.location.href = '/autenticacao.html';
-      return;
-    }
+if (isTokenExpirado(token)) {
+  token = await renovarToken();
+  if (!token) {
+    showPopup('Sessão expirada. Faça login novamente.');
+    localStorage.removeItem('token');
+    localStorage.removeItem('usuarioLogado');
+    return;
   }
+}
+
 
   const headers = {
     ...options.headers,
