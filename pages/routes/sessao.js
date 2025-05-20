@@ -1,6 +1,6 @@
 let currentUserId = null;
 
-document.addEventListener("DOMContentLoaded",  function () {
+document.addEventListener("DOMContentLoaded", function () {
   // Referências do DOM
   const userInfo = document.getElementById("user-info");
   const userForm = document.getElementById('user-form');
@@ -16,6 +16,7 @@ document.addEventListener("DOMContentLoaded",  function () {
   function removeElement(element) {
     if (element) element.remove();
   }
+  
 
   // Se não tem usuário logado, remove as seções do CRUD
   if (!usuarioJSON) {
@@ -46,62 +47,6 @@ document.addEventListener("DOMContentLoaded",  function () {
           <button id="logout-btn" class="btn-login">Sair</button>
           <button id="editar-perfil-btn" class="btn-login">Editar Perfil</button>
         `;
-      }
-      if (usuario && usuario.nome) renderUserInfo(usuario);
-    } catch (e) {
-      console.error("Erro ao ler usuário do localStorage:", e);
-    }
-  }
-
-  carregarUsuarios();
-  setupFormHandlers();
-  setupAvatarHandlers();
-
-// Funções de verificação de acesso - NOVAS FUNÇÕES
-function isLoggedIn() {
-  return localStorage.getItem('usuarioLogado') !== null;
-}
-
-function isAdmin() {
-  try {
-    const usuario = JSON.parse(localStorage.getItem('usuarioLogado') || '{}');
-    return usuario.funcao === 'Admin';
-  } catch (e) {
-    console.error("Erro ao verificar função do usuário:", e);
-    return false;
-  }
-}
-
-function protectAdminRoute() {
-  if (!isLoggedIn()) {
-    window.location.href = '/autenticacao.html';
-    return false;
-  }
-  
-  if (!isAdmin()) {
-    window.location.href = '/unauthorized.html';
-    return false;
-  }
-  
-  return true;
-}
-// Fim das novas funções
-
-function removeCrudIfAnonymous() {
-  document.getElementById("CrudUsuario")?.remove();
-  document.getElementById("CrudVeiculos")?.remove();
-}
-
-function renderUserInfo(usuario) {
-  const userInfo = document.getElementById("user-info");
-  if (!userInfo) return;
-
-  const fotoHTML = usuario.cpf ? `<img src="http://localhost:3000/imagem/${usuario.cpf}" alt="FotoDoUsuario" class="foto-usuario">` : "";
-  userInfo.innerHTML = `
-    <span class="user-welcome">${fotoHTML} <strong>${usuario.nome.split(" ")[0]}</strong></span>
-    <button id="logout-btn" class="btn-login">Sair</button>
-    <button id="editar-perfil-btn" class="btn-login">Editar Perfil</button>
-  `;
 
         // Botão logout
         const logoutBtn = document.getElementById("logout-btn");
@@ -122,8 +67,12 @@ function renderUserInfo(usuario) {
           removeElement(crudUsuario);
           removeElement(crudVeiculos);
         }
+
       }
-  
+    } catch (e) {
+      console.error("Erro ao ler usuário do localStorage:", e);
+    }
+  }
 
   // Se não existe o formulário, termina aqui
   if (!userForm) return;
@@ -198,7 +147,33 @@ function renderUserInfo(usuario) {
     }
   });
 });
+function isLoggedIn() {
+  return localStorage.getItem('usuarioLogado') !== null;
+}
 
+function isAdmin() {
+  try {
+    const usuario = JSON.parse(localStorage.getItem('usuarioLogado') || '{}');
+    return usuario.funcao === 'Admin';
+  } catch (e) {
+    console.error("Erro ao verificar função do usuário:", e);
+    return false;
+  }
+}
+
+function protectAdminRoute() {
+  if (!isLoggedIn()) {
+    window.location.href = '/autenticacao.html';
+    return false;
+  }
+
+  if (!isAdmin()) {
+    window.location.href = '/unauthorized.html';
+    return false;
+  }
+
+  return true;
+}
 carregarUsuarios();
 
 
@@ -416,9 +391,12 @@ function showPopup(message) {
   overlay.appendChild(popup);
   document.body.appendChild(overlay);
   overlay.onclick = (e) => {
-    if (e.target === overlay) overlay.remove();
-  };
+    if (e.target === overlay) {
+      overlay.remove();
+    }
+  }
 }
+
 
 // ========== NOVAS FUNÇÕES DE AUTENTICAÇÃO ==========
 
