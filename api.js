@@ -142,6 +142,43 @@ userRouter.post('/', upload.single('foto'), async (req, res) => {
   }
 });
 
+userRouter.put('/:cpf', upload.single('foto'), (req, res) => {
+  const { cpf } = req.params;
+  const { nome, email, telefone } = req.body;
+
+  // Verifica se a imagem foi enviada corretamente
+  const foto = req.file?.path ? '/' + req.file.path.replace(/\\/g, '/') : null;
+
+  let query = 'UPDATE Usuario SET NOME = ?, EMAIL = ?, TELEFONE = ?';
+  const params = [nome, email, telefone];
+
+  if (foto) {
+    query += ', FOTO = ?';
+    params.push(foto);
+  }
+
+  query += ' WHERE CPF = ?';
+  params.push(cpf);
+
+  db.query(query, params, (err) => {
+    if (err) {
+      console.error(`❌ Erro ao atualizar usuário ${cpf}:`, err);
+      return res.status(500).json({ erro: 'Erro ao atualizar usuário' });
+    }
+
+    res.status(200).json({
+      mensagem: 'Usuário atualizado com sucesso!',
+      CPF: cpf,
+      NOME: nome,
+      EMAIL: email,
+      TELEFONE: telefone,
+      FOTO: foto
+    });
+  });
+});
+
+
+
 
 
 // ==============================
@@ -242,37 +279,6 @@ app.put('/usuario/perfil', autenticarToken, upload.single('foto'), async (req, r
   }
 });
 
-
-
-
-
-
-// PUT /usuarios/:cpf
-
-userRouter.put('/:cpf', upload.single('imagem'), (req, res) => {
-  const { cpf } = req.params;
-  const { nome, email, telefone } = req.body;
-  const imagem = req.file?.filename; // se a imagem for opcional
-
-  let query = 'UPDATE Usuario SET NOME = ?, EMAIL = ?, TELEFONE = ?';
-  const params = [nome, email, telefone];
-
-  if (imagem) {
-    query += ', FOTO = ?';
-    params.push(imagem);
-  }
-
-  query += ' WHERE CPF = ?';
-  params.push(cpf);
-
-  db.query(query, params, (err) => {
-    if (err) {
-      console.error(`❌ Erro ao atualizar usuário ${cpf}:`, err);
-      return res.status(500).json({ erro: 'Erro ao atualizar usuário' });
-    }
-    res.status(200).json({ mensagem: 'Usuário atualizado com sucesso!' });
-  });
-});
 
 // DELETE /usuarios/:cpf
 userRouter.delete('/:cpf', (req, res) => {

@@ -1,85 +1,94 @@
 let currentUserId = null;
+
 document.addEventListener("DOMContentLoaded", function () {
+  // Referências do DOM
   const userInfo = document.getElementById("user-info");
   const userForm = document.getElementById('user-form');
   const loginLink = document.getElementById("login-link");
+  const crudUsuario = document.getElementById("CrudUsuario");
+  const crudVeiculos = document.getElementById("CrudVeiculos");
+
+  // Pega dados do localStorage
   const usuarioJSON = localStorage.getItem("usuarioLogado");
   const token = localStorage.getItem("token");
 
+  // Função para remover elementos do DOM com segurança
+  function removeElement(element) {
+    if (element) element.remove();
+  }
 
-
+  // Se não tem usuário logado, remove as seções do CRUD
   if (!usuarioJSON) {
-    document.getElementById("CrudUsuario").remove()
-    document.getElementById("CrudVeiculos").remove()
-    if (token){
-       console.warn("[LIMPEZA] Removendo token inválido (usuário anônimo)");
-       localStorage.removeItem("token");
+    removeElement(crudUsuario);
+    removeElement(crudVeiculos);
+
+    // Remove token inválido caso exista
+    if (token) {
+      console.warn("[LIMPEZA] Removendo token inválido (usuário anônimo)");
+      localStorage.removeItem("token");
     }
   }
 
+  // Se tem usuário logado, mostra informações e controla permissões
   if (usuarioJSON) {
-  try {
-    const usuario = JSON.parse(usuarioJSON);
-    console.log(usuario.FUNCAO);
+    try {
+      const usuario = JSON.parse(usuarioJSON);
 
-    if (usuario && usuario.nome) {
-      if (userInfo) {
-        let fotoHTML = "";
-        if (usuario.cpf) {
-          fotoHTML = `<img src="http://localhost:3000/imagem/${usuario.cpf}" alt="FotoDoUsuario" class="foto-usuario">`;
-        }
+      if (usuario && usuario.nome && userInfo) {
+        // Monta a imagem do usuário se tiver CPF
+        let fotoHTML = usuario.cpf
+          ? `<img src="http://localhost:3000/imagem/${usuario.cpf}" alt="FotoDoUsuario" class="foto-usuario">`
+          : "";
 
-
+        // Insere nome e botões
         userInfo.innerHTML = `
-          <span class="user-welcome"> ${fotoHTML} <strong>${usuario.nome.split(" ")[0]}</strong></span>
+          <span class="user-welcome">${fotoHTML} <strong>${usuario.nome.split(" ")[0]}</strong></span>
           <button id="logout-btn" class="btn-login">Sair</button>
           <button id="editar-perfil-btn" class="btn-login">Editar Perfil</button>
         `;
 
+        // Botão logout
         const logoutBtn = document.getElementById("logout-btn");
-        logoutBtn?.addEventListener("click", function () {
+        logoutBtn?.addEventListener("click", () => {
           localStorage.removeItem("usuarioLogado");
           localStorage.removeItem("token");
           window.location.reload();
         });
 
+        // Botão editar perfil
         const editarPerfilBtn = document.getElementById("editar-perfil-btn");
-        editarPerfilBtn?.addEventListener("click", function () {
-          window.location.href = "/perfil.html"; // Redireciona para a página de edição
+        editarPerfilBtn?.addEventListener("click", () => {
+          window.location.href = "/perfil.html";
         });
 
-        // Verifica a função do usuário (Admin ou outro)
+        // Remove CRUDs para usuários que não são Admin
         if (usuario.funcao !== "Admin") {
-          document.getElementById("CrudUsuario").remove();
-          document.getElementById("CrudVeiculos").remove();
+          removeElement(crudUsuario);
+          removeElement(crudVeiculos);
         }
 
-        console.log(usuario.funcao);
       }
+    } catch (e) {
+      console.error("Erro ao ler usuário do localStorage:", e);
     }
-  } catch (e) {
-    console.error("Erro ao ler usuário do localStorage:", e);
   }
-}
 
-carregarUsuarios();
-
-
-  document.addEventListener("DOMContentLoaded", function () {
-  const userForm = document.getElementById('user-form');
+  // Se não existe o formulário, termina aqui
   if (!userForm) return;
 
+  // Evento submit do formulário (criar/editar usuário)
   userForm.addEventListener('submit', async function (e) {
     e.preventDefault();
 
+    // Cria FormData com os campos do formulário
     const formData = new FormData();
-    const nome = document.getElementById('nome').value;
-    const email = document.getElementById('email').value;
-    const telefone = document.getElementById('telefone').value;
+    const nome = document.getElementById('nome')?.value;
+    const email = document.getElementById('email')?.value;
+    const telefone = document.getElementById('telefone')?.value;
     const funcao = document.getElementById('user-role')?.value;
     const senha = document.getElementById('senha')?.value;
     const cpf = document.getElementById('cpf')?.value;
-    const imagem = document.getElementById('imagem')?.files[0];
+    const imagem = document.getElementById('avatar-upload')?.files[0];
 
     if (nome) formData.append('nome', nome);
     if (email) formData.append('email', email);
@@ -87,38 +96,58 @@ carregarUsuarios();
     if (funcao) formData.append('funcao', funcao);
     if (senha) formData.append('senha', senha);
     if (cpf) formData.append('cpf', cpf);
-    if (imagem) formData.append('imagem', imagem);
+    if (imagem) formData.append('foto', imagem);
 
-    if (currentUserId) {
-      await fetchAutenticado(`http://localhost:3000/usuarios/${currentUserId}`, {
-        method: 'PUT',
-        body: formData
-      })
-        .then(res => res.json())
-        .then(usuarioAtualizado => {
-          showPopup('Usuário atualizado com sucesso!');
-          closeModal();
-          const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
-          if (usuarioLogado && usuarioLogado.CPF === usuarioAtualizado.CPF) {
-            localStorage.setItem('usuarioLogado', JSON.stringify(usuarioAtualizado));
-          }
-          setTimeout(() => location.reload(), 500);
+    // Verifica se é edição (PUT) ou criação (POST)
+    try {
+      if (currentUserId) {
+        // Atualizar usuário existente
+        const response = await fetchAutenticado(`http://localhost:3000/usuarios/${currentUserId}`, {
+          method: 'PUT',
+          body: formData
         });
-    } else {
-      await fetchAutenticado(`http://localhost:3000/usuarios`, {
-        method: 'POST',
-        body: formData
-      })
-        .then(res => res.json())
-        .then(() => {
-          showPopup('Usuário criado com sucesso!');
-          closeModal();
-          setTimeout(() => location.reload(), 500);
+
+        const usuarioAtualizado = await response.json();
+
+        showPopup('Usuário atualizado com sucesso!');
+        closeModal();
+
+        // Atualiza localStorage se for o usuário logado
+        const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
+        if (usuarioLogado && usuarioLogado.CPF === usuarioAtualizado.CPF) {
+          localStorage.setItem('usuarioLogado', JSON.stringify({
+          nome: usuarioAtualizado.NOME,
+          email: usuarioAtualizado.EMAIL,
+          cpf: usuarioAtualizado.CPF,
+          telefone: usuarioAtualizado.TELEFONE,
+          funcao: usuarioAtualizado.FUNCAO,
+        }));
+        }
+
+        carregarUsuarios()
+
+      } else {
+        // Criar novo usuário
+        const response = await fetchAutenticado(`http://localhost:3000/usuarios`, {
+          method: 'POST',
+          body: formData
         });
+
+        await response.json();
+
+        showPopup('Usuário criado com sucesso!');
+        closeModal();
+
+        carregarUsuarios()
+      }
+    } catch (error) {
+      console.error('Erro ao enviar formulário:', error);
+      showPopup('Erro ao processar a solicitação. Tente novamente.');
     }
   });
 });
 
+carregarUsuarios();
 
 
 
@@ -140,7 +169,6 @@ carregarUsuarios();
       reader.readAsDataURL(file);
     }
   });
-});
 
 function bufferToBase64(buffer) {
   let binary = "";
@@ -247,6 +275,7 @@ async function editUser(cpf) {
         usuarioLogado.foto = fotoUrl;  // ou o nome da propriedade que você usa para a foto
         localStorage.setItem('usuarioLogado', JSON.stringify(usuarioLogado));
       }
+      carregarUsuarios()
 
       openModal(true);
     })
