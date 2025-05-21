@@ -71,7 +71,7 @@ const userRouter = express.Router();
 // GET /usuarios (protegido)
 userRouter.get('/', autenticarToken, (req, res) => {
   console.log('📥 Requisição GET /usuarios');
-  const query = 'SELECT CPF, NOME, EMAIL, TELEFONE, FUNCAO FROM Usuario';
+  const query = 'SELECT CPF, NOME, EMAIL, TELEFONE, FUNCAO, NATURALIDADE FROM Usuario';
   db.query(query, (err, results) => {
     if (err) {
       console.error('❌ Erro ao buscar usuários:', err);
@@ -86,7 +86,7 @@ userRouter.get('/', autenticarToken, (req, res) => {
 userRouter.get('/:cpf', autenticarToken, (req, res) => {
   const cpf = req.params.cpf;
 
-  const query = 'SELECT CPF, NOME, EMAIL, TELEFONE, FUNCAO FROM Usuario WHERE CPF = ?';
+  const query = 'SELECT CPF, NOME, EMAIL, TELEFONE, FUNCAO, NATURALIDADE FROM Usuario WHERE CPF = ?';
   db.query(query, [cpf], (err, results) => {
     if (err) {
       console.error('❌ Erro ao buscar usuário por CPF:', err);
@@ -108,9 +108,9 @@ userRouter.get('/:cpf', autenticarToken, (req, res) => {
 userRouter.post('/', upload.single('foto'), async (req, res) => {
   try {
     console.log('Recebido no POST /usuarios:', req.body);
-    let { cpf, nome, email, telefone, senha } = req.body;
+    let { cpf, nome, email, telefone, senha, naturalidade } = req.body;
 
-    if (!cpf || !nome || !email || !telefone || !senha) {
+    if (!cpf || !nome || !email || !telefone || !senha|| !naturalidade) {
       return res.status(400).json({ erro: 'Campos obrigatórios faltando' });
     }
 
@@ -123,9 +123,9 @@ userRouter.post('/', upload.single('foto'), async (req, res) => {
     const caminhoFoto = req.file ? '/' + req.file.path.replace(/\\/g, '/') : '/fotos/comercial.png';
 
     // Ajuste a query e nomes dos campos conforme seu banco
-    const query = 'INSERT INTO Usuario (CPF, NOME, EMAIL, TELEFONE, SENHA, FOTO) VALUES (?, ?, ?, ?, ?, ?)';
+    const query = 'INSERT INTO Usuario (CPF, NOME, EMAIL, TELEFONE, SENHA, FOTO, NATURALIDADE) VALUES (?, ?, ?, ?, ?, ?, ?)';
 
-    db.query(query, [cpf, nome, email, telefone, hashedSenha, caminhoFoto], (err) => {
+    db.query(query, [cpf, nome, email, telefone, hashedSenha, caminhoFoto, naturalidade], (err) => {
       if (err) {
         console.error('❌ Erro ao cadastrar usuário:', err);
         if (err.code === 'ER_DUP_ENTRY') {
@@ -144,17 +144,21 @@ userRouter.post('/', upload.single('foto'), async (req, res) => {
 
 userRouter.put('/:cpf', upload.single('foto'), (req, res) => {
   const { cpf } = req.params;
-  const { nome, email, telefone } = req.body;
+  const { nome, email, telefone, naturalidade } = req.body;
 
   // Verifica se a imagem foi enviada corretamente
   const foto = req.file?.path ? '/' + req.file.path.replace(/\\/g, '/') : null;
 
-  let query = 'UPDATE Usuario SET NOME = ?, EMAIL = ?, TELEFONE = ?';
-  const params = [nome, email, telefone];
+  let query = 'UPDATE Usuario SET NOME = ?, EMAIL = ?, TELEFONE = ?, NATURALIDADE = ?';
+  const params = [nome, email, telefone, naturalidade];
 
   if (foto) {
     query += ', FOTO = ?';
     params.push(foto);
+  }
+  if (naturalidade) {
+    query += ', NATURALIDADE = ?';
+    params.push(naturalidade);
   }
 
   query += ' WHERE CPF = ?';
@@ -172,7 +176,8 @@ userRouter.put('/:cpf', upload.single('foto'), (req, res) => {
       NOME: nome,
       EMAIL: email,
       TELEFONE: telefone,
-      FOTO: foto
+      FOTO: foto,
+      NATURALIDADE: naturalidade
     });
   });
 });

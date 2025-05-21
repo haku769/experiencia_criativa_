@@ -89,6 +89,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const funcao = document.getElementById('user-role')?.value;
     const senha = document.getElementById('senha')?.value;
     const cpf = document.getElementById('cpf')?.value;
+    const naturalidade = document.getElementById('naturalidade')?.value;
     const imagem = document.getElementById('avatar-upload')?.files[0];
 
     if (nome) formData.append('nome', nome);
@@ -97,6 +98,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (funcao) formData.append('funcao', funcao);
     if (senha) formData.append('senha', senha);
     if (cpf) formData.append('cpf', cpf);
+    if (naturalidade) formData.append('naturalidade', naturalidade);
     if (imagem) formData.append('foto', imagem);
 
     // Verifica se é edição (PUT) ou criação (POST)
@@ -122,6 +124,7 @@ document.addEventListener("DOMContentLoaded", function () {
           cpf: usuarioAtualizado.CPF,
           telefone: usuarioAtualizado.TELEFONE,
           funcao: usuarioAtualizado.FUNCAO,
+          naturalidade: usuarioAtualizado.NATURALIDADE,
         }));
         }
 
@@ -288,6 +291,8 @@ async function editUser(cpf) {
       document.getElementById('cpf').value = usuario.CPF;
       document.getElementById('user-role').value = usuario.FUNCAO || '';
       document.getElementById('senha').value = '';
+      document.getElementById('naturalidade').value = usuario.NATURALIDADE || '';
+
 
       // Adiciona timestamp para evitar cache da imagem
       const timestamp = new Date().getTime();
@@ -447,7 +452,6 @@ function showPopup(message) {
   // Ao clicar em "Fechar", remove overlay e redireciona
   closeBtn.onclick = () => {
     overlay.remove();
-    window.location.href = '/autenticacao.html'; // redirecionamento aqui
   };
 
   popup.appendChild(messageEl);
@@ -458,7 +462,6 @@ function showPopup(message) {
   overlay.onclick = (e) => {
     if (e.target === overlay) {
       overlay.remove();
-      window.location.href = '/autenticacao.html'; // também redireciona se clicar fora do popup
     }
   };
 }
