@@ -89,12 +89,12 @@ document.addEventListener("DOMContentLoaded", function () {
     const funcao = document.getElementById('user-role')?.value;
     const senha = document.getElementById('senha')?.value;
     const cpf = document.getElementById('cpf')?.value;
-    const imagem = document.getElementById('avatar-upload')?.files[0];
+    const imagem = document.getElementById('foto')?.files[0];
 
     if (nome) formData.append('nome', nome);
     if (email) formData.append('email', email);
     if (telefone) formData.append('telefone', telefone);
-    if (funcao) formData.append('funcao', funcao);
+    if (funcao) formData.append('user-role', funcao);
     if (senha) formData.append('senha', senha);
     if (cpf) formData.append('cpf', cpf);
     if (imagem) formData.append('foto', imagem);
@@ -179,14 +179,14 @@ carregarUsuarios();
 
 
   document.querySelector('.avatar-preview')?.addEventListener('click', () => {
-    document.getElementById('avatar-upload').click();
+    document.getElementById('foto').click();
   });
 
   document.querySelector('.avatar-upload-btn button')?.addEventListener('click', () => {
-    document.getElementById('avatar-upload').click();
+    document.getElementById('foto').click();
   });
 
-  document.getElementById('avatar-upload')?.addEventListener('change', function (e) {
+  document.getElementById('foto')?.addEventListener('change', function (e) {
     const file = e.target.files[0];
     if (file) {
       const reader = new FileReader();
@@ -266,11 +266,6 @@ function resetForm() {
   document.getElementById('user-form').reset();
   document.getElementById('avatar-preview-img').src = '/fotos/comercial.png';
   currentUserId = null;
-
-  // document.querySelectorAll('.form-tab-content').forEach(content => {
-  //   content.classList.remove('active');
-  // });
-  // document.getElementById('tab-personal').classList.add('active');
 }
 
 async function editUser(cpf) {
@@ -286,7 +281,7 @@ async function editUser(cpf) {
       document.getElementById('email').value = usuario.EMAIL;
       document.getElementById('telefone').value = usuario.TELEFONE;
       document.getElementById('cpf').value = usuario.CPF;
-      document.getElementById('user-role').value = usuario.FUNCAO || '';
+      document.getElementById('user-role').value = usuario.FUNCAO;
       document.getElementById('senha').value = '';
 
       // Adiciona timestamp para evitar cache da imagem
@@ -446,8 +441,7 @@ function showPopup(message) {
 
   // Ao clicar em "Fechar", remove overlay e redireciona
   closeBtn.onclick = () => {
-    overlay.remove();
-    window.location.href = '/autenticacao.html'; // redirecionamento aqui
+    overlay.remove(); 
   };
 
   popup.appendChild(messageEl);
@@ -458,30 +452,9 @@ function showPopup(message) {
   overlay.onclick = (e) => {
     if (e.target === overlay) {
       overlay.remove();
-      window.location.href = '/autenticacao.html'; // também redireciona se clicar fora do popup
     }
   };
 }
-
-
-document.addEventListener('DOMContentLoaded', function () {
-  const toggleButtons = document.querySelectorAll('.password-toggle');
-
-  toggleButtons.forEach((toggle) => {
-    toggle.addEventListener('click', function () {
-      const input = this.parentElement.querySelector('input');
-      if (input) {
-        input.type = input.type === 'password' ? 'text' : 'password';
-      }
-
-      const icon = this.querySelector('i');
-      if (icon) {
-        icon.classList.toggle('fa-eye');
-        icon.classList.toggle('fa-eye-slash');
-      }
-    });
-  });
-});
 
 
 
@@ -574,83 +547,4 @@ if (usuario) {
     fotoPerfil.src = `data:image/jpeg;base64, ${fotoBase64}`;
   }
 }
-// Máscara para telefone (formato: (00) 00000-0000)
-const telefoneInput = document.getElementById('telefone');
-telefoneInput.addEventListener('input', function(e) {
-  let valor = e.target.value.replace(/\D/g, ''); // remove tudo que não for número
-  
-  if (valor.length > 11) {
-    valor = valor.slice(0, 11); // limita a 11 dígitos
-  }
-  
-  // Formata telefone
-  if (valor.length > 6) {
-    valor = valor.replace(/^(\d{2})(\d{5})(\d{0,4}).*/, '($1) $2-$3');
-  } else if (valor.length > 2) {
-    valor = valor.replace(/^(\d{2})(\d{0,5}).*/, '($1) $2');
-  } else if (valor.length > 0) {
-    valor = valor.replace(/^(\d{0,2}).*/, '($1');
-  }
-  
-  e.target.value = valor;
-});
 
-
-// Máscara para CPF (formato: 000.000.000-00)
-const cpfInput = document.getElementById('cpf');
-cpfInput.addEventListener('input', function(e) {
-  let valor = e.target.value.replace(/\D/g, ''); // remove tudo que não for número
-  
-  if (valor.length > 11) {
-    valor = valor.slice(0, 11); // limita a 11 dígitos
-  }
-  
-  // Formata CPF
-  if (valor.length > 9) {
-    valor = valor.replace(/^(\d{3})(\d{3})(\d{3})(\d{0,2}).*/, '$1.$2.$3-$4');
-  } else if (valor.length > 6) {
-    valor = valor.replace(/^(\d{3})(\d{3})(\d{0,3}).*/, '$1.$2.$3');
-  } else if (valor.length > 3) {
-    valor = valor.replace(/^(\d{3})(\d{0,3}).*/, '$1.$2');
-  }
-  
-  e.target.value = valor;
-});
-const emailInput = document.getElementById('email');
-emailInput.addEventListener('input', function(e) {
-  let valor = e.target.value;
-
-  // Remove o domínio se o usuário tentar digitar algo diferente
-  valor = valor.replace(/@[^@]*$/, '');
-
-  // Adiciona @gmail.com automaticamente se ainda não tiver
-  if (!valor.endsWith('@gmail.com')) {
-    valor = valor + '@gmail.com';
-  }
-
-  e.target.value = valor;
-});
-const senhaInput = document.getElementById('senha');
-const confirmarInput = document.getElementById('confirmar-senha');
-
-senhaInput.addEventListener('input', validarSenhas);
-confirmarInput.addEventListener('input', validarSenhas);
-
-function validarSenhaSegura(senha) {
-  const regex = /^(?=.*[0-9])(?=.*[!@#$%^&*()_+{}\[\]:;"'<>,.?/~\\-]).{8,}$/;
-  return regex.test(senha);
-}
-
-function validarSenhas() {
-  const senha = senhaInput.value;
-  const confirmar = confirmarInput.value;
-
-  const senhaValida = validarSenhaSegura(senha);
-  const confirmacaoCorreta = senha === confirmar && confirmar.length > 0;
-
-  // Cor da senha
-  senhaInput.style.borderColor = senhaValida ? 'green' : 'red';
-
-  // Cor da confirmação
-  confirmarInput.style.borderColor = confirmacaoCorreta ? 'green' : 'red';
-}

@@ -107,8 +107,8 @@
               <img id="avatar-preview-img" src="/fotos/comercial.png" alt="Prévia do Avatar" />
             </div>
             <div class="avatar-upload-wrapper">
-              <label for="avatar-upload" class="avatar-upload-label">Escolher Foto</label>
-              <input type="file" id="avatar-upload" name="foto" accept="image/*" style="display:none;" />
+              <label for="foto" class="avatar-upload-label">Escolher Foto</label>
+              <input type="file" id="foto" name="foto" accept="image/*" style="display:none;" />
 
             </div>
           </div>
@@ -130,6 +130,7 @@
                 <input type="password" id="senha" class="form-control" />
                 <span class="password-pisca" data-target="senha"><i class="fas fa-eye"></i></span>
               </div>
+              <small class="form-text text-muted validation-message">Necessário conter pelomenos um carácter especial e número.</small>
             </div>
             <div class="form-group">
               <label for="confirmar-senha">Confirmar Senha:</label>
@@ -154,10 +155,10 @@
           <div class="form-row">
             <div class="form-group">
               <label for="user-role">Função</label>
-              <select id="user-role" name="role">
+              <select id="user-role" name="user-role">
                 <option value="">Selecione uma função</option>
                 <option value="admin">Administrador</option>
-                <option value="Cliente">Cliente</option>
+                <option value="cliente">Cliente</option>
               </select>
             </div>
           </div>
@@ -243,7 +244,7 @@
     </div>
   </footer>
 
-  <!-- Remover a segunda inclusão do script de sessão, pois já foi incluído no início -->
+
   <script src="/routes/manuntencao.js" defer></script>
 </body>
 
