@@ -3,10 +3,14 @@ import cors from 'cors';
 import mysql from 'mysql2';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import sharp from 'sharp';
 
 import multer from 'multer';
-const storage = multer.memoryStorage(); // imagem será salva em buffer
-const upload = multer({ storage });
+const storage = multer.memoryStorage(); 
+const upload = multer({ 
+  storage,
+  limits: { fileSize: 2 * 1024 * 1024 } 
+});
 
 
 const app = express();
@@ -20,6 +24,12 @@ app.use(express.static('./pages'));
 app.use(express.static('./pages/routes'));
 app.use('/uploads', express.static('uploads'));
 
+app.use((err, req, res, next) => {
+  if (err.code === 'LIMIT_FILE_SIZE') {
+    return res.status(400).json({ erro: 'Arquivo muito grande. Tamanho máximo permitido: 2MB.' });
+  }
+  next(err);
+});
 
 
 
@@ -71,7 +81,7 @@ const userRouter = express.Router();
 // GET /usuarios (protegido)
 userRouter.get('/', autenticarToken, (req, res) => {
   console.log('📥 Requisição GET /usuarios');
-  const query = 'SELECT CPF, NOME, EMAIL, TELEFONE, FUNCAO FROM Usuario';
+  const query = 'SELECT CPF, NOME, EMAIL, TELEFONE, FOTO, FUNCAO  FROM Usuario';
   db.query(query, (err, results) => {
     if (err) {
       console.error('❌ Erro ao buscar usuários:', err);
@@ -86,7 +96,7 @@ userRouter.get('/', autenticarToken, (req, res) => {
 userRouter.get('/:cpf', autenticarToken, (req, res) => {
   const cpf = req.params.cpf;
 
-  const query = 'SELECT CPF, NOME, EMAIL, TELEFONE, FUNCAO FROM Usuario WHERE CPF = ?';
+  const query = 'SELECT CPF, NOME, EMAIL, TELEFONE, FOTO, FUNCAO FROM Usuario WHERE CPF = ?';
   db.query(query, [cpf], (err, results) => {
     if (err) {
       console.error('❌ Erro ao buscar usuário por CPF:', err);
@@ -101,39 +111,72 @@ userRouter.get('/:cpf', autenticarToken, (req, res) => {
   });
 });
 
+userRouter.get('/:cpf/foto', (req, res) => {
+  const { cpf } = req.params;
+
+  const query = 'SELECT FOTO FROM Usuario WHERE CPF = ?';
+  db.query(query, [cpf], (err, results) => {
+    if (err) {
+      console.error(`❌ Erro ao buscar foto do usuário ${cpf}:`, err);
+      return res.status(500).json({ erro: 'Erro ao buscar foto' });
+    }
+
+    if (results.length === 0 || !results[0].FOTO) {
+      return res.status(404).json({ erro: 'Foto não encontrada' });
+    }
+
+    const fotoBuffer = results[0].FOTO;
+
+    // Define o tipo de conteúdo genérico ou detecta com base na imagem se necessário
+    res.set('Content-Type', 'image/jpeg'); // ou image/png se souber o tipo
+    res.send(fotoBuffer);
+  });
+});
+
+
 
 
 
 
 userRouter.post('/', upload.single('foto'), async (req, res) => {
   try {
-    console.log('Recebido no POST /usuarios:', req.body);
-    let { cpf, nome, email, telefone, senha } = req.body;
+    let { cpf, nome, email, telefone, funcao, senha } = req.body;
 
-    if (!cpf || !nome || !email || !telefone || !senha) {
+    if (!cpf || !nome || !email || !telefone || !funcao || !senha) {
       return res.status(400).json({ erro: 'Campos obrigatórios faltando' });
     }
 
-    // Limpa máscara do CPF
-    cpf = cpf.replace(/\D/g, '');
+    try {
+      cpf = cpf.replace(/\D/g, '');
+    } catch {
+      return res.status(400).json({ erro: 'Formato de CPF inválido' });
+    }
 
     const hashedSenha = await bcrypt.hash(senha, 10);
 
-    // Se recebeu arquivo, pega o caminho. Senão, usa padrão
-    const caminhoFoto = req.file ? '/' + req.file.path.replace(/\\/g, '/') : '/fotos/comercial.png';
+    let fotoBuffer = null;
 
-    // Ajuste a query e nomes dos campos conforme seu banco
-    const query = 'INSERT INTO Usuario (CPF, NOME, EMAIL, TELEFONE, SENHA, FOTO) VALUES (?, ?, ?, ?, ?, ?)';
+    if (req.file) {
+      // Redimensiona a imagem para 300x300, mantendo o formato original
+      try {
+        fotoBuffer = await sharp(req.file.buffer)
+          .resize(300, 300, { fit: 'cover' }) // pode ajustar conforme quiser (cover, contain...)
+          .toBuffer();
+      } catch (err) {
+        console.error('Erro ao processar imagem com Sharp:', err);
+        return res.status(500).json({ erro: 'Erro ao processar imagem' });
+      }
+    }
 
-    db.query(query, [cpf, nome, email, telefone, hashedSenha, caminhoFoto], (err) => {
+    const query = 'INSERT INTO Usuario (CPF, NOME, EMAIL, TELEFONE, FUNCAO, SENHA, FOTO) VALUES (?, ?, ?, ?, ?, ?, ?)';
+
+    db.query(query, [cpf, nome, email, telefone, funcao, hashedSenha, fotoBuffer], (err) => {
       if (err) {
-        console.error('❌ Erro ao cadastrar usuário:', err);
         if (err.code === 'ER_DUP_ENTRY') {
           return res.status(409).json({ erro: 'CPF já cadastrado' });
         }
         return res.status(500).json({ erro: 'Erro ao cadastrar usuário' });
       }
-      console.log('✅ Usuário cadastrado com sucesso!');
       res.status(201).json({ mensagem: 'Usuário cadastrado com sucesso' });
     });
   } catch (error) {
@@ -142,40 +185,67 @@ userRouter.post('/', upload.single('foto'), async (req, res) => {
   }
 });
 
-userRouter.put('/:cpf', upload.single('foto'), (req, res) => {
-  const { cpf } = req.params;
-  const { nome, email, telefone } = req.body;
 
-  // Verifica se a imagem foi enviada corretamente
-  const foto = req.file?.path ? '/' + req.file.path.replace(/\\/g, '/') : null;
 
-  let query = 'UPDATE Usuario SET NOME = ?, EMAIL = ?, TELEFONE = ?';
-  const params = [nome, email, telefone];
 
-  if (foto) {
-    query += ', FOTO = ?';
-    params.push(foto);
-  }
 
-  query += ' WHERE CPF = ?';
-  params.push(cpf);
 
-  db.query(query, params, (err) => {
+userRouter.put('/:cpf', (req, res, next) => {
+  upload.single('foto')(req, res, async function(err) {
     if (err) {
-      console.error(`❌ Erro ao atualizar usuário ${cpf}:`, err);
-      return res.status(500).json({ erro: 'Erro ao atualizar usuário' });
+      if (err.code === 'LIMIT_FILE_SIZE') {
+        return res.status(400).json({ erro: 'Arquivo muito grande. Tamanho máximo permitido: 2MB.' });
+      }
+      return res.status(500).json({ erro: 'Erro no upload da imagem' });
     }
 
-    res.status(200).json({
-      mensagem: 'Usuário atualizado com sucesso!',
-      CPF: cpf,
-      NOME: nome,
-      EMAIL: email,
-      TELEFONE: telefone,
-      FOTO: foto
+    const { cpf } = req.params;
+    const { nome, email, telefone, funcao } = req.body;
+    let foto = null;
+
+    if (req.file) {
+      try {
+        foto = await sharp(req.file.buffer)
+          .resize(300, 300, { fit: 'cover' })  // redimensiona para 300x300 fixo
+          .toBuffer();
+      } catch (error) {
+        console.error('Erro ao processar a imagem:', error);
+        return res.status(500).json({ erro: 'Erro ao processar a imagem' });
+      }
+    }
+
+    let query = 'UPDATE Usuario SET NOME = ?, EMAIL = ?, TELEFONE = ?, FUNCAO = ?';
+    const params = [nome, email, telefone, funcao];
+
+    if (foto) {
+      query += ', FOTO = ?';
+      params.push(foto);
+    }
+
+    query += ' WHERE CPF = ?';
+    params.push(cpf);
+
+    db.query(query, params, (error) => {
+      if (error) {
+        console.error(`❌ Erro ao atualizar usuário ${cpf}:`, error);
+        return res.status(500).json({ erro: 'Erro ao atualizar usuário' });
+      }
+
+      res.status(200).json({
+        mensagem: 'Usuário atualizado com sucesso!',
+        CPF: cpf,
+        NOME: nome,
+        EMAIL: email,
+        TELEFONE: telefone,
+        FUNCAO: funcao,
+        FOTO: foto ? 'Imagem atualizada' : null
+      });
     });
   });
 });
+
+
+
 
 
 

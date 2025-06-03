@@ -63,7 +63,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
 
         // Remove CRUDs para usuários que não são Admin
-        if (usuario.funcao !== "Admin") {
+        if (usuario.funcao !== "admin") {
           removeElement(crudUsuario);
           removeElement(crudVeiculos);
         }
@@ -86,18 +86,18 @@ document.addEventListener("DOMContentLoaded", function () {
     const nome = document.getElementById('nome')?.value;
     const email = document.getElementById('email')?.value;
     const telefone = document.getElementById('telefone')?.value;
-    const funcao = document.getElementById('user-role')?.value;
+    const funcao = document.getElementById('funcao')?.value;
     const senha = document.getElementById('senha')?.value;
     const cpf = document.getElementById('cpf')?.value;
-    const imagem = document.getElementById('foto')?.files[0];
+    const foto = document.getElementById('foto')?.files[0];
 
     if (nome) formData.append('nome', nome);
     if (email) formData.append('email', email);
     if (telefone) formData.append('telefone', telefone);
-    if (funcao) formData.append('user-role', funcao);
+    if (funcao) formData.append('funcao', funcao);
     if (senha) formData.append('senha', senha);
     if (cpf) formData.append('cpf', cpf);
-    if (imagem) formData.append('foto', imagem);
+    if (foto) formData.append('foto', foto);
 
     // Verifica se é edição (PUT) ou criação (POST)
     try {
@@ -121,6 +121,7 @@ document.addEventListener("DOMContentLoaded", function () {
           email: usuarioAtualizado.EMAIL,
           cpf: usuarioAtualizado.CPF,
           telefone: usuarioAtualizado.TELEFONE,
+          foto: usuarioAtualizado.FOTO,
           funcao: usuarioAtualizado.FUNCAO,
         }));
         }
@@ -154,7 +155,7 @@ function isLoggedIn() {
 function isAdmin() {
   try {
     const usuario = JSON.parse(localStorage.getItem('usuarioLogado') || '{}');
-    return usuario.funcao === 'Admin';
+    return usuario.funcao === 'admin';
   } catch (e) {
     console.error("Erro ao verificar função do usuário:", e);
     return false;
@@ -217,7 +218,7 @@ async function carregarUsuarios() {
       usuarios.forEach(usuario => {
         const tr = document.createElement('tr');
         tr.innerHTML = `
-          <td><img src="http://localhost:3000/imagem/${usuario.CPF}" class="avatar-table"></td>
+          <img src="http://localhost:3000/usuarios/${usuario.CPF}/foto?t=${Date.now()}" class="avatar-table">
           <td>${usuario.NOME}</td>
           <td>${usuario.EMAIL}</td>
           <td>${usuario.FUNCAO || 'Cliente'}</td>
@@ -281,15 +282,17 @@ async function editUser(cpf) {
       document.getElementById('email').value = usuario.EMAIL;
       document.getElementById('telefone').value = usuario.TELEFONE;
       document.getElementById('cpf').value = usuario.CPF;
-      document.getElementById('user-role').value = usuario.FUNCAO;
+      document.getElementById('funcao').value = usuario.FUNCAO;
+      document.getElementById('foto').value = ''; // Limpa o campo de foto
       document.getElementById('senha').value = '';
 
       // Adiciona timestamp para evitar cache da imagem
       const timestamp = new Date().getTime();
-      const fotoUrl = `http://localhost:3000/imagem/${usuario.CPF}?t=${timestamp}`;
+      const fotoUrl = `http://localhost:3000/usuarios/${usuario.CPF}/foto?t=${timestamp}`;
+
 
       // Atualiza a imagem do avatar na tela
-      document.getElementById('avatar-preview-img').src = fotoUrl;
+      document.getElementById('foto').src = fotoUrl;
 
       // Atualiza a foto no localStorage se o usuário logado for o mesmo que está sendo editado
       const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
@@ -517,6 +520,7 @@ if (isTokenExpirado(token)) {
     showPopup('Sessão expirada. Faça login novamente.');
     localStorage.removeItem('token');
     localStorage.removeItem('usuarioLogado');
+    window.location.href = '/autenticacao.html';
     return;
   }
 }
