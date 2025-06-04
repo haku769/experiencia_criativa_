@@ -48,7 +48,8 @@ document.addEventListener('DOMContentLoaded', () => {
         nome: NOME,
         email: EMAIL,
         telefone: TELEFONE,
-        cpf: CPF
+        cpf: CPF,
+        funcao: FUNCAO
       }));
 
       if (CPF && imagemAtual) {

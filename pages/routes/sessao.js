@@ -169,7 +169,7 @@ function protectAdminRoute() {
   }
 
   if (!isAdmin()) {
-    window.location.href = '/unauthorized.html';
+    window.location.href = '/index.html';
     return false;
   }
 
@@ -179,24 +179,52 @@ carregarUsuarios();
 
 
 
-  document.querySelector('.avatar-preview')?.addEventListener('click', () => {
-    document.getElementById('foto').click();
+  // document.querySelector('.avatar-preview')?.addEventListener('click', () => {
+  //   document.getElementById('foto').click();
+  // });
+
+  // document.querySelector('.avatar-upload-btn button')?.addEventListener('click', () => {
+  //   document.getElementById('foto').click();
+  // });
+
+  // document.getElementById('foto')?.addEventListener('change', function (e) {
+  //   const file = e.target.files[0];
+  //   if (file) {
+  //     const reader = new FileReader();
+  //     reader.onload = function (e) {
+  //       document.getElementById('avatar-preview-img').src = e.target.result;
+  //     };
+  //     reader.readAsDataURL(file);
+  //   }
+  // });
+document.addEventListener("DOMContentLoaded", () => {
+  const inputFoto = document.getElementById('foto');
+  const avatarPreview = document.querySelector('.avatar-preview');
+  const avatarUploadBtn = document.querySelector('.avatar-upload-btn button');
+  const avatarPreviewImg = document.getElementById('avatar-preview-img');
+
+  // Clicar na imagem de preview abre o seletor de arquivos
+  avatarPreview?.addEventListener('click', () => {
+    inputFoto?.click();
   });
 
-  document.querySelector('.avatar-upload-btn button')?.addEventListener('click', () => {
-    document.getElementById('foto').click();
+  // Clicar no botão de upload também abre o seletor
+  avatarUploadBtn?.addEventListener('click', () => {
+    inputFoto?.click();
   });
 
-  document.getElementById('foto')?.addEventListener('change', function (e) {
+  // Mostrar preview da imagem selecionada
+  inputFoto?.addEventListener('change', function (e) {
     const file = e.target.files[0];
-    if (file) {
+    if (file && avatarPreviewImg) {
       const reader = new FileReader();
       reader.onload = function (e) {
-        document.getElementById('avatar-preview-img').src = e.target.result;
+        avatarPreviewImg.src = e.target.result;
       };
       reader.readAsDataURL(file);
     }
   });
+});
 
 function bufferToBase64(buffer) {
   let binary = "";
