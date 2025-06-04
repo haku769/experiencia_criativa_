@@ -73,7 +73,6 @@ document.addEventListener("DOMContentLoaded", function () {
       console.error("Erro ao ler usuário do localStorage:", e);
     }
   }
-
   // Se não existe o formulário, termina aqui
   if (!userForm) return;
 
@@ -321,11 +320,13 @@ async function editUser(cpf) {
 
       // Atualiza a imagem do avatar na tela
       document.getElementById('foto').src = fotoUrl;
+      document.getElementById('avatar-preview-img').src = fotoUrl;
 
       // Atualiza a foto no localStorage se o usuário logado for o mesmo que está sendo editado
       const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
       if (usuarioLogado && usuarioLogado.CPF === usuario.CPF) {
-        usuarioLogado.foto = fotoUrl;  // ou o nome da propriedade que você usa para a foto
+        usuarioLogado.foto = fotoUrl;
+        usuarioLogado.nome = usuario.NOME;
         localStorage.setItem('usuarioLogado', JSON.stringify(usuarioLogado));
       }
       carregarUsuarios()
@@ -563,7 +564,7 @@ if (isTokenExpirado(token)) {
 
   return fetch(url, finalOptions);
 }
-const usuario = JSON.parse(localStorage.getItem('usuarioLogado')); // chave correta
+const usuario = JSON.parse(localStorage.getItem('usuarioLogado')); 
 
 if (usuario) {
   const loginLink = document.getElementById('login-link');

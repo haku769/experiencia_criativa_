@@ -400,7 +400,69 @@ authRouter.post('/registro', upload.single('foto'), async (req, res) => {
     });
   });
 });
+// POST /autenticacao/login
+authRouter.post('/login', (req, res) => {
+  const { email, senha } = req.body;
+  console.log('📥 Tentativa de login:', email);
 
+  db.query('SELECT * FROM Usuario WHERE EMAIL = ?', [email], async (err, results) => {
+    if (err) {
+      console.error('❌ Erro ao buscar usuário:', err);
+      return res.status(500).json({ erro: 'Erro ao buscar usuário' });
+    }
+
+    if (results.length === 0) {
+      console.warn('⚠️ Login falhou. Email não encontrado:', email);
+      return res.status(401).json({ erro: 'Email ou senha incorretos' });
+    }
+
+    const usuario = results[0];
+    const senhaCorreta = await bcrypt.compare(senha, usuario.SENHA);
+
+    if (!senhaCorreta) {
+      console.warn('⚠️ Senha incorreta para o email:', email);
+      return res.status(401).json({ erro: 'Email ou senha incorretos' });
+    }
+
+    const token = jwt.sign(
+      {
+        cpf: usuario.CPF,
+        nome: usuario.NOME,
+        email: usuario.EMAIL
+      },
+      JWT_SECRET,
+      { expiresIn: '1h' }
+    );
+
+    const refreshToken = jwt.sign(
+      { cpf: usuario.CPF },
+      JWT_SECRET,
+      { expiresIn: '7d' } // válido por 7 dias
+    );
+
+   console.log('✅ Login bem-sucedido para:', email);
+
+    res.status(200).json({
+      mensagem: 'Login bem-sucedido!',
+      token,
+      refreshToken,
+      usuario: {
+        cpf: usuario.CPF,
+        nome: usuario.NOME,
+        email: usuario.EMAIL,
+        foto: usuario.FOTO,
+        funcao: usuario.FUNCAO
+      }
+    }); 
+
+  });
+});
+
+app.use('/autenticacao', authRouter);
+
+
+// ==============================
+// ✅ ROTEADOR: VEÍCULOS (CRUD)
 
 const veiculoRouter = express.Router();
 
@@ -576,67 +638,6 @@ veiculoRouter.get('/:id', (req, res) => {
 
 
 app.use('/veiculos', veiculoRouter);
-
-
-// POST /autenticacao/login
-authRouter.post('/login', (req, res) => {
-  const { email, senha } = req.body;
-  console.log('📥 Tentativa de login:', email);
-
-  db.query('SELECT * FROM Usuario WHERE EMAIL = ?', [email], async (err, results) => {
-    if (err) {
-      console.error('❌ Erro ao buscar usuário:', err);
-      return res.status(500).json({ erro: 'Erro ao buscar usuário' });
-    }
-
-    if (results.length === 0) {
-      console.warn('⚠️ Login falhou. Email não encontrado:', email);
-      return res.status(401).json({ erro: 'Email ou senha incorretos' });
-    }
-
-    const usuario = results[0];
-    const senhaCorreta = await bcrypt.compare(senha, usuario.SENHA);
-
-    if (!senhaCorreta) {
-      console.warn('⚠️ Senha incorreta para o email:', email);
-      return res.status(401).json({ erro: 'Email ou senha incorretos' });
-    }
-
-    const token = jwt.sign(
-      {
-        cpf: usuario.CPF,
-        nome: usuario.NOME,
-        email: usuario.EMAIL
-      },
-      JWT_SECRET,
-      { expiresIn: '1h' }
-    );
-
-    const refreshToken = jwt.sign(
-      { cpf: usuario.CPF },
-      JWT_SECRET,
-      { expiresIn: '7d' } // válido por 7 dias
-    );
-
-   console.log('✅ Login bem-sucedido para:', email);
-
-    res.status(200).json({
-      mensagem: 'Login bem-sucedido!',
-      token,
-      refreshToken,
-      usuario: {
-        cpf: usuario.CPF,
-        nome: usuario.NOME,
-        email: usuario.EMAIL,
-        foto: usuario.FOTO,
-        funcao: usuario.FUNCAO
-      }
-    }); 
-
-  });
-});
-
-app.use('/autenticacao', authRouter);
 
 // ===================
 // ✅ ROTA PRINCIPAL

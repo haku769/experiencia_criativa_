@@ -19,15 +19,20 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+const nomeInput = document.getElementById('nome');
+nomeInput.addEventListener('input', function () {
+  const nomeValido = nomeInput.value.trim().length >= 3;
+  nomeInput.style.borderColor = nomeValido ? 'green' : 'red';
+});
+
 const telefoneInput = document.getElementById('telefone');
 telefoneInput.addEventListener('input', function(e) {
-  let valor = e.target.value.replace(/\D/g, ''); // remove tudo que não for número
+  let valor = e.target.value.replace(/\D/g, '');
   
   if (valor.length > 11) {
-    valor = valor.slice(0, 11); // limita a 11 dígitos
+    valor = valor.slice(0, 11);
   }
   
-  // Formata telefone
   if (valor.length > 6) {
     valor = valor.replace(/^(\d{2})(\d{5})(\d{0,4}).*/, '($1) $2-$3');
   } else if (valor.length > 2) {
@@ -35,21 +40,24 @@ telefoneInput.addEventListener('input', function(e) {
   } else if (valor.length > 0) {
     valor = valor.replace(/^(\d{0,2}).*/, '($1');
   }
-  
+
   e.target.value = valor;
+
+  const telefoneValido = /^\(\d{2}\) \d{5}-\d{4}$/.test(e.target.value);
+  telefoneInput.style.borderColor = telefoneValido ? 'green' : 'red';
 });
+
 
 
 // Máscara para CPF (formato: 000.000.000-00)
 const cpfInput = document.getElementById('cpf');
 cpfInput.addEventListener('input', function(e) {
-  let valor = e.target.value.replace(/\D/g, ''); // remove tudo que não for número
-  
+  let valor = e.target.value.replace(/\D/g, '');
+
   if (valor.length > 11) {
-    valor = valor.slice(0, 11); // limita a 11 dígitos
+    valor = valor.slice(0, 11);
   }
-  
-  // Formata CPF
+
   if (valor.length > 9) {
     valor = valor.replace(/^(\d{3})(\d{3})(\d{3})(\d{0,2}).*/, '$1.$2.$3-$4');
   } else if (valor.length > 6) {
@@ -57,23 +65,27 @@ cpfInput.addEventListener('input', function(e) {
   } else if (valor.length > 3) {
     valor = valor.replace(/^(\d{3})(\d{0,3}).*/, '$1.$2');
   }
-  
+
   e.target.value = valor;
+
+  // Regex básico para formato do CPF
+  const cpfValido = /^\d{3}\.\d{3}\.\d{3}-\d{2}$/.test(e.target.value);
+  cpfInput.style.borderColor = cpfValido ? 'green' : 'red';
 });
 const emailInput = document.getElementById('email');
 emailInput.addEventListener('input', function(e) {
-  let valor = e.target.value;
+  let valor = e.target.value.replace(/@[^@]*$/, '');
 
-  // Remove o domínio se o usuário tentar digitar algo diferente
-  valor = valor.replace(/@[^@]*$/, '');
-
-  // Adiciona @gmail.com automaticamente se ainda não tiver
   if (!valor.endsWith('@gmail.com')) {
     valor = valor + '@gmail.com';
   }
 
   e.target.value = valor;
+
+  const emailValido = /^[^\s@]+@gmail\.com$/.test(e.target.value);
+  emailInput.style.borderColor = emailValido ? 'green' : 'red';
 });
+
 const senhaInput = document.getElementById('senha');
 const confirmarInput = document.getElementById('confirmar-senha');
 

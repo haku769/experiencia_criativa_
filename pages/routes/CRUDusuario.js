@@ -260,6 +260,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.getElementById('btn-add-user').addEventListener('click', addUser);
     document.getElementById('user-form').addEventListener('submit', submitUserForm);
+    document.getElementById('btn-close-modal').addEventListener('click', closeModal);
+    document.getElementById('btn-confirm-delete').addEventListener('click', confirmDelete);
 
 
 });
