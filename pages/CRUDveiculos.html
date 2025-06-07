@@ -29,10 +29,10 @@
         <ul>
                     <li><a href="index.html">Início</a></li>
                     <li><a href="veiculos.html">Veículos</a></li>
-                    <li><a href="servicos.html">Serviços</a></li>
-                    <li><a href="contatos.html">Contato</a></li>
+                    <li><a href="proposta.html">Faça sua Proposta</a></li>
                     <li id="CrudUsuario"><a href="CRUDusuario.html">CRUDusuario</a></li>
                     <li id="CrudVeiculos"><a href="CRUDveiculos.html">CRUDveiculos</a></li>
+                    <li id="tickets"><a href="tickets.html">tickets</a></li>
         </ul>
       </nav>
       <div class="login-button">
@@ -48,51 +48,69 @@
     <div class="container">
       <h2>Gerenciamento de Veículos</h2>
 
-      <form>
-  <div class="form-group">
-    <label for="marca">Marca</label>
-    <input type="text" id="marca" name="marca" placeholder="Ex: Toyota" required />
-  </div>
-  <div class="form-group">
-    <label for="modelo">Modelo</label>
-    <input type="text" id="modelo" name="modelo" placeholder="Ex: Corolla" required />
-  </div>
-  <div class="form-group">
-    <label for="ano">Ano</label>
-    <input type="number" id="ano" name="ano" placeholder="Ex: 2023" required />
-  </div>
-  <div class="form-group">
-    <label for="valor">Valor</label>
-    <input type="number" id="valor" name="valor" placeholder="Ex: 150000" required />
-  </div>
-  <div class="form-group">
-    <label for="quilometragem">Quilometragem</label>
-    <input type="text" id="quilometragem" name="quilometragem" placeholder="Ex: 25.000 km" required />
-  </div>
-  <div class="form-group">
-    <label for="combustivel">Combustível</label>
-    <input type="text" id="combustivel" name="combustivel" placeholder="Ex: Gasolina" required />
-  </div>
-  <div class="form-group">
-    <label for="cambio">Câmbio</label>
-    <input type="text" id="cambio" name="cambio" placeholder="Ex: Manual" required />
-  </div>
-  <div class="form-group">
-    <label for="condicao">Condição</label>
-    <input type="text" id="condicao" name="condicao" placeholder="Ex: Usado" required />
-  </div>
-  <div class="form-group">
-  <label for="imagem">Imagem do Veículo</label>
-  <div class="image-upload-container">
-    <input type="file" id="imagem" name="imagem" accept="image/*" />
-    <div class="image-preview">
-      <img id="imagem-preview" src="/placeholder.svg?height=150&width=250" alt="Preview da imagem" />
+   <form>
+    <div class="form-group">
+      <label for="marca">Marca</label>
+      <input type="text" id="marca" name="marca" placeholder="Ex: Toyota" required />
     </div>
-  </div>
-  <small>Selecione uma imagem do veículo (JPG, PNG - máx. 2MB)</small>
-</div>
+    <div class="form-group">
+      <label for="modelo">Modelo</label>
+      <input type="text" id="modelo" name="modelo" placeholder="Ex: Corolla" required />
+    </div>
+    <div class="form-group">
+      <label for="ano">Ano</label>
+      <input type="number" id="ano" name="ano" placeholder="Ex: 2023" required />
+    </div>
+    <div class="form-group">
+      <label for="valor">Valor</label>
+      <input type="number" id="valor" name="valor" placeholder="Ex: 150000" required />
+    </div>
+    <div class="form-group">
+      <label for="quilometragem">Quilometragem</label>
+      <input type="text" id="quilometragem" name="quilometragem" placeholder="Ex: 25.000 km" required />
+    </div>
+    
+    <div class="form-group">
+      <label for="combustivel">Combustível</label>
+      <select id="combustivel" name="combustivel" required>
+        <option value="" disabled selected>Selecione o combustível</option>
+        <option value="flex">Flex (Gasolina / Etanol)</option>
+        <option value="gasolina">Gasolina</option>
+        <option value="etanol">Etanol (Álcool)</option>
+        <option value="diesel">Diesel</option>
+        <option value="gnv">GNV</option>
+        <option value="hibrido">Híbrido</option>
+        <option value="eletrico">Elétrico</option>
+      </select>
+    </div>
 
-  <button type="submit" class="btn btn-primary">Adicionar Veículo</button>
+    <div class="form-group">
+      <label for="cambio">Câmbio</label>
+      <select id="cambio" name="cambio" required>
+        <option value="" disabled selected>Selecione o tipo de câmbio</option>
+        <option value="manual">Manual</option>
+        <option value="automatico">Automático</option>
+        <option value="automatizado">Automatizado (Dupla Embreagem)</option>
+        <option value="cvt">CVT</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="condicao">Condição</label>
+      <input type="text" id="condicao" name="condicao" placeholder="Ex: Usado" required />
+    </div>
+    <div class="form-group">
+      <label for="imagem">Imagem do Veículo</label>
+      <div class="image-upload-container">
+        <input type="file" id="imagem" name="imagem" accept="image/*" />
+        <div class="image-preview">
+          <img id="imagem-preview" src="/placeholder.svg?height=150&width=250" alt="Preview da imagem" />
+        </div>
+      </div>
+      <small>Selecione uma imagem do veículo (JPG, PNG - máx. 2MB)</small>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Adicionar Veículo</button>
 </form>
 
       <table>

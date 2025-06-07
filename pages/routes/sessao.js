@@ -22,6 +22,7 @@ document.addEventListener("DOMContentLoaded", function () {
   if (!usuarioJSON) {
     removeElement(crudUsuario);
     removeElement(crudVeiculos);
+    removeElement(tickets);
 
     // Remove token inválido caso exista
     if (token) {
@@ -66,8 +67,9 @@ document.addEventListener("DOMContentLoaded", function () {
         if (usuario.funcao !== "admin") {
           removeElement(crudUsuario);
           removeElement(crudVeiculos);
+          removeElement(tickets);
         }
-
+       
       }
     } catch (e) {
       console.error("Erro ao ler usuário do localStorage:", e);
@@ -176,26 +178,6 @@ function protectAdminRoute() {
 }
 carregarUsuarios();
 
-
-
-  // document.querySelector('.avatar-preview')?.addEventListener('click', () => {
-  //   document.getElementById('foto').click();
-  // });
-
-  // document.querySelector('.avatar-upload-btn button')?.addEventListener('click', () => {
-  //   document.getElementById('foto').click();
-  // });
-
-  // document.getElementById('foto')?.addEventListener('change', function (e) {
-  //   const file = e.target.files[0];
-  //   if (file) {
-  //     const reader = new FileReader();
-  //     reader.onload = function (e) {
-  //       document.getElementById('avatar-preview-img').src = e.target.result;
-  //     };
-  //     reader.readAsDataURL(file);
-  //   }
-  // });
 document.addEventListener("DOMContentLoaded", () => {
   const inputFoto = document.getElementById('foto');
   const avatarPreview = document.querySelector('.avatar-preview');

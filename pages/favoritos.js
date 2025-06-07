@@ -1,310 +1,157 @@
+// 
+// ==========================================================
+//     SCRIPT EXCLUSIVO PARA A PÁGINA FAVORITOS.HTML
+// ==========================================================
+
 document.addEventListener("DOMContentLoaded", () => {
-  // Carregar favoritos
-  carregarFavoritos()
-
-  // Configurar botão de limpar favoritos
-const btnLimparFavoritos = document.getElementById("limpar-favoritos");
-const popup = document.getElementById("popup-confirmacao");
-const btnConfirmar = document.getElementById("confirmar-limpar");
-const btnCancelar = document.getElementById("cancelar-limpar");
-
-if (btnLimparFavoritos) {
-  btnLimparFavoritos.addEventListener("click", () => {
-    popup.classList.remove("hidden");
-  });
-}
-
-btnConfirmar.addEventListener("click", () => {
-  limparTodosFavoritos();
-  popup.classList.add("hidden");
+    carregarMeusFavoritos();
+    configurarLimparFavoritos();
 });
 
-btnCancelar.addEventListener("click", () => {
-  popup.classList.add("hidden");
-});
+async function carregarMeusFavoritos() {
+    const container = document.getElementById("favoritos-container");
+    const vazio = document.getElementById("favoritos-vazio");
+    if (!container || !vazio) return;
 
+    container.innerHTML = '<div class="loading-indicator">Carregando...</div>';
 
-  // Atualizar contador
-  atualizarContadorFavoritos()
-})
-
-// Função para carregar favoritos
-function carregarFavoritos() {
-  const favoritosContainer = document.getElementById("favoritos-container")
-  const favoritosVazio = document.getElementById("favoritos-vazio")
-  const favoritos = obterFavoritos()
-
-  // Verificar se há favoritos
-  if (favoritos.length === 0) {
-    favoritosContainer.style.display = "none"
-    favoritosVazio.style.display = "block"
-    return
-  }
-
-  // Mostrar container de favoritos
-  favoritosContainer.style.display = "grid"
-  favoritosVazio.style.display = "none"
-
-  // Limpar container
-  favoritosContainer.innerHTML = ""
-
-  // Adicionar cada favorito ao container
-  favoritos.forEach((carro) => {
-    const carCard = document.createElement("div")
-    carCard.className = "car-card"
-    carCard.dataset.id = carro.id
-
-    // Formatar data de adição
-    let dataFormatada = ""
-    if (carro.dataAdicionado) {
-      const dataAdicionado = new Date(carro.dataAdicionado)
-      dataFormatada = dataAdicionado.toLocaleDateString("pt-BR")
+    const token = localStorage.getItem('token');
+    if (!token) {
+        container.innerHTML = '<div class="error-message">Você precisa estar logado para ver seus favoritos.</div>';
+        return;
     }
 
-    carCard.innerHTML = `
-            <div class="car-image">
-                <img src="${carro.imagem}" alt="${carro.nome}" onerror="this.src='/fotos/placeholder.jpg'">
-                <div class="car-actions">
-                    <button class="car-action-btn favorito-ativo" onclick="removerDosFavoritos('${carro.id}')">
-                        <i class="fas fa-heart"></i>
-                    </button>
-                    <button class="car-action-btn" onclick="compararVeiculo('${carro.id}')">
-                        <i class="fas fa-exchange-alt"></i>
-                    </button>
-                </div>
+    try {
+        const response = await fetch('http://localhost:3000/api/favoritos', {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+        if (!response.ok) throw new Error("Não foi possível buscar seus favoritos.");
+        const favoritos = await response.json();
+        
+        atualizarContadorHeader(favoritos.length);
+
+        if (favoritos.length === 0) {
+            container.style.display = 'none';
+            vazio.style.display = 'block';
+        } else {
+            container.style.display = 'grid';
+            vazio.style.display = 'none';
+            container.innerHTML = '';
+            favoritos.forEach(carro => {
+                container.appendChild(criarCardFavorito(carro));
+            });
+        }
+    } catch (error) {
+        container.innerHTML = `<div class="error-message">${error.message}</div>`;
+    }
+}
+
+function criarCardFavorito(carro) {
+    const cardDiv = document.createElement("div");
+    cardDiv.className = "car-card";
+    cardDiv.dataset.id = carro.id;
+
+    // --- Verificações para os novos campos ---
+    const marca = carro.marca || "";
+    const modelo = carro.modelo || "Veículo";
+    const imagem = carro.imagem || '/fotos/placeholder.jpg';
+    const ano = carro.ano || 'N/A';
+    const km = carro.km || 'N/A';
+    const combustivel = carro.combustivel || 'N/A';
+    const cambio = carro.cambio || 'N/A';
+    const condicao = carro.condicao || '';
+    const preco = carro.preco ? `R$ ${Number(carro.preco).toLocaleString('pt-BR')}` : 'Sob consulta';
+
+    cardDiv.innerHTML = `
+        <div class="car-image">
+            <img src="${imagem}" alt=" ${modelo}">
+            <div class="car-actions">
+                <button class="car-action-btn favorito-ativo" onclick="removerFavorito(this)">
+                    <i class="fas fa-heart"></i>
+                </button>
             </div>
-            <div class="car-details">
-                <h3>${carro.nome}</h3>
-                <div class="car-info">
-                    ${carro.ano ? `<span><i class="fas fa-calendar"></i> ${carro.ano}</span>` : ""}
-                    ${carro.km ? `<span><i class="fas fa-tachometer-alt"></i> ${carro.km}</span>` : ""}
-                </div>
-                ${
-                  dataFormatada
-                    ? `
-                <div class="car-info">
-                    <span><i class="fas fa-clock"></i> Adicionado em: ${dataFormatada}</span>
-                </div>`
-                    : ""
-                }
-                <div class="car-price">
-                    <span class="price">${carro.preco}</span>
-                    <a href="/Carros/detalhes.html?id=${carro.id}" class="btn btn-sm">Ver Detalhes</a>
-                </div>
+        </div>
+        <div class="car-details">
+            <h3> ${modelo}</h3>
+
+            <div class="car-info">
+                <span><i class="fas fa-calendar"></i> ${ano}</span>
+                <span><i class="fas fa-tachometer-alt"></i> ${km} km</span>
             </div>
-        `
 
-    favoritosContainer.appendChild(carCard)
-  })
+            <div class="car-features">
+                <span><i class="fas fa-gas-pump"></i> ${combustivel}</span>
+                <span><i class="fas fa-cog"></i> ${cambio}</span>
+                ${condicao ? `<span><i class="fas fa-car"></i> ${condicao}</span>` : ''}
+            </div>
+
+            <div class="car-price">
+                <span class="price">${preco}</span>
+                <a href="/Carros/detalhes.html?id=${carro.id}" class="btn btn-sm">Ver Detalhes</a>
+            </div>
+        </div>`;
+    return cardDiv;
 }
 
-// Função para remover um carro dos favoritos
-function removerDosFavoritos(idCarro) {
-  // Adicionar animação de remoção
-  const card = document.querySelector(`.car-card[data-id="${idCarro}"]`)
-  if (card) {
-    card.classList.add("removing")
+async function removerFavorito(botao) {
+    const card = botao.closest('.car-card');
+    const idCarro = card.dataset.id;
+    const token = localStorage.getItem('token');
 
-    setTimeout(() => {
-      // Remover do localStorage
-      removerFavorito(idCarro)
+    try {
+        const response = await fetch(`http://localhost:3000/api/favoritos/${idCarro}`, {
+            method: 'DELETE',
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+        if (!response.ok) throw new Error("Falha ao remover.");
 
-      // Mostrar mensagem
-      mostrarMensagem("Veículo removido dos favoritos", "info")
-
-      // Recarregar favoritos
-      carregarFavoritos()
-
-      // Atualizar contador
-      atualizarContadorFavoritos()
-    }, 300)
-  } else {
-    // Se não encontrar o card, remover diretamente
-    removerFavorito(idCarro)
-    mostrarMensagem("Veículo removido dos favoritos", "info")
-    carregarFavoritos()
-    atualizarContadorFavoritos()
-  }
-}
-
-// Função para limpar todos os favoritos
-function limparTodosFavoritos() {
-  // Limpar localStorage
-  localStorage.removeItem("autoelite_favoritos")
-
-  // Mostrar mensagem
-  mostrarMensagem("Todos os favoritos foram removidos", "info")
-
-  // Recarregar favoritos
-  carregarFavoritos()
-
-  // Atualizar contador
-  atualizarContadorFavoritos()
-}
-
-// Função para comparar veículo (placeholder para funcionalidade futura)
-function compararVeiculo(idCarro) {
-  mostrarMensagem("Funcionalidade de comparação em desenvolvimento", "info")
-}
-
-// Função para inicializar o sistema de favoritos
-function inicializarFavoritos() {
-  // Obter todos os botões de favorito
-  const botoesCoracoes = document.querySelectorAll(".car-action-btn:has(.fa-heart)")
-
-  // Adicionar evento de clique a cada botão
-  botoesCoracoes.forEach((botao) => {
-    // Obter informações do carro
-    const cardCarro = botao.closest(".car-card")
-    const idCarro = cardCarro.dataset.id || gerarIdUnico(cardCarro)
-
-    // Se o carro não tem ID, adicionar um
-    if (!cardCarro.dataset.id) {
-      cardCarro.dataset.id = idCarro
+        card.style.transition = 'opacity 0.3s';
+        card.style.opacity = '0';
+        setTimeout(() => {
+            card.remove();
+            const total = document.querySelectorAll('.car-card').length;
+            atualizarContadorHeader(total);
+            if (total === 0) {
+                document.getElementById("favoritos-container").style.display = 'none';
+                document.getElementById("favoritos-vazio").style.display = 'block';
+            }
+        }, 300);
+    } catch (error) {
+        alert("Erro ao remover favorito.");
     }
+}
 
-    // Verificar se o carro já está nos favoritos
-    if (verificarFavorito(idCarro)) {
-      botao.querySelector("i").classList.remove("far")
-      botao.querySelector("i").classList.add("fas")
-      botao.classList.add("favorito-ativo")
+function atualizarContadorHeader(total) {
+    const contador = document.getElementById("contador-favoritos");
+    if(contador){
+        contador.textContent = total;
+        contador.style.display = total > 0 ? 'inline-block' : 'none';
     }
-
-    // Adicionar evento de clique
-    botao.addEventListener("click", (e) => {
-      e.preventDefault()
-      toggleFavorito(botao, idCarro)
-    })
-  })
 }
 
-// Função para alternar o estado de favorito
-function toggleFavorito(botao, idCarro) {
-  const icone = botao.querySelector("i")
-  const cardCarro = botao.closest(".car-card")
+function configurarLimparFavoritos() {
+    // Lógica para o popup de confirmação do botão "Limpar Todos"
+    const btnLimpar = document.getElementById("limpar-favoritos");
+    const popup = document.getElementById("popup-confirmacao");
+    if(!btnLimpar || !popup) return;
 
-  // Obter informações do carro para salvar
-  const nomeCarro = cardCarro.querySelector("h3").textContent
-  const precoCarro = cardCarro.querySelector(".price").textContent
-  const imgCarro = cardCarro.querySelector("img").src
-  const anoCarro = cardCarro.querySelector(".car-info span:nth-child(1)").textContent.trim()
-  const kmCarro = cardCarro.querySelector(".car-info span:nth-child(2)").textContent.trim()
+    const btnConfirmar = document.getElementById("confirmar-limpar");
+    const btnCancelar = document.getElementById("cancelar-limpar");
 
-  // Criar objeto com informações do carro
-  const infoCarro = {
-    id: idCarro,
-    nome: nomeCarro,
-    preco: precoCarro,
-    imagem: imgCarro,
-    ano: anoCarro,
-    km: kmCarro,
-    dataAdicionado: new Date().toISOString(),
-  }
-
-  // Verificar se já é favorito
-  if (verificarFavorito(idCarro)) {
-    // Remover dos favoritos
-    removerFavorito(idCarro)
-
-    // Atualizar ícone
-    icone.classList.remove("fas")
-    icone.classList.add("far")
-    botao.classList.remove("favorito-ativo")
-
-    // Mostrar mensagem
-    mostrarMensagem("Veículo removido dos favoritos", "info")
-  } else {
-    // Adicionar aos favoritos
-    adicionarFavorito(infoCarro)
-
-    // Atualizar ícone
-    icone.classList.remove("far")
-    icone.classList.add("fas")
-    botao.classList.add("favorito-ativo")
-
-    // Mostrar mensagem
-    mostrarMensagem("Veículo adicionado aos favoritos", "sucesso")
-  }
-
-  // Atualizar contador de favoritos no menu (se existir)
-  atualizarContadorFavoritos()
-}
-
-// Função para verificar se um carro está nos favoritos
-function verificarFavorito(idCarro) {
-  const favoritos = obterFavoritos()
-  return favoritos.some((fav) => fav.id === idCarro)
-}
-
-// Função para adicionar um carro aos favoritos
-function adicionarFavorito(infoCarro) {
-  const favoritos = obterFavoritos()
-  favoritos.push(infoCarro)
-  salvarFavoritos(favoritos)
-}
-
-// Função para remover um carro dos favoritos
-function removerFavorito(idCarro) {
-  let favoritos = obterFavoritos()
-  favoritos = favoritos.filter((fav) => fav.id !== idCarro)
-  salvarFavoritos(favoritos)
-}
-
-// Função para obter a lista de favoritos do localStorage
-function obterFavoritos() {
-  const favoritosJSON = localStorage.getItem("autoelite_favoritos")
-  return favoritosJSON ? JSON.parse(favoritosJSON) : []
-}
-
-// Função para salvar a lista de favoritos no localStorage
-function salvarFavoritos(favoritos) {
-  localStorage.setItem("autoelite_favoritos", JSON.stringify(favoritos))
-}
-
-// Função para gerar um ID único para um carro
-function gerarIdUnico(cardCarro) {
-  const nomeCarro = cardCarro.querySelector("h3").textContent
-  const timestamp = new Date().getTime()
-  return `carro_${nomeCarro.replace(/\s+/g, "_").toLowerCase()}_${timestamp}`
-}
-
-// Função para atualizar o contador de favoritos no menu
-function atualizarContadorFavoritos() {
-  const contadorElement = document.getElementById("contador-favoritos")
-  if (contadorElement) {
-    const favoritos = obterFavoritos()
-    contadorElement.textContent = favoritos.length
-
-    // Mostrar ou esconder o contador
-    if (favoritos.length > 0) {
-      contadorElement.style.display = "inline-block"
-    } else {
-      contadorElement.style.display = "none"
-    }
-  }
-}
-
-// Função para mostrar mensagem de feedback
-function mostrarMensagem(texto, tipo) {
-  // Remover mensagem anterior se existir
-  const mensagemExistente = document.querySelector(".mensagem-feedback")
-  if (mensagemExistente) {
-    mensagemExistente.remove()
-  }
-
-  // Criar elemento de mensagem
-  const mensagem = document.createElement("div")
-  mensagem.className = `mensagem-feedback ${tipo}`
-  mensagem.textContent = texto
-
-  // Adicionar ao corpo do documento
-  document.body.appendChild(mensagem)
-
-  // Remover após 3 segundos
-  setTimeout(() => {
-    mensagem.classList.add("fadeout")
-    setTimeout(() => {
-      mensagem.remove()
-    }, 500)
-  }, 2500)
+    btnLimpar.addEventListener("click", () => popup.classList.remove("hidden"));
+    btnCancelar.addEventListener("click", () => popup.classList.add("hidden"));
+    btnConfirmar.addEventListener("click", async () => {
+        const token = localStorage.getItem('token');
+        try {
+            const response = await fetch(`http://localhost:3000/api/favoritos`, {
+                method: 'DELETE',
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            if (!response.ok) throw new Error("Falha ao limpar favoritos.");
+            popup.classList.add("hidden");
+            carregarMeusFavoritos(); // Recarrega a página para mostrar que está vazia
+        } catch (error) {
+            alert("Erro ao limpar favoritos.");
+        }
+    });
 }

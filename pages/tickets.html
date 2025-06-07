@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enviar Proposta - AutoElite</title>
+    <link rel="stylesheet" href="styles.css"> 
+    <link rel="stylesheet" href="tickets.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header>
+    <div class="container">
+      <div class="logo">
+        <h1>Auto<span>Elite</span></h1>
+      </div>
+      <nav>
+        <ul>
+          <li><a href="index.html">Início</a></li>
+          <li><a href="veiculos.html">Veículos</a></li>
+          <li><a href="proposta.html">Faça a sua Proposta</a></li>
+          <li id="CrudUsuario"><a href="CRUDusuario.html">CRUDusuario</a></li>
+          <li id="CrudVeiculos"><a href="CRUDveiculos.html">CRUDveiculos</a></li>
+          <li id="tickets"><a href="tickets.html">tickets</a></li>
+        </ul>
+      </nav>
+      <div class="login-button">
+        <a href="/autenticacao.html" class="btn-login" id="login-link"></a>
+        <div id="user-info" class="user-info"></div>
+      </div>
+    </div>
+        </header>
+
+    <main>
+        <section class="admin-panel-section">
+            <div class="container">
+                <h2>Painel de Gerenciamento de Propostas</h2>
+                
+                <div id="propostas-container" class="propostas-grid">
+                    <div class="loading-indicator">Carregando propostas...</div>
+                </div>
+
+                <div id="propostas-vazio" style="display: none;">
+                    <p>Nenhuma proposta recebida até o momento.</p>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        </footer>
+
+    <script src="tickets.js"></script>
+    <script src="routes/sessao.js"></script>
+</body>
+</html>

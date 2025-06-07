@@ -1,0 +1,171 @@
+/* ==========================================================
+    ESTILO PARA A PÁGINA DE PROPOSTAS (proposta.css)
+   ========================================================== */
+
+/* --- Estilo geral da seção --- */
+.proposta-section {
+    padding: 60px 0;
+    background-color: #f8f9fa; /* Um fundo cinza claro para destacar o formulário */
+}
+
+.proposta-section .container {
+    max-width: 700px; /* Limita a largura do conteúdo para melhor leitura */
+    margin: 0 auto;
+    text-align: center;
+}
+
+.proposta-section h2 {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.proposta-section p {
+    font-size: 1.1em;
+    color: #666;
+    margin-bottom: 40px;
+}
+
+
+/* --- Estilo do Formulário --- */
+.form-proposta {
+    background-color: #ffffff;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    text-align: left; /* Alinha o texto do formulário à esquerda */
+}
+
+.form-group {
+    margin-bottom: 25px; /* Espaçamento entre os campos */
+}
+
+.form-group label {
+    display: block;
+    font-weight: bold;
+    color: #444;
+    margin-bottom: 8px;
+}
+
+/* Estilo padrão para todos os campos de entrada (input, select, textarea) */
+.form-proposta input[type="number"],
+.form-proposta select,
+.form-proposta textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1em;
+    font-family: inherit; /* Usa a mesma fonte do resto do site */
+    box-sizing: border-box; /* Garante que o padding não aumente a largura total */
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+/* Efeito visual quando o usuário clica em um campo */
+.form-proposta input[type="number"]:focus,
+.form-proposta select:focus,
+.form-proposta textarea:focus {
+    outline: none; /* Remove a borda padrão do navegador */
+    border-color: #007bff; /* Cor de destaque (azul) */
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+.form-proposta textarea {
+    resize: vertical; /* Permite que o usuário redimensione a altura da área de texto */
+    min-height: 120px;
+}
+
+
+/* --- Estilo do Botão de Envio --- */
+.form-proposta .btn-primary {
+    width: 100%;
+    padding: 15px;
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #fff;
+    background-color: #007bff; /* Cor principal */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.form-proposta .btn-primary:hover {
+    background-color: #0056b3; /* Cor mais escura no hover */
+    transform: translateY(-2px);
+}
+
+/* Estilo do botão quando está desabilitado (enquanto envia) */
+.form-proposta .btn-primary:disabled {
+    background-color: #a0a0a0;
+    cursor: not-allowed;
+    transform: translateY(0);
+}
+.popup-overlay {
+  display: none; /* Escondido por padrão */
+  position: fixed; /* Fica fixo na tela, mesmo com rolagem */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7); /* Fundo preto semi-transparente */
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* Garante que fique na frente de tudo */
+}
+
+/* Classe para mostrar o pop-up via JavaScript */
+.popup-overlay.show {
+  display: flex;
+}
+
+/* A caixa de conteúdo do pop-up */
+.popup-content {
+  background-color: #fff;
+  color: #333;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  text-align: center;
+  max-width: 500px;
+  width: 90%;
+  position: relative;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.popup-content h2 {
+  margin-top: 0;
+  color: #28a745; /* Verde para sucesso */
+}
+
+.popup-content p {
+  margin-bottom: 20px;
+  line-height: 1.6;
+}
+
+/* Botão de fechar (X) no canto */
+.popup-close {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 28px;
+  font-weight: bold;
+  color: #aaa;
+  cursor: pointer;
+}
+
+.popup-close:hover {
+  color: #333;
+}
+
+/* Animação simples para o pop-up aparecer */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

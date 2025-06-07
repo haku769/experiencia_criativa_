@@ -465,53 +465,104 @@ app.use('/autenticacao', authRouter);
 // ✅ ROTEADOR: VEÍCULOS (CRUD)
 
 const veiculoRouter = express.Router();
+// No seu arquivo de rotas do backend (ex: veiculoRouter.js)
 
-// GET /veiculos - listar todos
 veiculoRouter.get('/', (req, res) => {
-  console.log('📥 Requisição GET /veiculos');
-  
-  // Construir a consulta SQL base
-  let query = 'SELECT * FROM Veiculo';
-  const params = [];
-  
-  // Adicionar filtros se existirem
-  const filtros = [];
-  
-  if (req.query.marca) {
-    filtros.push('MARCA = ?');
-    params.push(req.query.marca);
-  }
-  
-  if (req.query.modelo) {
-    filtros.push('MODELO = ?');
-    params.push(req.query.modelo);
-  }
-  
-  // Adicionar cláusula WHERE se houver filtros
-  if (filtros.length > 0) {
-    query += ' WHERE ' + filtros.join(' AND ');
-  }
-  
-  // Executar a consulta
-  db.query(query, params, (err, results) => {
-    if (err) {
-      console.error('❌ Erro ao buscar veículos:', err);
-      return res.status(500).json({ erro: 'Erro ao buscar veículos' });
+    console.log('📥 Requisição GET /veiculos com filtros:', req.query);
+    
+    let query = 'SELECT * FROM Veiculo';
+    const params = [];
+    const filtros = [];
+    
+    // Filtros existentes (mantidos)
+    if (req.query.marca) {
+        filtros.push('MARCA = ?');
+        params.push(req.query.marca);
+    }
+    if (req.query.modelo) {
+        filtros.push('MODELO = ?');
+        params.push(req.query.modelo);
     }
     
-    // Converter BLOBs para base64 para enviar ao cliente
-    const veiculosComImagens = results.map(veiculo => {
-      if (veiculo.IMAGEM) {
-        // Converter o BLOB para base64
-        const imagemBase64 = `data:image/jpeg;base64,${veiculo.IMAGEM.toString('base64')}`;
-        return { ...veiculo, IMAGEM: imagemBase64 };
-      }
-      return veiculo;
-    });
+    // ADICIONADO: Filtros de Preço
+    if (req.query.precoMin) {
+        filtros.push('VALOR >= ?');
+        params.push(req.query.precoMin);
+    }
+    if (req.query.precoMax) {
+        filtros.push('VALOR <= ?');
+        params.push(req.query.precoMax);
+    }
     
-    console.log('✅ Veículos encontrados:', results.length);
-    res.status(200).json(veiculosComImagens);
-  });
+    // ADICIONADO: Filtros de Ano
+    if (req.query.anoMin) {
+        filtros.push('ANO >= ?');
+        params.push(req.query.anoMin);
+    }
+    if (req.query.anoMax) {
+        filtros.push('ANO <= ?');
+        params.push(req.query.anoMax);
+    }
+    
+    // ADICIONADO: Filtros de Quilometragem
+    if (req.query.kmMin) {
+        filtros.push('QUILOMETRAGEM >= ?');
+        params.push(req.query.kmMin);
+    }
+    if (req.query.kmMax) {
+        filtros.push('QUILOMETRAGEM <= ?');
+        params.push(req.query.kmMax);
+    }
+
+    // Adicione aqui outros filtros como combustivel, cambio, etc., se desejar.
+    // Exemplo:
+    if (req.query.combustivel) {
+        filtros.push('COMBUSTIVEL = ?');
+        params.push(req.query.combustivel);
+    }
+    
+    // Adiciona a cláusula WHERE se houver filtros
+    if (filtros.length > 0) {
+        query += ' WHERE ' + filtros.join(' AND ');
+    }
+    
+    // ADICIONADO: Lógica de Ordenação
+    const ordenacao = req.query.ordenacao || 'relevancia';
+    const ordenadores = {
+        "preco-asc": " ORDER BY VALOR ASC",
+        "preco-desc": " ORDER BY VALOR DESC",
+        "ano-desc": " ORDER BY ANO DESC",
+        "ano-asc": " ORDER BY ANO ASC",
+        "km-asc": " ORDER BY QUILOMETRAGEM ASC",
+        "km-desc": " ORDER BY QUILOMETRAGEM DESC"
+    };
+
+    if (ordenadores[ordenacao]) {
+        query += ordenadores[ordenacao];
+    }
+    
+    console.log("Executando Query:", query); // Log para depuração
+    console.log("Com Parâmetros:", params);   // Log para depuração
+
+    // Executar a consulta
+    db.query(query, params, (err, results) => {
+        if (err) {
+            console.error('❌ Erro ao buscar veículos com filtros:', err);
+            return res.status(500).json({ erro: 'Erro ao buscar veículos' });
+        }
+        
+        // Sua lógica de conversão de imagem (mantida, está perfeita)
+        const veiculosComImagens = results.map(veiculo => {
+            if (veiculo.IMAGEM) {
+                const imagemBase64 = `data:image/jpeg;base64,${veiculo.IMAGEM.toString('base64')}`;
+                return { ...veiculo, IMAGEM: imagemBase64 };
+            }
+            return veiculo;
+        });
+        
+        console.log('✅ Veículos encontrados:', veiculosComImagens.length);
+        res.status(200).json(veiculosComImagens);
+    });
 });
 
 // POST /veiculos - cadastrar novo
@@ -639,6 +690,181 @@ veiculoRouter.get('/:id', (req, res) => {
 
 app.use('/veiculos', veiculoRouter);
 
+// ========================================================
+//  coração      ROTAS DA API DE FAVORITOS      coração
+// ========================================================
+
+// ✅ GET /api/favoritos - Buscar todos os favoritos do usuário logado
+app.get('/api/favoritos', autenticarToken, (req, res) => {
+  const usuarioCpf = req.usuario.cpf; 
+
+  const query = `
+    SELECT 
+          v.ID_VEICULO AS id,
+          v.MARCA AS marca,          -- ADICIONADO
+          v.MODELO AS modelo,        -- RENOMEADO DE 'nome' PARA 'modelo'
+          v.VALOR AS preco,
+          v.IMAGEM AS imagem,
+          v.ANO AS ano,
+          v.QUILOMETRAGEM AS km,
+          v.COMBUSTIVEL AS combustivel,  -- ADICIONADO
+          v.CAMBIO AS cambio,          -- ADICIONADO
+          v.CONDICAO AS condicao,      -- ADICIONADO
+          f.DATA_FAVORITO as dataAdicionado
+      FROM Veiculo v
+      JOIN Favoritos f ON v.ID_VEICULO = f.ID_VEICULO
+      WHERE f.CPF = ?
+  `;
+
+  db.query(query, [usuarioCpf], (err, results) => {
+    if (err) {
+      console.error('❌ Erro ao buscar favoritos:', err);
+      return res.status(500).json({ erro: 'Erro interno do servidor.' });
+    }
+    
+    const favoritosComImagens = results.map(veiculo => {
+            if (veiculo.imagem && Buffer.isBuffer(veiculo.imagem)) {
+                // Converte o BLOB para base64
+                const imagemBase64 = `data:image/jpeg;base64,${veiculo.imagem.toString('base64')}`;
+                return { ...veiculo, imagem: imagemBase64 }; // Retorna o veículo com a imagem convertida
+            }
+            return veiculo; // Retorna o veículo como está se não houver imagem
+        });
+        
+        res.status(200).json(favoritosComImagens);
+  });
+});
+
+
+// ❤️ POST /api/favoritos - Adicionar um veículo aos favoritos
+app.post('/api/favoritos', autenticarToken, (req, res) => {
+  const usuarioCpf = req.usuario.cpf;
+  const { veiculoId } = req.body; 
+
+  if (!veiculoId) {
+    return res.status(400).json({ erro: 'O ID do veículo é obrigatório.' });
+  }
+  
+  const query = 'INSERT INTO Favoritos (CPF, ID_VEICULO) VALUES (?, ?)';
+
+  db.query(query, [usuarioCpf, veiculoId], (err, results) => {
+    if (err) {
+      if (err.code === 'ER_DUP_ENTRY') {
+        return res.status(409).json({ erro: 'Este veículo já está nos seus favoritos.' });
+      }
+      console.error('❌ Erro ao adicionar favorito:', err);
+      return res.status(500).json({ erro: 'Erro interno do servidor.' });
+    }
+    res.status(201).json({ mensagem: 'Veículo adicionado aos favoritos!' });
+  });
+});
+
+
+// 🗑️ DELETE /api/favoritos/:veiculoId - Remover um veículo dos favoritos
+app.delete('/api/favoritos/:veiculoId', autenticarToken, (req, res) => {
+  const usuarioCpf = req.usuario.cpf;
+  const { veiculoId } = req.params;
+
+  const query = 'DELETE FROM Favoritos WHERE CPF = ? AND ID_VEICULO = ?';
+
+  db.query(query, [usuarioCpf, veiculoId], (err, results) => {
+    if (err) {
+      console.error('❌ Erro ao remover favorito:', err);
+      return res.status(500).json({ erro: 'Erro interno do servidor.' });
+    }
+    if (results.affectedRows === 0) {
+        return res.status(404).json({ erro: 'Favorito não encontrado.' });
+    }
+    res.status(200).json({ mensagem: 'Veículo removido dos favoritos.' });
+  });
+});
+
+// 🗑️ DELETE /api/favoritos - Limpar TODOS os favoritos do usuário
+app.delete('/api/favoritos', autenticarToken, (req, res) => {
+    const usuarioCpf = req.usuario.cpf;
+
+    const query = 'DELETE FROM Favoritos WHERE CPF = ?';
+
+    db.query(query, [usuarioCpf], (err, results) => {
+        if (err) {
+            console.error('❌ Erro ao limpar todos os favoritos:', err);
+            return res.status(500).json({ erro: 'Erro interno do servidor.' });
+        }
+        if (results.affectedRows === 0) {
+            return res.status(404).json({ erro: 'Nenhum favorito para remover.' });
+        }
+        res.status(200).json({ mensagem: 'Todos os veículos foram removidos dos favoritos.' });
+    });
+});
+// propostas
+
+
+// POST /api/propostas - Usuário cria uma nova proposta
+app.post('/api/propostas', autenticarToken, (req, res) => {
+    const usuarioCpf = req.usuario.cpf;
+    const { veiculoId, valorProposta, mensagem } = req.body;
+
+    if (!veiculoId || !valorProposta) {
+        return res.status(400).json({ erro: 'O ID do veículo e o valor da proposta são obrigatórios.' });
+    }
+
+    const query = 'INSERT INTO Propostas (usuario_cpf, veiculo_id, valor_proposta, mensagem) VALUES (?, ?, ?, ?)';
+    const params = [usuarioCpf, veiculoId, valorProposta, mensagem || null];
+
+    db.query(query, params, (err, results) => {
+        if (err) {
+            console.error('❌ Erro ao registrar proposta:', err);
+            return res.status(500).json({ erro: 'Erro ao registrar proposta.' });
+        }
+        res.status(201).json({ mensagem: 'Proposta enviada com sucesso!' });
+    });
+});
+
+// GET /api/propostas - Admin visualiza todas as propostas
+// A rota é protegida por dois middlewares: primeiro autentica, depois verifica se é admin.
+app.get('/api/propostas', autenticarToken, (req, res) => {
+    // Query que junta as 3 tabelas para trazer informações completas
+    const query = `
+        SELECT 
+            p.id, p.valor_proposta, p.mensagem, p.status, p.data_proposta,
+            u.NOME AS nome_usuario, u.EMAIL AS email_usuario, u.TELEFONE AS telefone_usuario,
+            v.MARCA AS marca_veiculo, v.MODELO AS modelo_veiculo
+        FROM Propostas p
+        JOIN Usuario u ON p.usuario_cpf = u.CPF
+        JOIN Veiculo v ON p.veiculo_id = v.ID_VEICULO
+        ORDER BY p.data_proposta DESC
+    `;
+
+    db.query(query, (err, results) => {
+        if (err) {
+            console.error('❌ Erro ao buscar propostas:', err);
+            return res.status(500).json({ erro: 'Erro ao buscar propostas.' });
+        }
+        res.status(200).json(results);
+    });
+});
+
+// PUT /api/propostas/:id - Admin atualiza o status de uma proposta
+app.put('/api/propostas/:id', autenticarToken, (req, res) => {
+    const { id } = req.params;
+    const { novoStatus } = req.body;
+
+    if (!novoStatus) {
+        return res.status(400).json({ erro: 'O novo status é obrigatório.' });
+    }
+
+    const query = 'UPDATE Propostas SET status = ? WHERE id = ?';
+    db.query(query, [novoStatus, id], (err, results) => {
+        if (err) {
+            console.error('❌ Erro ao atualizar status da proposta:', err);
+            return res.status(500).json({ erro: 'Erro ao atualizar proposta.' });
+        }
+        if (results.affectedRows === 0) {
+            return res.status(404).json({ erro: 'Proposta não encontrada.' });
+        }
+        res.status(200).json({ mensagem: 'Status da proposta atualizado com sucesso!' });
+    });
+});
 // ===================
 // ✅ ROTA PRINCIPAL
 // ===================
