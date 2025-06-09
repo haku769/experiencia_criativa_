@@ -5,27 +5,18 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Gerenciamento de Usuários - AutoElite</title>
+
   <link rel="stylesheet" href="/styles.css" />
   <link rel="stylesheet" href="/CRUDusuario.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
-  <link rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
-    integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
-    crossorigin="anonymous"
-    referrerpolicy="no-referrer" />
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <script src="/routes/sessao.js" defer></script>
+  <script src="/guard-adm.js" defer></script>
 </head>
 
 <body>
-  <!-- Adicionar verificação de acesso no início do body -->
-  <script src="/routes/sessao.js"></script>
-  <script>
-    // Verificar autorização antes de carregar o conteúdo da página
-    if (!protectAdminRoute()) {
-      document.body.innerHTML = 'Redirecionando...';
-    }
-  </script>
 
-  <!-- Header -->
   <header>
     <div class="container">
       <div class="logo">
@@ -48,7 +39,6 @@
     </div>
   </header>
 
-  <!-- Breadcrumb -->
   <div class="breadcrumb-container">
     <div class="container">
       <div class="breadcrumb">
@@ -58,17 +48,15 @@
     </div>
   </div>
 
-  <!-- Admin Content -->
   <section class="admin-section">
     <div class="container">
       <div class="admin-header">
         <div class="admin-title">
           <h1><i class="fas fa-users"></i> Gerenciamento de Usuários</h1>
         </div>
-        <button class="btn btn-primary" id="btn-add-user" onclick="addUser()">Adicionar Usuário</button>
+        <button class="btn btn-primary" id="btn-add-user">Adicionar Usuário</button>
       </div>
 
-      <!-- Tabela de Usuários -->
       <div class="table-container">
         <div class="table-responsive">
           <table class="admin-table">
@@ -82,117 +70,88 @@
               </tr>
             </thead>
             <tbody id="users-table-body">
-              <!-- Linhas de usuários serão preenchidas via JavaScript -->
-            </tbody>
+              </tbody>
           </table>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Modal de Formulário -->
-  <div id="user-modal" class="modal">
+  <div id="user-modal" class="modal-overlay" style="display: none;">
     <div class="modal-content">
-      <div class="modal-header">
-        <h2 id="modal-title">Adicionar Usuário</h2>
-        <button class="close-modal" onclick="closeModal()"><i class="fas fa-times"></i></button>
-      </div>
-      <div class="modal-body">
-        <form id="user-form">
-          <input type="hidden" id="user-id" name="id" />
-
-          <div class="avatar-upload-container">
-            <div class="avatar-preview">
-              <img id="avatar-preview-img" src="/fotos/comercial.png" alt="Prévia do Avatar" />
-            </div>
-            <div class="avatar-upload-wrapper">
-              <label for="foto" class="avatar-upload-label">Escolher Foto</label>
-              <input type="file" id="foto" name="foto" accept="image/*" style="display:none;" />
-
-            </div>
+      <span class="close-modal-btn">&times;</span>
+      <h2 id="modal-title">Adicionar Usuário</h2>
+      <form id="user-form" novalidate>
+        <div class="avatar-preview-container">
+          <div class="avatar-preview">
+            <img id="avatar-preview-img" src="/fotos/comercial.png" alt="Preview do Avatar">
           </div>
-
-          <div class="form-row">
-            <div class="form-group">
-              <label for="nome">Nome completo</label>
-              <input type="text" id="nome" name="nome" required />
-              <small class="form-text text-muted validation-message">Digite o nome do usuário.</small>
-            </div>
-            <div class="form-group">
-              <label for="email">Email</label>
-              <input type="email" id="email" name="email" required />
-              <small class="form-text text-muted validation-message">Digite um email válido.</small>
-            </div>
-            <div class="form-group">
-              <label for="senha">Senha:</label>
-              <div class="password-input-container">
-                <input type="password" id="senha" class="form-control" />
-                <span class="password-pisca" data-target="senha"><i class="fas fa-eye"></i></span>
-              </div>
-              <small class="form-text text-muted validation-message">Necessário conter pelo menos um caractere especial e número.</small>
-            </div>
-            <div class="form-group">
-              <label for="confirmar-senha">Confirmar Senha:</label>
-              <div class="password-input-container">
-                <input type="password" id="confirmar-senha" class="form-control" />
-                <span class="password-pisca" data-target="confirmar-senha"><i class="fas fa-eye"></i></span>
-              </div>
-              <small class="form-text text-muted validation-message">Confirme a senha.</small>
-            </div>
-            <div class="form-group">
-              <label for="telefone">Telefone</label>
-              <input type="tel" id="telefone" name="telefone" />
-              <small class="form-text text-muted validation-message">Digite o telefone do usuário.</small>
-            </div>
-            <div class="form-group">
-              <label for="cpf">CPF</label>
-              <input type="text" id="cpf" name="cpf" required />
-              <small class="form-text text-muted validation-message">Digite o CPF do usuário.</small>
-            </div>
-          </div>
-
-          <div class="form-row">
-            <div class="form-group">
-              <label for="funcao">Função</label>
-              <select id="funcao" name="funcao">
-                <option value="">Selecione uma função</option>
-                <option value="admin">Administrador</option>
-                <option value="cliente">Cliente</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="form-actions">
-            <button type="button" class="btn btn-outline" onclick="closeModal()">Cancelar</button>
-            <button type="submit" class="btn btn-primary">Salvar</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-
-  <!-- Modal de Confirmação de Exclusão -->
-  <div id="delete-modal" class="modal">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h2>Confirmar Exclusão</h2>
-        <button class="close-modal" onclick="closeDeleteModal()"><i class="fas fa-times"></i></button>
-      </div>
-      <div class="modal-body">
-        <div class="delete-icon">
-          <i class="fas fa-exclamation-triangle"></i>
+          <input type="file" id="foto" name="foto" accept="image/*" style="display: none;">
+          <button type="button" class="avatar-upload-btn">Trocar Foto</button>
         </div>
-        <p>Tem certeza que deseja excluir o usuário <span id="delete-user-name">João Silva</span>?</p>
-        <p class="warning-text">Esta ação não pode ser desfeita.</p>
+        <div class="form-group">
+          <label for="nome">Nome Completo</label>
+          <input type="text" id="nome" name="nome" required>
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" required>
+        </div>
+        <div class="form-group">
+          <label for="telefone">Telefone</label>
+          <input type="tel" id="telefone" name="telefone" required>
+        </div>
+        <div class="form-group">
+          <label for="cpf">CPF</label>
+          <input type="text" id="cpf" name="cpf" required>
+        </div>
+        <div class="form-group">
+          <label for="funcao">Função</label>
+          <select id="funcao" name="funcao">
+            <option value="user">Cliente</option>
+            <option value="admin">Admin</option>
+          </select>
+        </div>
+        <div class="form-group">
+            <label for="senha">Senha</label>
+            <div class="password-container">
+              <input type="password" id="senha" name="senha">
+              <span class="password-pisca" data-target="senha">
+                <i class="fas fa-eye"></i>
+              </span>
+            </div>
+            <small>Obrigatória para novos usuários. Para edição, preencha apenas se quiser alterar.</small>
+          </div>
+
+          <div class="form-group">
+            <label for="confirmar-senha">Confirmar Senha</label>
+            <div class="password-container">
+              <input type="password" id="confirmar-senha" name="confirmar-senha">
+              <span class="password-pisca" data-target="confirmar-senha">
+                <i class="fas fa-eye"></i>
+              </span>
+            </div>
+          </div>
         <div class="form-actions">
-          <button type="button" class="btn btn-outline" onclick="closeDeleteModal()">Cancelar</button>
-          <button type="button" class="btn btn-danger" onclick="confirmDelete()">Excluir</button>
+          <button type="button" class="btn btn-secondary close-modal-btn">Cancelar</button>
+          <button type="submit" class="btn btn-primary">Salvar</button>
         </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="delete-modal" class="modal-overlay" style="display: none;">
+    <div class="modal-content text-center">
+      <span class="close-modal-btn">&times;</span>
+      <h2>Confirmar Exclusão</h2>
+      <p>Você tem certeza que deseja excluir este item permanentemente? Esta ação não pode ser desfeita.</p>
+      <div class="form-actions">
+        <button type="button" class="btn btn-secondary close-modal-btn">Cancelar</button>
+        <button type="button" id="confirm-delete-btn" class="btn btn-danger">Sim, Excluir</button>
       </div>
     </div>
   </div>
 
-  <!-- Footer -->
   <footer>
     <div class="container">
       <div class="footer-grid">
@@ -242,7 +201,6 @@
       </div>
     </div>
   </footer>
-
 
   <script src="/routes/manuntencao.js" defer></script>
 </body>

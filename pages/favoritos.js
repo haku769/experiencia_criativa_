@@ -87,7 +87,7 @@ function criarCardFavorito(carro) {
 
             <div class="car-price">
                 <span class="price">${preco}</span>
-                <a href="/Carros/detalhes.html?id=${carro.id}" class="btn btn-sm">Ver Detalhes</a>
+                <a href="proposta.html?id=${carro.id}" class="btn btn-sm">Faça sua Proposta</a>
             </div>
         </div>`;
     return cardDiv;

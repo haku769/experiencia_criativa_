@@ -1,415 +1,287 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const tabBtns = document.querySelectorAll('.tab-btn');
-  const formContainers = document.querySelectorAll('.form-container');
-  const forgotPasswordLink = document.getElementById('forgot-password-link');
-  const backToLogin = document.getElementById('back-to-login');
-  const registerForm = document.getElementById('form-registro');
-  const loginForm = document.querySelector('#login-form form');
-  const recoveryForm = document.querySelector('#forgot-password-form form');
-  const inputPhone = document.querySelector('#register-phone');
-  const inputCPF = document.querySelector('#cpf');
-  
-  
+  /**
+   * Encapsula toda a lógica da página de autenticação em um objeto
+   * para melhor organização e manutenibilidade.
+   */
+  const AuthPage = {
+    // Elementos do DOM cacheados para performance
+    elements: {},
 
-  function showForm(formId) {
-    formContainers.forEach(form => form.classList.remove('active'));
-    document.getElementById(formId).classList.add('active');
-  }
+    // Ponto de entrada da aplicação
+    init() {
+      this.cacheElements();
+      this.bindEvents();
+    },
 
-  tabBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      tabBtns.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      showForm(btn.getAttribute('data-tab') === 'login' ? 'login-form' : 'register-form');
-    });
-  });
+    // Guarda referências aos elementos do DOM para não buscar toda hora
+    cacheElements() {
+      this.elements.tabs = document.querySelectorAll('.tab-btn');
+      this.elements.formContainers = document.querySelectorAll('.form-container');
+      this.elements.forgotPasswordLink = document.getElementById('forgot-password-link');
+      this.elements.backToLoginBtn = document.getElementById('back-to-login');
+      
+      this.elements.loginForm = document.getElementById('form-login');
+      this.elements.registerForm = document.getElementById('form-registro');
+      this.elements.recoveryForm = document.getElementById('form-recuperacao');
 
-  if (forgotPasswordLink) {
-    forgotPasswordLink.addEventListener('click', (e) => {
-      e.preventDefault();
-      showForm('forgot-password-form');
-    });
-  }
+      this.elements.passwordToggles = document.querySelectorAll('.password-toggle');
+      
+      // Inputs do formulário de registro
+      this.elements.registerName = document.getElementById('register-name');
+      this.elements.registerEmail = document.getElementById('register-email');
+      this.elements.registerPhone = document.getElementById('register-phone');
+      this.elements.registerCpf = document.getElementById('cpf');
+      this.elements.registerPassword = document.getElementById('register-password');
+      this.elements.registerConfirmPassword = document.getElementById('register-confirm-password');
+      this.elements.registerPhoto = document.getElementById('register-photo');
+      this.elements.termsCheckbox = document.getElementById('terms');
+    },
 
-  if (backToLogin) {
-    backToLogin.addEventListener('click', () => {
-      tabBtns.forEach(b => b.classList.remove('active'));
-      document.querySelector('[data-tab="login"]').classList.add('active');
-      showForm('login-form');
-    });
-  }
+    // Centraliza toda a configuração de eventos
+    bindEvents() {
+      // Navegação por Abas
+      this.elements.tabs.forEach(btn => {
+        btn.addEventListener('click', () => this.ui.handleTabClick(btn));
+      });
 
-  function validarEmail(email) {
-    return /^[a-zA-Z0-9._%+-]+@gmail\.com$/.test(email);
-  }
+      // Links para formulário de recuperação
+      this.elements.forgotPasswordLink?.addEventListener('click', (e) => {
+        e.preventDefault();
+        this.ui.showForm('forgot-password-form');
+      });
+      this.elements.backToLoginBtn?.addEventListener('click', () => {
+        this.ui.showForm('login-form');
+        document.querySelector('.tab-btn.active').classList.remove('active');
+        document.querySelector('[data-tab="login"]').classList.add('active');
+      });
 
-  function validarTelefone(telefone) {
-    const numeros = telefone.replace(/\D/g, '');
-    return /^(\d{2})(9\d{8})$/.test(numeros);
-  }
+      // Mostrar/Ocultar Senha
+      this.elements.passwordToggles.forEach(toggle => {
+        toggle.addEventListener('click', this.ui.togglePasswordVisibility);
+      });
 
-  function validarCPF(cpf) {
-    cpf = cpf.replace(/\D/g, '');
-    if (cpf.length !== 11 || /^(\d)\1{10}$/.test(cpf)) return false;
-    let soma = 0, resto;
-    for (let i = 1; i <= 9; i++) soma += parseInt(cpf[i - 1]) * (11 - i);
-    resto = (soma * 10) % 11;
-    if (resto === 10 || resto === 11) resto = 0;
-    if (resto !== parseInt(cpf[9])) return false;
-    soma = 0;
-    for (let i = 1; i <= 10; i++) soma += parseInt(cpf[i - 1]) * (12 - i);
-    resto = (soma * 10) % 11;
-    if (resto === 10 || resto === 11) resto = 0;
-    return resto === parseInt(cpf[10]);
-  }
+      // Validação em Tempo Real e Máscaras
+      this.events.setupRealTimeValidation();
 
-  function validarSenha(senha) {
-    return senha.length >= 6 && /[!@#$%^&*(),.?":{}|<>]/.test(senha) && /\d/.test(senha);
-  }
+      // Submissão dos Formulários
+      this.elements.loginForm?.addEventListener('submit', this.events.handleLoginSubmit);
+      this.elements.registerForm?.addEventListener('submit', this.events.handleRegisterSubmit);
+      this.elements.recoveryForm?.addEventListener('submit', this.events.handleRecoverySubmit);
+    },
 
-  function mascaraTelefone(campo) {
-    let valor = campo.value.replace(/\D/g, '').slice(0, 11);
-    valor = valor.length <= 10
-      ? valor.replace(/^(\d{2})(\d{4})(\d{0,4})$/, '($1) $2-$3')
-      : valor.replace(/^(\d{2})(\d{5})(\d{0,4})$/, '($1) $2-$3');
-    campo.value = valor.trim().replace(/[-\s)]$/, '');
-  }
+    // Funções de UI (manipulação da interface)
+    ui: {
+      showForm(formId) {
+        AuthPage.elements.formContainers.forEach(form => form.classList.remove('active'));
+        document.getElementById(formId)?.classList.add('active');
+      },
 
-  function mascaraCPF(campo) {
-    let cpf = campo.value.replace(/\D/g, '');
-    if (cpf.length > 3) cpf = cpf.replace(/(\d{3})(\d)/, '$1.$2');
-    if (cpf.length > 6) cpf = cpf.replace(/(\d{3})\.(\d{3})(\d)/, '$1.$2.$3');
-    if (cpf.length > 9) cpf = cpf.replace(/(\d{3})\.(\d{3})\.(\d{3})(\d)/, '$1.$2.$3-$4');
-    campo.value = cpf;
-  }
-
-  // Função para aplicar a validação em tempo real com mudança de cor e mensagem
-  function setupRealTimeValidation(inputElement, validationFunction, helpMessage, errorMessage, formatFunction = null) {
-    const validationMessageElement = inputElement.nextElementSibling;
-
-    inputElement.addEventListener('input', function () {
-      if (formatFunction) {
-        formatFunction(this);
-      }
-      const valueToValidate = formatFunction ? this.value.replace(/\D/g, '') : this.value;
-      const isValid = validationFunction(valueToValidate);
-
-      inputElement.classList.remove('is-valid', 'is-invalid');
-
-      if (isValid) {
-        inputElement.classList.add('is-valid');
-        validationMessageElement.textContent = helpMessage;
-        validationMessageElement.style.color = '#6c757d'; // Cor da mensagem de ajuda
-      } else {
-        inputElement.classList.add('is-invalid');
-        validationMessageElement.textContent = errorMessage;
-        validationMessageElement.style.color = 'red';
-      }
-    });
-
-    // Ao perder o foco, mesmo que válido, manter a mensagem de ajuda
-    inputElement.addEventListener('blur', function() {
-      if (inputElement.classList.contains('is-valid')) {
-        validationMessageElement.textContent = helpMessage;
-        validationMessageElement.style.color = '#6c757d';
-      }
-    });
-  }
-
-  inputPhone.addEventListener('input', function () {
-    mascaraTelefone(this);
-    const isValid = validarTelefone(this.value);
-    const validationMessageElement = this.nextElementSibling;
-    this.classList.remove('is-valid', 'is-invalid');
-    if (isValid) {
-      this.classList.add('is-valid');
-      validationMessageElement.textContent = 'Formato: (XX) 9XXXXXXXX.';
-      validationMessageElement.style.color = '#6c757d';
-    } else {
-      this.classList.add('is-invalid');
-      validationMessageElement.textContent = 'Telefone inválido!';
-      validationMessageElement.style.color = 'red';
-    }
-  });
-
-  inputCPF.addEventListener('input', function () {
-    mascaraCPF(this);
-    const isValid = validarCPF(this.value.replace(/\D/g, ''));
-    const validationMessageElement = this.nextElementSibling;
-    this.classList.remove('is-valid', 'is-invalid');
-    if (isValid) {
-      this.classList.add('is-valid');
-      validationMessageElement.textContent = 'Digite um CPF válido.';
-      validationMessageElement.style.color = '#6c757d';
-    } else {
-      this.classList.add('is-invalid');
-      validationMessageElement.textContent = 'CPF inválido!';
-      validationMessageElement.style.color = 'red';
-    }
-  });
-
-  const registerNameInput = document.querySelector('#register-name');
-  const registerEmailInput = document.querySelector('#register-email');
-  const registerPasswordInput = document.querySelector('#register-password');
-  const registerConfirmPasswordInput = document.querySelector('#register-confirm-password');
-  const termsCheckbox = document.querySelector('#terms'); 
-  
-
-  setupRealTimeValidation(
-    registerNameInput,
-    (value) => value.length >= 8,
-    'Digite seu nome completo (mínimo 8 caracteres).',
-    'O nome deve ter pelo menos 8 caracteres!'
-  );
-
-  setupRealTimeValidation(
-    registerEmailInput,
-    validarEmail,
-    'Insira um e-mail do Gmail no formato correto.',
-    'O e-mail deve ser do Gmail e estar no formato correto!'
-  );
-
-  setupRealTimeValidation(
-    registerPasswordInput,
-    validarSenha,
-    'Mínimo 6 caracteres, um número e um símbolo.',
-
-  );
-
-  setupRealTimeValidation(
-    registerConfirmPasswordInput,
-    (value) => value === registerPasswordInput.value,
-    'As senhas devem corresponder.',
-  );
-
-  async function renovarTokenSeNecessario() {
-    let token = localStorage.getItem('token');
-    const refreshToken = localStorage.getItem('refreshToken');
-
-    if (token) {
-      try {
-        const payload = JSON.parse(atob(token.split('.')[1]));
-        if (Date.now() < payload.exp * 1000) return token;
-      } catch {
-        console.warn('⚠️ Token inválido, tentando renovar...');
-      }
-    }
-
-    if (refreshToken) {
-      try {
-        const res = await fetch('http://localhost:3000/autenticacao/refresh', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ refreshToken })
-        });
-        const data = await res.json();
-        if (res.ok) {
-          localStorage.setItem('token', data.token);
-          return data.token;
-        } else {
-          showPopup('⚠️ Sessão expirada. Faça login novamente.');
-          localStorage.clear();
-          window.location.href = '/autenticacao.html';
+      handleTabClick(clickedBtn) {
+        AuthPage.elements.tabs.forEach(b => b.classList.remove('active'));
+        clickedBtn.classList.add('active');
+        const formId = clickedBtn.dataset.tab === 'login' ? 'login-form' : 'register-form';
+        this.showForm(formId);
+      },
+      
+      togglePasswordVisibility() {
+        // 'this' aqui é o botão que foi clicado
+        const input = this.previousElementSibling;
+        const icon = this.querySelector('i');
+        if (input && icon) {
+          const isPassword = input.type === 'password';
+          input.type = isPassword ? 'text' : 'password';
+          icon.classList.toggle('fa-eye', !isPassword);
+          icon.classList.toggle('fa-eye-slash', isPassword);
         }
-      } catch {
-        showPopup('❌ Erro ao renovar token.');
-        window.location.href = 'autenticacao.html';
+      },
+
+      updateFieldUI(input, isValid) {
+        input.classList.remove('is-valid', 'is-invalid');
+        input.classList.add(isValid ? 'is-valid' : 'is-invalid');
+      },
+      
+      showPopup(message) {
+        document.getElementById('custom-popup-overlay')?.remove();
+        const overlay = document.createElement('div');
+        overlay.id = 'custom-popup-overlay';
+        Object.assign(overlay.style, { position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'rgba(0,0,0,0.6)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 10000 });
+        const popup = document.createElement('div');
+        Object.assign(popup.style, { backgroundColor: '#fff', padding: '30px', borderRadius: '10px', boxShadow: '0 4px 20px rgba(0,0,0,0.3)', maxWidth: '400px', textAlign: 'center' });
+        popup.innerHTML = `<div>${message}</div><button style="margin-top:20px;padding:10px 20px;border:none;background-color:#333;color:#fff;border-radius:5px;cursor:pointer;">Fechar</button>`;
+        popup.querySelector('button').onclick = () => overlay.remove();
+        overlay.onclick = (e) => { if (e.target === overlay) overlay.remove(); };
+        document.body.appendChild(overlay);
       }
-    } else {
-      showPopup('⚠️ Você precisa estar logado.');
-      window.location.href = '/autenticacao.html';
+    },
+
+    // Lógica de eventos e validação
+    events: {
+      setupRealTimeValidation() {
+        const { registerName, registerEmail, registerPhone, registerCpf, registerPassword, registerConfirmPassword } = AuthPage.elements;
+
+        const addValidation = (input, validatorFn, formatterFn = null) => {
+          input?.addEventListener('input', () => {
+            if (formatterFn) formatterFn(input);
+            AuthPage.ui.updateFieldUI(input, validatorFn(input.value));
+          });
+        };
+        
+        addValidation(registerName, AuthPage.validators.nome);
+        addValidation(registerEmail, AuthPage.validators.email);
+        addValidation(registerPhone, AuthPage.validators.telefone, AuthPage.formatters.telefone);
+        addValidation(registerCpf, AuthPage.validators.cpf, AuthPage.formatters.cpf);
+        addValidation(registerPassword, AuthPage.validators.senha);
+        addValidation(registerConfirmPassword, (val) => AuthPage.validators.confirmarSenha(val, registerPassword.value));
+      },
+
+      async handleLoginSubmit(e) {
+        e.preventDefault();
+        const email = AuthPage.elements.loginForm.elements.email.value;
+        const senha = AuthPage.elements.loginForm.elements.senha.value;
+        
+        if (!AuthPage.validators.email(email) || !AuthPage.validators.senha(senha)) {
+          return AuthPage.ui.showPopup('❌ E-mail ou senha em formato inválido.');
+        }
+
+        AuthPage.api.login({ email, senha });
+      },
+
+      async handleRegisterSubmit(e) {
+        e.preventDefault();
+        const form = AuthPage.elements.registerForm;
+        
+        const fields = {
+            nome: form.elements.nome,
+            email: form.elements.email,
+            telefone: form.elements.telefone,
+            cpf: form.elements.cpf,
+            senha: form.elements.senha,
+            confirmarSenha: form.elements.confirmarSenha
+        };
+        
+        // Validação final no submit
+        const isNomeValid = AuthPage.validators.nome(fields.nome.value);
+        const isEmailValid = AuthPage.validators.email(fields.email.value);
+        const isTelefoneValid = AuthPage.validators.telefone(fields.telefone.value);
+        const isCpfValid = AuthPage.validators.cpf(fields.cpf.value);
+        const isSenhaValid = AuthPage.validators.senha(fields.senha.value);
+        const isConfirmarSenhaValid = AuthPage.validators.confirmarSenha(fields.confirmarSenha.value, fields.senha.value);
+        
+        AuthPage.ui.updateFieldUI(fields.nome, isNomeValid);
+        AuthPage.ui.updateFieldUI(fields.email, isEmailValid);
+        AuthPage.ui.updateFieldUI(fields.telefone, isTelefoneValid);
+        AuthPage.ui.updateFieldUI(fields.cpf, isCpfValid);
+        AuthPage.ui.updateFieldUI(fields.senha, isSenhaValid);
+        AuthPage.ui.updateFieldUI(fields.confirmarSenha, isConfirmarSenhaValid);
+
+        if (!isNomeValid || !isEmailValid || !isTelefoneValid || !isCpfValid || !isSenhaValid || !isConfirmarSenhaValid) {
+            return AuthPage.ui.showPopup('⚠️ Por favor, corrija os campos em vermelho.');
+        }
+
+        if (!AuthPage.elements.termsCheckbox.checked) {
+            return AuthPage.ui.showPopup('⚠️ Você deve aceitar os termos de uso.');
+        }
+        
+        if (!AuthPage.elements.registerPhoto.files[0]) {
+            return AuthPage.ui.showPopup('⚠️ Por favor, selecione uma foto de perfil.');
+        }
+        
+        const formData = new FormData(form);
+        AuthPage.api.register(formData);
+      },
+
+      async handleRecoverySubmit(e) {
+        e.preventDefault();
+        const email = AuthPage.elements.recoveryForm.elements.email.value;
+        if (!AuthPage.validators.email(email)) {
+            return AuthPage.ui.showPopup('❌ Formato de e-mail inválido.');
+        }
+        AuthPage.ui.showPopup('🔁 Se o e-mail estiver cadastrado, um link de recuperação será enviado.');
+        AuthPage.ui.showForm('login-form');
+      }
+    },
+
+    // Funções de API
+    api: {
+      async login(credentials) {
+        try {
+          const res = await fetch('http://localhost:3000/autenticacao/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(credentials)
+          });
+          const data = await res.json();
+          if (!res.ok) throw new Error(data.erro);
+          
+          localStorage.setItem('usuarioLogado', JSON.stringify(data.usuario));
+          localStorage.setItem('token', data.token);
+          localStorage.setItem('refreshToken', data.refreshToken);
+          AuthPage.ui.showPopup('✅ Login realizado com sucesso!');
+          window.location.href = '/index.html';
+
+        } catch (error) {
+          AuthPage.ui.showPopup(`❌ Erro: ${error.message}`);
+        }
+      },
+      async register(formData) {
+        try {
+          const res = await fetch('http://localhost:3000/autenticacao/registro', {
+            method: 'POST',
+            body: formData
+          });
+          const data = await res.json();
+          if (!res.ok) throw new Error(data.erro);
+
+          AuthPage.ui.showPopup('✅ Conta criada com sucesso! Faça o login.');
+          document.querySelector('[data-tab="login"]').click();
+          
+        } catch (error) {
+          AuthPage.ui.showPopup(`❌ Erro: ${error.message}`);
+        }
+      }
+    },
+
+    // Funções de validação puras
+    validators: {
+      nome: (val) => val.trim().length >= 8,
+      email: (val) => /^[a-zA-Z0-9._%+-]+@gmail\.com$/.test(val),
+      telefone: (val) => val.replace(/\D/g, '').length === 11,
+      cpf(cpf) {
+        cpf = cpf.replace(/\D/g, '');
+        if (cpf.length !== 11 || /^(\d)\1{10}$/.test(cpf)) return false;
+        let soma = 0, resto;
+        for (let i = 1; i <= 9; i++) soma += parseInt(cpf[i-1]) * (11 - i);
+        resto = (soma * 10) % 11;
+        if (resto === 10 || resto === 11) resto = 0;
+        if (resto !== parseInt(cpf[9])) return false;
+        soma = 0;
+        for (let i = 1; i <= 10; i++) soma += parseInt(cpf[i-1]) * (12 - i);
+        resto = (soma * 10) % 11;
+        if (resto === 10 || resto === 11) resto = 0;
+        return resto === parseInt(cpf[10]);
+      },
+      senha: (val) => val.length >= 6 && /[!@#$%^&*(),.?":{}|<>]/.test(val) && /\d/.test(val),
+      confirmarSenha: (val, senha) => val === senha && val.length > 0
+    },
+
+    // Funções de formatação (máscaras)
+    formatters: {
+      telefone(campo) {
+        let valor = campo.value.replace(/\D/g, '').slice(0, 11);
+        valor = valor.replace(/^(\d{2})(\d)/, '($1) $2');
+        valor = valor.replace(/(\d{5})(\d)/, '$1-$2');
+        campo.value = valor;
+      },
+      cpf(campo) {
+        let valor = campo.value.replace(/\D/g, '').slice(0, 11);
+        valor = valor.replace(/(\d{3})(\d)/, '$1.$2');
+        valor = valor.replace(/(\d{3})(\d)/, '$1.$2');
+        valor = valor.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+        campo.value = valor;
+      }
     }
-  }
+  };
 
-  registerForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const nome = document.querySelector('#register-name').value.trim();
-    const email = document.querySelector('#register-email').value;
-    const telefone = inputPhone.value.replace(/\D/g, '');
-    const cpf = inputCPF.value.replace(/\D/g, '');
-    const senha = document.querySelector('#register-password').value;
-    const confirmarSenha = document.querySelector('#register-confirm-password').value;
-    const termos = termsCheckbox.checked;
-    const foto = document.querySelector('#register-photo').files[0];
-
-    // const dataNascimento = document.querySelector('#register-birthdate').value;
-
-    let isValidForm = true;
-
-    // Validação final e exibição de mensagens de erro no submit
-    const validateFieldOnSubmit = (inputElement, isValid, errorMessage, helpMessage) => {
-      const validationMessageElement = inputElement.nextElementSibling;
-      inputElement.classList.remove('is-valid', 'is-invalid');
-      if (isValid) {
-        inputElement.classList.add('is-valid');
-        validationMessageElement.textContent = helpMessage;
-        validationMessageElement.style.color = '#6c757d';
-      } else {
-        inputElement.classList.add('is-invalid');
-        validationMessageElement.textContent = errorMessage;
-        validationMessageElement.style.color = 'red';
-        isValidForm = false;
-      }
-    };
-
-    validateFieldOnSubmit(registerNameInput, nome.length >= 8, 'O nome deve ter pelo menos 8 caracteres!', 'Digite seu nome completo (mínimo 8 caracteres).');
-    validateFieldOnSubmit(registerEmailInput, validarEmail(email), 'O e-mail deve ser do Gmail e estar no formato correto!', 'Insira um e-mail do Gmail no formato correto.');
-    validateFieldOnSubmit(inputPhone, validarTelefone(telefone), 'Telefone inválido!', 'Formato: (XX) 9XXXXXXXX.');
-    validateFieldOnSubmit(inputCPF, validarCPF(cpf), 'CPF inválido!', 'Digite um CPF válido.');
-    validateFieldOnSubmit(registerPasswordInput, validarSenha(senha), 'Senha fraca! Use 6+ caracteres, número e símbolo.', 'Mínimo 6 caracteres, um número e um símbolo.');
-    validateFieldOnSubmit(registerConfirmPasswordInput, senha === confirmarSenha, 'As senhas não coincidem!', 'As senhas devem corresponder.');
-
-    if (!termos) {
-      showPopup('Você deve aceitar os termos!');
-      isValidForm = false;
-    }
-    if (!foto) {
-      showPopup('Selecione uma foto para o perfil!');
-      isValidForm = false;
-    }
-
-    if (!isValidForm) return;
-
-    const formData = new FormData();
-    formData.append('nome', nome);
-    formData.append('email', email);
-    formData.append('telefone', telefone);
-    formData.append('cpf', cpf);
-    formData.append('senha', senha);
-    formData.append('foto', foto);
-
-
-    try {
-      const res = await fetch('http://localhost:3000/autenticacao/registro', {
-        method: 'POST',
-        body: formData
-      });
-      const data = await res.json();
-      if (res.ok) {
-        showPopup('✅ Conta criada com sucesso!');
-        document.querySelector('[data-tab="login"]').click();
-      } else {
-        showPopup(`❌ Erro: ${data.erro}`);
-      }
-    } catch {
-      showPopup('❌ Erro ao tentar registrar. Verifique a conexão.');
-    }
-  });
-
-  loginForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const email = document.querySelector('#login-email').value;
-    const senha = document.querySelector('#login-password').value;
-
-    if (!validarEmail(email)) return showPopup('O e-mail está incorreto!');
-    if (!validarSenha(senha)) return showPopup('A senha deve ter pelo menos 6 caracteres e símbolo!');
-
-    try {
-      const res = await fetch('http://localhost:3000/autenticacao/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, senha })
-      });
-
-      const data = await res.json();
-
-      if (res.ok) {
-        const { usuario, token, refreshToken } = data;
-        localStorage.setItem('usuarioLogado', JSON.stringify(usuario));
-        localStorage.setItem('token', token);
-        localStorage.setItem('refreshToken', refreshToken);
-        showPopup('✅ Login realizado com sucesso!');
-        window.location.href = '/index.html';
-      } else {
-        showPopup(`❌ Erro: ${data.erro}`);
-      }
-    } catch {
-      showPopup('❌ Erro ao tentar logar. Verifique a conexão.');
-    }
-  });
-
-  if (recoveryForm) {
-    recoveryForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      showPopup('🔁 Um e-mail de recuperação será enviado.');
-      showForm('login-form');
-    });
-  }
-
-  function showPopup(message) {
-    const existingOverlay = document.getElementById('custom-popup-overlay');
-    if (existingOverlay) existingOverlay.remove();
-
-    const overlay = document.createElement('div');
-    overlay.id = 'custom-popup-overlay';
-    Object.assign(overlay.style, {
-      position: 'fixed',
-      top: 0,
-      left: 0,
-      width: '100vw',
-      height: '100vh',
-      backgroundColor: 'rgba(0, 0, 0, 0.5)',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      zIndex: 10000
-    });
-
-    const popup = document.createElement('div');
-    Object.assign(popup.style, {
-      backgroundColor: '#fff',
-      padding: '30px',
-      borderRadius: '10px',
-      boxShadow: '0 4px 20px rgba(0,0,0,0.3)',
-      width: '400px',
-      maxWidth: '90%',
-      textAlign: 'center',
-      fontFamily: 'Arial, sans-serif',
-      fontSize: '18px'
-    });
-
-    const messageEl = document.createElement('div');
-    messageEl.innerText = message;
-
-    const closeBtn = document.createElement('button');
-    closeBtn.innerText = 'Fechar';
-    Object.assign(closeBtn.style, {
-      marginTop: '20px',
-      padding: '10px 20px',
-      backgroundColor: '#333',
-      color: '#fff',
-      border: 'none',
-      borderRadius: '5px',
-      cursor: 'pointer'
-    });
-    closeBtn.onclick = () => overlay.remove();
-
-    popup.appendChild(messageEl);
-    popup.appendChild(closeBtn);
-    overlay.appendChild(popup);
-    document.body.appendChild(overlay);
-    overlay.onclick = (e) => {
-    if (e.target === overlay) overlay.remove();
-};
-
-  }
-  
-});
-document.addEventListener('DOMContentLoaded', function () {
-  const toggleButtons = document.querySelectorAll('.password-toggle');
-
-  toggleButtons.forEach((toggle) => {
-    toggle.addEventListener('click', function () {
-      const input = this.parentElement.querySelector('input');
-      if (input) {
-        input.type = input.type === 'password' ? 'text' : 'password';
-      }
-
-      const icon = this.querySelector('i');
-      if (icon) {
-        icon.classList.toggle('fa-eye');
-        icon.classList.toggle('fa-eye-slash');
-      }
-    });
-  });
+  // Inicia a aplicação
+  AuthPage.init();
 });

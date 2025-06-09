@@ -7,17 +7,10 @@
   <link rel="stylesheet" href="/styles.css" />
   <link rel="stylesheet" href="/CRUDveiculos.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"/>
-  
+  <script src="/routes/sessao.js" defer></script>
+  <script src="/guard-adm.js" defer></script>
 </head>
 <body>
-  <!-- Adicionar verificação de acesso no início do body -->
-  <script src="/routes/sessao.js"></script>
-  <script>
-    // Verificar autorização antes de carregar o conteúdo da página
-    if (!protectAdminRoute()) {
-      document.body.innerHTML = 'Redirecionando...';
-    }
-  </script>
 
   <!-- Header -->
   <header>

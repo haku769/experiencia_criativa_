@@ -169,3 +169,131 @@
     transform: scale(1);
   }
 }
+/* --- ESTILOS PARA DESTAQUE DO PREÇO E FEEDBACK DA PROPOSTA --- */
+
+/* 1. Estilo para destacar o valor de referência do carro */
+#display-preco {
+    padding: 1rem;
+    margin-top: 1rem;
+    background-color: #f8f9fa; /* Fundo cinza bem claro */
+    border-radius: 6px;
+    border: 1px solid #dee2e6; /* Borda sutil */
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+#display-preco p:first-child { 
+    margin: 0; 
+    color: #6c757d; /* Cor do texto do rótulo */
+    font-size: 0.9rem;
+}
+
+#display-preco p#preco-veiculo-texto {
+    font-size: 2rem; /* Tamanho da fonte do preço */
+    font-weight: bold;
+    color: #007bff; /* Cor azul para o preço */
+    margin-top: 0.25rem;
+}
+
+
+/* 2. Estilos para o feedback de proposta baixa */
+
+/* Oculta a mensagem de feedback por padrão */
+.feedback-proposta {
+    min-height: 1.25rem; /* Evita que o layout "pule" quando a mensagem aparece */
+    margin-top: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #dc3545; /* Cor vermelha para o texto de erro */
+    display: none; /* Começa escondido */
+}
+
+/* Mostra a mensagem quando a classe 'is-visible' é adicionada via JS */
+.feedback-proposta.is-visible {
+    display: block;
+}
+
+/* Deixa o campo da oferta com a borda vermelha quando a proposta é baixa */
+#valor_proposta.is-invalid {
+    border-color: #dc3545; /* Borda vermelha */
+    background-color: #fff8f8; /* Fundo vermelho bem sutil */
+}
+
+/* Adaptação para o popup já existente */
+#popup-proposta {
+    display: none; /* Garante que o popup comece escondido */
+}
+.popup-overlay.show { 
+    display: flex; 
+}
+.hidden {
+    display: none !important; /* Garante que o display de preço comece escondido */
+}
+/* ======================================== */
+/* ESTILOS PARA NOTIFICAÇÕES (TOASTS)       */
+/* ======================================== */
+
+/* VERSÃO NOVA - CANTO INFERIOR DIREITO */
+#toast-container {
+    position: fixed;
+    bottom: 20px;  /* ALTERADO DE 'top' PARA 'bottom' */
+    right: 20px;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.toast {
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 500;
+    opacity: 0; /* Começa invisível para a animação */
+    animation: toast-in 0.5s forwards;
+}
+
+.toast i {
+    font-size: 1.5rem;
+    margin-right: 15px;
+}
+
+/* Tipos de Toast */
+.toast.success {
+    background-color: #28a745; /* Verde */
+}
+
+.toast.error {
+    background-color: #dc3545; /* Vermelho */
+}
+
+/* Animações */
+@keyframes toast-in {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.toast.fade-out {
+    animation: toast-out 0.5s forwards;
+}
+
+@keyframes toast-out {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}

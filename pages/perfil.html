@@ -6,15 +6,16 @@
   <title>Editar Perfil</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-blue-100 min-h-screen font-sans text-gray-800">
+<body class="bg-blue-100 font-sans text-gray-800">
 
+  <a href="index.html" class="fixed top-4 right-4 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-300 z-50">
+    Início
+  </a>
 
-  <!-- Alerta de sucesso fixo no topo -->
   <div id="alerta-sucesso" class="hidden fixed top-4 left-1/2 transform -translate-x-1/2 bg-green-600 text-white px-6 py-3 rounded-lg shadow-lg z-50 transition-opacity duration-500 opacity-0">
-    Perfil atualizado com sucesso! Redirecionando...
+    Perfil atualizado com sucesso!
   </div>
 
-  <!-- Container principal responsivo -->
   <div class="max-w-4xl w-[95%] mx-auto p-6 bg-white text-gray-800 rounded-lg shadow-md mt-10">
     <h1 class="text-2xl font-semibold mb-6 text-center sm:text-left">Editar Perfil</h1>
 
@@ -26,28 +27,24 @@
     </div>
 
     <form id="form-perfil" class="space-y-6">
-      <!-- Nome -->
       <div>
         <label for="nome" class="block text-sm font-medium">Nome:</label>
         <input type="text" id="nome" name="nome" required class="mt-1 p-3 w-full bg-white text-gray-800 border border-gray-300 rounded-md shadow-sm" />
         <p id="erro-nome" class="text-red-500 text-sm hidden mt-1">Nome inválido (mínimo 3 caracteres).</p>
       </div>
 
-      <!-- Email -->
       <div>
         <label for="email" class="block text-sm font-medium">Email:</label>
         <input type="email" id="email" name="email" required class="mt-1 p-3 w-full bg-white text-gray-800 border border-gray-300 rounded-md shadow-sm" />
         <p id="erro-email" class="text-red-500 text-sm hidden mt-1">Email inválido.</p>
       </div>
 
-      <!-- Telefone -->
       <div>
         <label for="telefone" class="block text-sm font-medium">Telefone:</label>
         <input type="tel" id="telefone" name="telefone" class="mt-1 p-3 w-full bg-white text-gray-800 border border-gray-300 rounded-md shadow-sm" />
         <p id="erro-telefone" class="text-red-500 text-sm hidden mt-1">Telefone inválido.</p>
       </div>
 
-      <!-- Foto de Perfil -->
       <div>
         <label for="fotoPerfil" class="block text-sm font-medium">Foto de Perfil:</label>
         <input type="file" id="fotoPerfil" name="foto" accept="image/*" class="mt-1 block w-full text-sm text-gray-700 bg-white border border-gray-300 rounded-md cursor-pointer" />
@@ -55,7 +52,6 @@
         <img id="imagemAtual" src="" alt="Imagem atual" class="mt-4 rounded-full w-24 h-24 hidden object-cover" />
       </div>
 
-      <!-- Senha -->
       <div>
         <label for="senha" class="block text-sm font-medium">Nova Senha:</label>
         <div class="relative">
@@ -64,14 +60,13 @@
             <svg id="icone-senha" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-5 h-5">
               <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
               <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 
-              9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                    9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
             </svg>
           </button>
         </div>
         <p id="erro-senha" class="text-red-500 text-sm hidden mt-1">Senha deve ter no mínimo 6 caracteres.</p>
       </div>
 
-      <!-- Confirmar Senha -->
       <div>
         <label for="confirmarSenha" class="block text-sm font-medium">Confirmar Senha:</label>
         <div class="relative">
@@ -80,14 +75,13 @@
             <svg id="icone-confirmar" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-5 h-5">
               <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
               <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 
-              9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                    9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
             </svg>
           </button>
         </div>
         <p id="erro-confirmar-senha" class="text-red-500 text-sm hidden mt-1">As senhas não coincidem.</p>
       </div>
 
-      <!-- Botão -->
       <div class="text-center sm:text-right">
         <button type="submit" class="bg-blue-400 hover:bg-blue-500 transition duration-300 text-white font-semibold py-2 px-6 rounded-lg shadow-md">
           Salvar Alterações
@@ -95,21 +89,6 @@
       </div>
     </form>
   </div>
-
-  <!-- Header com nome, imagem do usuário e botão "Início" -->
-<header class="fixed top-4 right-4 flex items-center gap-3 sm:gap-4" id="perfil-area" style="display: none;">
-  <span id="nome-usuario" class="text-gray-800 text-sm sm:text-base font-semibold truncate max-w-[120px] sm:max-w-[180px]"></span>
-  <img id="foto-perfil" src="" alt="Foto perfil" class="w-9 h-9 sm:w-10 sm:h-10 rounded-full object-cover border border-gray-300" />
-  
-  <!-- Botão de Início -->
-  <a href="index.html" class="bg-blue-500 hover:bg-blue-600 text-white text-sm sm:text-base font-medium px-4 py-2 rounded-lg shadow transition duration-300">
-    Início
-  </a>
-</header>
-
-
-  <!-- Link de login -->
-  <a href="/login.html" id="login-link" class="fixed top-4 right-4 text-blue-600 underline text-sm sm:text-base">Login</a>
 
   <script src="perfil.js"></script>
   <script src="sessao.js"></script>
@@ -119,7 +98,10 @@
       const alerta = document.getElementById("alerta-sucesso");
       alerta.classList.remove("hidden");
       setTimeout(() => alerta.classList.remove("opacity-0"), 10);
-      setTimeout(() => window.location.href = "index.html", 1500);
+      
+      // Remove o redirecionamento automático para manter o usuário na página e ver a mensagem
+      // Se quiser redirecionar após um tempo, descomente a linha abaixo:
+      // setTimeout(() => window.location.href = "index.html", 2000);
     });
   </script>
 </body>

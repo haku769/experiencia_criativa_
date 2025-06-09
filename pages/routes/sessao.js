@@ -1,565 +1,511 @@
-let currentUserId = null;
-
-document.addEventListener("DOMContentLoaded", function () {
-  // Referências do DOM
-  const userInfo = document.getElementById("user-info");
-  const userForm = document.getElementById('user-form');
-  const loginLink = document.getElementById("login-link");
-  const crudUsuario = document.getElementById("CrudUsuario");
-  const crudVeiculos = document.getElementById("CrudVeiculos");
-
-  // Pega dados do localStorage
-  const usuarioJSON = localStorage.getItem("usuarioLogado");
-  const token = localStorage.getItem("token");
-
-  // Função para remover elementos do DOM com segurança
-  function removeElement(element) {
-    if (element) element.remove();
-  }
-  
-
-  // Se não tem usuário logado, remove as seções do CRUD
-  if (!usuarioJSON) {
-    removeElement(crudUsuario);
-    removeElement(crudVeiculos);
-    removeElement(tickets);
-
-    // Remove token inválido caso exista
-    if (token) {
-      console.warn("[LIMPEZA] Removendo token inválido (usuário anônimo)");
-      localStorage.removeItem("token");
-    }
-  }
-
-  // Se tem usuário logado, mostra informações e controla permissões
-  if (usuarioJSON) {
-    try {
-      const usuario = JSON.parse(usuarioJSON);
-
-      if (usuario && usuario.nome && userInfo) {
-        // Monta a imagem do usuário se tiver CPF
-        let fotoHTML = usuario.cpf
-          ? `<img src="http://localhost:3000/imagem/${usuario.cpf}" alt="FotoDoUsuario" class="foto-usuario">`
-          : "";
-
-        // Insere nome e botões
-        userInfo.innerHTML = `
-          <span class="user-welcome">${fotoHTML} <strong>${usuario.nome.split(" ")[0]}</strong></span>
-          <button id="logout-btn" class="btn-login">Sair</button>
-          <button id="editar-perfil-btn" class="btn-login">Editar Perfil</button>
-        `;
-
-        // Botão logout
-        const logoutBtn = document.getElementById("logout-btn");
-        logoutBtn?.addEventListener("click", () => {
-          localStorage.removeItem("usuarioLogado");
-          localStorage.removeItem("token");
-          window.location.reload();
-        });
-
-        // Botão editar perfil
-        const editarPerfilBtn = document.getElementById("editar-perfil-btn");
-        editarPerfilBtn?.addEventListener("click", () => {
-          window.location.href = "/perfil.html";
-        });
-
-        // Remove CRUDs para usuários que não são Admin
-        if (usuario.funcao !== "admin") {
-          removeElement(crudUsuario);
-          removeElement(crudVeiculos);
-          removeElement(tickets);
-        }
-       
-      }
-    } catch (e) {
-      console.error("Erro ao ler usuário do localStorage:", e);
-    }
-  }
-  // Se não existe o formulário, termina aqui
-  if (!userForm) return;
-
-  // Evento submit do formulário (criar/editar usuário)
-  userForm.addEventListener('submit', async function (e) {
-    e.preventDefault();
-
-    // Cria FormData com os campos do formulário
-    const formData = new FormData();
-    const nome = document.getElementById('nome')?.value;
-    const email = document.getElementById('email')?.value;
-    const telefone = document.getElementById('telefone')?.value;
-    const funcao = document.getElementById('funcao')?.value;
-    const senha = document.getElementById('senha')?.value;
-    const cpf = document.getElementById('cpf')?.value;
-    const foto = document.getElementById('foto')?.files[0];
-
-    if (nome) formData.append('nome', nome);
-    if (email) formData.append('email', email);
-    if (telefone) formData.append('telefone', telefone);
-    if (funcao) formData.append('funcao', funcao);
-    if (senha) formData.append('senha', senha);
-    if (cpf) formData.append('cpf', cpf);
-    if (foto) formData.append('foto', foto);
-
-    // Verifica se é edição (PUT) ou criação (POST)
-    try {
-      if (currentUserId) {
-        // Atualizar usuário existente
-        const response = await fetchAutenticado(`http://localhost:3000/usuarios/${currentUserId}`, {
-          method: 'PUT',
-          body: formData
-        });
-
-        const usuarioAtualizado = await response.json();
-
-        showPopup('Usuário atualizado com sucesso!');
-        closeModal();
-
-        // Atualiza localStorage se for o usuário logado
-        const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
-        if (usuarioLogado && usuarioLogado.CPF === usuarioAtualizado.CPF) {
-          localStorage.setItem('usuarioLogado', JSON.stringify({
-          nome: usuarioAtualizado.NOME,
-          email: usuarioAtualizado.EMAIL,
-          cpf: usuarioAtualizado.CPF,
-          telefone: usuarioAtualizado.TELEFONE,
-          foto: usuarioAtualizado.FOTO,
-          funcao: usuarioAtualizado.FUNCAO,
-        }));
-        }
-
-        carregarUsuarios()
-
-      } else {
-        // Criar novo usuário
-        const response = await fetchAutenticado(`http://localhost:3000/usuarios`, {
-          method: 'POST',
-          body: formData
-        });
-
-        await response.json();
-
-        showPopup('Usuário criado com sucesso!');
-        closeModal();
-
-        carregarUsuarios()
-      }
-    } catch (error) {
-      console.error('Erro ao enviar formulário:', error);
-      showPopup('Erro ao processar a solicitação. Tente novamente.');
-    }
-  });
-});
-function isLoggedIn() {
-  return localStorage.getItem('usuarioLogado') !== null;
-}
-
-function isAdmin() {
-  try {
-    const usuario = JSON.parse(localStorage.getItem('usuarioLogado') || '{}');
-    return usuario.funcao === 'admin';
-  } catch (e) {
-    console.error("Erro ao verificar função do usuário:", e);
-    return false;
-  }
-}
-
-function protectAdminRoute() {
-  if (!isLoggedIn()) {
-    window.location.href = '/autenticacao.html';
-    return false;
-  }
-
-  if (!isAdmin()) {
-    window.location.href = '/index.html';
-    return false;
-  }
-
-  return true;
-}
-carregarUsuarios();
+// ====================================================================================
+// SCRIPT PRINCIPAL DA APLICAÇÃO - VERSÃO REATORADA E ORGANIZADA
+// ====================================================================================
 
 document.addEventListener("DOMContentLoaded", () => {
-  const inputFoto = document.getElementById('foto');
-  const avatarPreview = document.querySelector('.avatar-preview');
-  const avatarUploadBtn = document.querySelector('.avatar-upload-btn button');
-  const avatarPreviewImg = document.getElementById('avatar-preview-img');
+  /**
+   * Encapsula toda a lógica da aplicação em um único objeto para evitar
+   * poluir o escopo global e organizar o código por responsabilidades.
+   */
+  const App = {
+    // ----------------------------------------------------------------
+    // 1. ESTADO DA APLICAÇÃO
+    // ----------------------------------------------------------------
+    state: {
+      currentUserId: null,
+      usuarioLogado: null,
+      token: null,
+    },
 
-  // Clicar na imagem de preview abre o seletor de arquivos
-  avatarPreview?.addEventListener('click', () => {
-    inputFoto?.click();
-  });
+    // ----------------------------------------------------------------
+    // 2. INICIALIZAÇÃO
+    // ----------------------------------------------------------------
+    init() {
+      // Carrega dados iniciais do localStorage
+      this.state.usuarioLogado = JSON.parse(localStorage.getItem("usuarioLogado"));
+      this.state.token = localStorage.getItem("token");
 
-  // Clicar no botão de upload também abre o seletor
-  avatarUploadBtn?.addEventListener('click', () => {
-    inputFoto?.click();
-  });
+      // Configura a interface e os eventos
+      this.ui.updateHeader();
+      this.events.setupEventListeners();
 
-  // Mostrar preview da imagem selecionada
-  inputFoto?.addEventListener('change', function (e) {
-    const file = e.target.files[0];
-    if (file && avatarPreviewImg) {
-      const reader = new FileReader();
-      reader.onload = function (e) {
-        avatarPreviewImg.src = e.target.result;
-      };
-      reader.readAsDataURL(file);
-    }
-  });
-});
-
-function bufferToBase64(buffer) {
-  let binary = "";
-  const bytes = new Uint8Array(buffer);
-  for (let i = 0; i < bytes.length; i++) {
-    binary += String.fromCharCode(bytes[i]);
-  }
-  return btoa(binary);
-}
-
-async function carregarUsuarios() {
-  await fetchAutenticado('http://localhost:3000/usuarios')
-    .then(res => res.json())
-    .then(usuarios => {
-      const tabela = document.getElementById('users-table-body');
-      if (!tabela) return;
-
-      tabela.innerHTML = '';
-      usuarios.forEach(usuario => {
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-          <img src="http://localhost:3000/usuarios/${usuario.CPF}/foto?t=${Date.now()}" class="avatar-table">
-          <td>${usuario.NOME}</td>
-          <td>${usuario.EMAIL}</td>
-          <td>${usuario.FUNCAO || 'Cliente'}</td>
-          <td>
-            <button onclick="viewUser('${usuario.CPF}')">👁️</button>
-            <button onclick="editUser('${usuario.CPF}')">✏️</button>
-            <button onclick="deleteUser('${usuario.CPF}')">🗑️</button>
-          </td>
-        `;
-        tabela.appendChild(tr);
-      });
-      console.log('Tabela de usuários carregada com sucesso!', usuarios);
-    });
-}
-
-function openModal(isEdit = false) {
-  document.getElementById('modal-title').textContent = isEdit ? 'Editar Usuário' : 'Adicionar Usuário';
-  document.getElementById('user-modal').style.display = 'block';
-  document.body.style.overflow = 'hidden';
-}
-
-function addUser() {
-  openModal(false);
-}
-
-function closeModal() {
-  document.getElementById('user-modal').style.display = 'none';
-  document.body.style.overflow = '';
-  resetForm();
-}
-
-function openDeleteModal(userId) {
-  document.getElementById('delete-user-name').textContent = 'este usuário';
-  currentUserId = userId;
-  document.getElementById('delete-modal').style.display = 'block';
-  document.body.style.overflow = 'hidden';
-}
-
-function closeDeleteModal() {
-  document.getElementById('delete-modal').style.display = 'none';
-  document.body.style.overflow = '';
-  currentUserId = null;
-}
-
-function resetForm() {
-  document.getElementById('user-form').reset();
-  document.getElementById('avatar-preview-img').src = '/fotos/comercial.png';
-  currentUserId = null;
-}
-
-async function editUser(cpf) {
-  currentUserId = cpf;
-
-  await fetchAutenticado(`http://localhost:3000/usuarios/${cpf}`)
-    .then(res => {
-      if (!res.ok) throw new Error('Usuário não encontrado');
-      return res.json();
-    })
-    .then(usuario => {
-      document.getElementById('nome').value = usuario.NOME;
-      document.getElementById('email').value = usuario.EMAIL;
-      document.getElementById('telefone').value = usuario.TELEFONE;
-      document.getElementById('cpf').value = usuario.CPF;
-      document.getElementById('funcao').value = usuario.FUNCAO;
-      document.getElementById('foto').value = ''; // Limpa o campo de foto
-      document.getElementById('senha').value = '';
-
-      // Adiciona timestamp para evitar cache da imagem
-      const timestamp = new Date().getTime();
-      const fotoUrl = `http://localhost:3000/usuarios/${usuario.CPF}/foto?t=${timestamp}`;
-
-
-      // Atualiza a imagem do avatar na tela
-      document.getElementById('foto').src = fotoUrl;
-      document.getElementById('avatar-preview-img').src = fotoUrl;
-
-      // Atualiza a foto no localStorage se o usuário logado for o mesmo que está sendo editado
-      const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
-      if (usuarioLogado && usuarioLogado.CPF === usuario.CPF) {
-        usuarioLogado.foto = fotoUrl;
-        usuarioLogado.nome = usuario.NOME;
-        localStorage.setItem('usuarioLogado', JSON.stringify(usuarioLogado));
+      // Carrega dados iniciais da API, se a página precisar
+      if (document.getElementById("users-table-body")) {
+        this.api.carregarUsuarios();
       }
-      carregarUsuarios()
+    },
 
-      openModal(true);
-    })
-    .catch(err => console.error('Erro ao buscar usuário:', err));
-}
+    // ----------------------------------------------------------------
+    // 3. MÓDULO DE AUTENTICAÇÃO E AUTORIZAÇÃO
+    // ----------------------------------------------------------------
+    auth: {
+  isLoggedIn() {
+    return !!App.state.usuarioLogado;
+  },
 
+  isAdmin() {
+    return App.state.usuarioLogado?.funcao === "admin";
+  },
 
+  isTokenExpirado(token) {
+    if (!token) return true;
+    try {
+      const payload = JSON.parse(atob(token.split(".")[1]));
+      const agora = Math.floor(Date.now() / 1000);
+      return payload.exp < agora;
+    } catch (e) {
+      return true;
+    }
+  },
 
-function viewUser(cpf) {
-  showPopup(`Visualizando detalhes do usuário CPF ${cpf}`);
-}
-
-async function deleteUser(cpf) {
-  openDeleteModal(cpf);
-}
-//  deletar o usuário
-async function confirmDelete() {
-  if (currentUserId) {
-    await fetchAutenticado(`http://localhost:3000/usuarios/${currentUserId}`, {
-      method: 'DELETE'
-    })
-      .then(res => res.json())
-      .then(() => {
-        showPopup('Usuário excluído com sucesso!');
-        closeDeleteModal();
-        setTimeout(() => location.reload(), 500);
+  async renovarToken() {
+    if (!App.state.usuarioLogado?.refreshToken) return null;
+    try {
+      const res = await fetch("http://localhost:3000/autenticacao/refresh-token", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ refreshToken: App.state.usuarioLogado.refreshToken }),
       });
-  }
-}
-
-function showPopup(message) {
-  // Se já existe um popup, remove
-  const existingOverlay = document.getElementById('custom-popup-overlay');
-  if (existingOverlay) {
-    existingOverlay.remove();
-  }
-
-  // Cria o overlay de fundo
-  const overlay = document.createElement('div');
-  overlay.id = 'custom-popup-overlay';
-  overlay.style.position = 'fixed';
-  overlay.style.top = '0';
-  overlay.style.left = '0';
-  overlay.style.width = '100vw';
-  overlay.style.height = '100vh';
-  overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
-  overlay.style.display = 'flex';
-  overlay.style.alignItems = 'center';
-  overlay.style.justifyContent = 'center';
-  overlay.style.zIndex = '10000';
-
-  // Cria o popup
-  const popup = document.createElement('div');
-  popup.style.backgroundColor = '#fff';
-  popup.style.padding = '30px';
-  popup.style.borderRadius = '10px';
-  popup.style.boxShadow = '0 4px 20px rgba(0,0,0,0.3)';
-  popup.style.width = '400px';
-  popup.style.maxWidth = '90%';
-  popup.style.textAlign = 'center';
-  popup.style.fontFamily = 'Arial, sans-serif';
-  popup.style.fontSize = '18px';
-  popup.style.position = 'relative';
-
-  // Mensagem
-  const messageEl = document.createElement('div');
-  messageEl.innerText = message;
-
-  // Botão fechar
-  const closeBtn = document.createElement('button');
-  closeBtn.innerText = 'Fechar';
-  closeBtn.style.marginTop = '20px';
-  closeBtn.style.padding = '10px 20px';
-  closeBtn.style.backgroundColor = '#333';
-  closeBtn.style.color = '#fff';
-  closeBtn.style.border = 'none';
-  closeBtn.style.borderRadius = '5px';
-  closeBtn.style.cursor = 'pointer';
-  closeBtn.onclick = function() {
-    overlay.remove();
-  };
-
-  // Monta o popup
-  popup.appendChild(messageEl);
-  popup.appendChild(closeBtn);
-  overlay.appendChild(popup);
-  document.body.appendChild(overlay);
-  overlay.onclick = (e) => {
-    if (e.target === overlay) {
-      overlay.remove();
+      if (!res.ok) throw new Error("Erro ao renovar token");
+      const { token } = await res.json();
+      localStorage.setItem("token", token);
+      App.state.token = token;
+      return token;
+    } catch (err) {
+      return null;
     }
-  }
-}
+  },
 
-function showPopup(message) {
-  const existingOverlay = document.getElementById('custom-popup-overlay');
-  if (existingOverlay) existingOverlay.remove();
-
-  const overlay = document.createElement('div');
-  overlay.id = 'custom-popup-overlay';
-  Object.assign(overlay.style, {
-    position: 'fixed',
-    top: 0,
-    left: 0,
-    width: '100vw',
-    height: '100vh',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    zIndex: 10000
-  });
-
-  const popup = document.createElement('div');
-  Object.assign(popup.style, {
-    backgroundColor: '#fff',
-    padding: '30px',
-    borderRadius: '10px',
-    boxShadow: '0 4px 20px rgba(0,0,0,0.3)',
-    width: '400px',
-    maxWidth: '90%',
-    textAlign: 'center',
-    fontFamily: 'Arial, sans-serif',
-    fontSize: '18px'
-  });
-
-  const messageEl = document.createElement('div');
-  messageEl.innerText = message;
-
-  const closeBtn = document.createElement('button');
-  closeBtn.innerText = 'Fechar';
-  Object.assign(closeBtn.style, {
-    marginTop: '20px',
-    padding: '10px 20px',
-    backgroundColor: '#333',
-    color: '#fff',
-    border: 'none',
-    borderRadius: '5px',
-    cursor: 'pointer'
-  });
-
-  // Ao clicar em "Fechar", remove overlay e redireciona
-  closeBtn.onclick = () => {
-    overlay.remove(); 
-  };
-
-  popup.appendChild(messageEl);
-  popup.appendChild(closeBtn);
-  overlay.appendChild(popup);
-  document.body.appendChild(overlay);
-
-  overlay.onclick = (e) => {
-    if (e.target === overlay) {
-      overlay.remove();
+  async fetchAutenticado(url, options = {}) {
+    if (!App.auth.isLoggedIn()) {
+      return fetch(url, options); // Permite chamadas públicas
     }
-  };
-}
 
+    if (App.auth.isTokenExpirado(App.state.token)) {
+      const novoToken = await App.auth.renovarToken();
+      if (!novoToken) {
+        App.ui.showPopup("Sessão expirada. Faça login novamente.");
+        App.auth.logout();
+        // A linha abaixo foi adicionada para o redirecionamento
+        window.location.href = "/autenticacao.html"; 
+        return Promise.reject(new Error("Sessão expirada."));
+      }
+    }
+    
+    const headers = { ...options.headers, Authorization: `Bearer ${App.state.token}` };
+    // Para FormData, não se define Content-Type
+    if (!(options.body instanceof FormData)) {
+        headers['Content-Type'] = 'application/json';
+    }
+    
+    return fetch(url, { ...options, headers });
+  },
 
+  logout() {
+    localStorage.removeItem("usuarioLogado");
+    localStorage.removeItem("token");
+    // O reload pode ser removido se o redirecionamento sempre ocorrer onde o logout é chamado
+    // window.location.reload(); 
+  },
 
-// ========== NOVAS FUNÇÕES DE AUTENTICAÇÃO ==========
-
-function isTokenExpirado(token) {
-  if (!token) return true;
-  try {
-    const payload = JSON.parse(atob(token.split('.')[1]));
-    const agora = Math.floor(Date.now() / 1000);
-
-    console.log('[TOKEN] expira em:', payload.exp, '| agora:', agora);
-
-    return payload.exp < agora;
-  } catch (e) {
-    console.error('[TOKEN] Erro ao verificar expiração:', e);
+  protectAdminRoute() {
+    if (!this.isLoggedIn() || !this.isAdmin()) {
+      window.location.href = "/autenticacao.html";
+      return false;
+    }
+    // A verificação duplicada abaixo pode ser removida
+    /* if (!this.isAdmin()) {
+      window.location.href = "/index.html";
+      return false;
+    } */
     return true;
-  }
-}
+  },
+},
+
+    // ----------------------------------------------------------------
+    // 3.5 MÓDULO DE VALIDAÇÃO (Validações de Formulário)
+
+    // ... dentro do seu objeto App ...
+
+    // ----------------------------------------------------------------
+    // NOVO MÓDULO DE VALIDAÇÃO
+    // ----------------------------------------------------------------
+    validation: {
+      /**
+       * Verifica se a senha atende aos critérios de segurança.
+       * (Pelo menos 8 caracteres, 1 número, 1 símbolo)
+       */
+      isSenhaSegura(senha) {
+        const regex = /^(?=.*[0-9])(?=.*[!@#$%^&*()_+{}\[\]:;"'<>,.?/~\\-]).{8,}$/;
+        return regex.test(senha);
+      },
+
+      /**
+       * Função final que verifica todos os campos do formulário antes de enviar.
+       * Retorna `true` se tudo estiver válido, `false` caso contrário.
+       * Também atualiza a cor das bordas para dar feedback visual.
+       */
+      isUserFormValid() {
+        let isFormValid = true;
+
+        // Pega todos os inputs
+        const nomeInput = document.getElementById('nome');
+        const telefoneInput = document.getElementById('telefone');
+        const cpfInput = document.getElementById('cpf');
+        const emailInput = document.getElementById('email');
+        const senhaInput = document.getElementById('senha');
+        const confirmarInput = document.getElementById('confirmar-senha');
+
+        // 1. Valida Nome
+        const isNomeValid = nomeInput.value.trim().length >= 3;
+        nomeInput.style.borderColor = isNomeValid ? 'green' : 'red';
+        if (!isNomeValid) isFormValid = false;
+
+        // 2. Valida Telefone
+        const isTelefoneValid = /^\(\d{2}\) \d{5}-\d{4}$/.test(telefoneInput.value);
+        telefoneInput.style.borderColor = isTelefoneValid ? 'green' : 'red';
+        if (!isTelefoneValid) isFormValid = false;
+        
+        // 3. Valida CPF
+        const isCpfValid = /^\d{3}\.\d{3}\.\d{3}-\d{2}$/.test(cpfInput.value);
+        cpfInput.style.borderColor = isCpfValid ? 'green' : 'red';
+        if (!isCpfValid) isFormValid = false;
+
+        // 4. Valida Email
+        const isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailInput.value);
+        emailInput.style.borderColor = isEmailValid ? 'green' : 'red';
+        if (!isEmailValid) isFormValid = false;
+
+        // 5. Valida Senha (com lógica para modo de edição)
+        const senha = senhaInput.value;
+        const confirmar = confirmarInput.value;
+        const isEditMode = !!App.state.currentUserId;
+        
+        let isSenhaValid = false;
+        // Se estiver editando e a senha estiver vazia, é válido (opcional).
+        if (isEditMode && senha === '' && confirmar === '') {
+            isSenhaValid = true;
+            senhaInput.style.borderColor = ''; // Limpa a borda
+            confirmarInput.style.borderColor = '';
+        } else {
+            // Se for criação OU se a senha for preenchida na edição, valida.
+            const senhaSegura = this.isSenhaSegura(senha);
+            const senhasCoincidem = senha === confirmar;
+            isSenhaValid = senhaSegura && senhasCoincidem;
+
+            senhaInput.style.borderColor = senhaSegura ? 'green' : 'red';
+            confirmarInput.style.borderColor = senhasCoincidem ? 'green' : 'red';
+        }
+        if (!isSenhaValid) isFormValid = false;
+
+        return isFormValid;
+      }
+    },
+
+// ... continue com o restante do seu objeto App (módulo api, etc.)
+
+    // ----------------------------------------------------------------
+    // 4. MÓDULO DE API (Comunicação com o Backend)
+    // ----------------------------------------------------------------
+    api: {
+      async carregarUsuarios() {
+        try {
+          const response = await App.auth.fetchAutenticado("http://localhost:3000/usuarios");
+          const usuarios = await response.json();
+          App.ui.renderUserTable(usuarios);
+        } catch (error) {
+          console.error("Erro ao carregar usuários:", error);
+        }
+      },
+
+      async buscarUsuarioParaEdicao(cpf) {
+        App.state.currentUserId = cpf;
+        try {
+          const response = await App.auth.fetchAutenticado(`http://localhost:3000/usuarios/${cpf}`);
+          if (!response.ok) throw new Error("Usuário não encontrado");
+          const usuario = await response.json();
+          App.ui.preencherFormularioEdicao(usuario);
+        } catch (err) {
+          console.error("Erro ao buscar usuário para edição:", err);
+        }
+      },
+
+      async confirmarDelete() {
+        if (!App.state.currentUserId) return;
+        try {
+          await App.auth.fetchAutenticado(`http://localhost:3000/usuarios/${App.state.currentUserId}`, {
+            method: "DELETE",
+          });
+          App.ui.showPopup("Usuário excluído com sucesso!");
+          App.ui.closeDeleteModal();
+          this.carregarUsuarios();
+        } catch (error) {
+          console.error("Erro ao deletar usuário:", error);
+          App.ui.showPopup("Erro ao excluir usuário.");
+        }
+      },
+    },
+
+    // ----------------------------------------------------------------
+    // 5. MÓDULO DE UI (Manipulação da Interface)
+    // ----------------------------------------------------------------
+    ui: {
+      updateHeader() {
+        const { usuarioLogado } = App.state;
+        const userInfo = document.getElementById("user-info");
+        
+        // Remove elementos por segurança
+        const removeElement = (id) => {
+            const el = document.getElementById(id);
+            if (el) el.remove();
+        };
+
+        if (usuarioLogado?.nome) {
+          const fotoHTML = usuarioLogado.cpf ? `<img src="http://localhost:3000/imagem/${usuarioLogado.cpf}" alt="FotoDoUsuario" class="foto-usuario">` : "";
+          userInfo.innerHTML = `
+            <span class="user-welcome">${fotoHTML} <strong>${usuarioLogado.nome.split(" ")[0]}</strong></span>
+            <button id="editar-perfil-btn" class="btn-login">Editar Perfil</button>
+            <button id="logout-btn" class="btn-login">Sair</button>
+          `;
+          if (usuarioLogado.funcao !== "admin") {
+            removeElement("CrudUsuario");
+            removeElement("CrudVeiculos");
+            removeElement("tickets");
+          }
+        } else {
+            removeElement("CrudUsuario");
+            removeElement("CrudVeiculos");
+            removeElement("tickets");
+        }
+      },
+
+      renderUserTable(usuarios) {
+        const tabela = document.getElementById("users-table-body");
+        if (!tabela) return;
+        tabela.innerHTML = "";
+        usuarios.forEach((usuario) => {
+          const tr = document.createElement("tr");
+          tr.innerHTML = `
+            <td><img src="http://localhost:3000/usuarios/${usuario.CPF}/foto?t=${Date.now()}" class="avatar-table"></td>
+            <td>${usuario.NOME}</td>
+            <td>${usuario.EMAIL}</td>
+            <td>${usuario.FUNCAO || "Cliente"}</td>
+            <td>
+              <button onclick="App.api.buscarUsuarioParaEdicao('${usuario.CPF}')">✏️</button>
+              <button onclick="App.ui.openDeleteModal('${usuario.CPF}')">🗑️</button>
+            </td>
+          `;
+          tabela.appendChild(tr);
+        });
+      },
+      
+      preencherFormularioEdicao(usuario) {
+        document.getElementById('nome').value = usuario.NOME || '';
+        document.getElementById('email').value = usuario.EMAIL || '';
+        document.getElementById('telefone').value = usuario.TELEFONE || '';
+        document.getElementById('cpf').value = usuario.CPF || '';
+        document.getElementById('funcao').value = usuario.FUNCAO || '';
+        document.getElementById('senha').value = '';
+        document.getElementById('confirmar-senha').value = ''; // Supondo que exista
+        
+        const timestamp = Date.now();
+        const fotoUrl = `http://localhost:3000/usuarios/${usuario.CPF}/foto?t=${timestamp}`;
+        document.getElementById('avatar-preview-img').src = fotoUrl;
+
+        this.openModal(true);
+      },
+
+      showPopup(message) {
+        document.getElementById('custom-popup-overlay')?.remove();
+        const overlay = document.createElement('div');
+        overlay.id = 'custom-popup-overlay';
+        Object.assign(overlay.style, { position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', backgroundColor: 'rgba(0,0,0,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 10000 });
+        const popup = document.createElement('div');
+        Object.assign(popup.style, { backgroundColor: '#fff', padding: '30px', borderRadius: '10px', boxShadow: '0 4px 20px rgba(0,0,0,0.3)', width: '400px', textAlign: 'center' });
+        popup.innerHTML = `<div>${message}</div><button style="margin-top:20px; padding:10px 20px; border:none; background-color:#333; color:#fff; border-radius:5px; cursor:pointer;">Fechar</button>`;
+        popup.querySelector('button').onclick = () => overlay.remove();
+        overlay.onclick = (e) => { if(e.target === overlay) overlay.remove() };
+        overlay.appendChild(popup);
+        document.body.appendChild(overlay);
+      },
+
+      openModal(isEdit = false) {
+        document.getElementById('modal-title').textContent = isEdit ? 'Editar Usuário' : 'Adicionar Usuário';
+        document.getElementById('user-modal').style.display = 'block';
+        document.body.style.overflow = 'hidden';
+      },
+      
+      closeModal() {
+        document.getElementById('user-modal').style.display = 'none';
+        document.body.style.overflow = '';
+        this.resetForm();
+      },
+      
+      openDeleteModal(cpf) {
+        App.state.currentUserId = cpf;
+        document.getElementById('delete-modal').style.display = 'block';
+        document.body.style.overflow = 'hidden';
+      },
+
+      closeDeleteModal() {
+        document.getElementById('delete-modal').style.display = 'none';
+        document.body.style.overflow = '';
+        App.state.currentUserId = null;
+      },
+
+      resetForm() {
+        document.getElementById('user-form')?.reset();
+        document.getElementById('avatar-preview-img').src = '/fotos/comercial.png';
+        App.state.currentUserId = null;
+      }
+    },
+
+    // ----------------------------------------------------------------
+    // 6. MÓDULO DE EVENTOS
+    // ----------------------------------------------------------------
+    // ... (início do seu objeto App)
+
+    // ----------------------------------------------------------------
+    // 6. MÓDULO DE EVENTOS
+    // ----------------------------------------------------------------
+    events: {
+      setupEventListeners() {
+        // --- Seletores de elementos ---
+        const userForm = document.getElementById("user-form");
+        const inputFoto = document.getElementById("foto");
+        const avatarPreview = document.querySelector(".avatar-preview");
+        const logoutBtn = document.getElementById("logout-btn");
+        const editarPerfilBtn = document.getElementById("editar-perfil-btn");
+        const deleteConfirmBtn = document.getElementById("confirm-delete-btn");
+        const allCloseButtons = document.querySelectorAll(".close-modal-btn");
+        const allModalOverlays = document.querySelectorAll(".modal-overlay");
+        const addUserBtn = document.getElementById("btn-add-user");
+        const passwordToggles = document.querySelectorAll(".password-piscar");
+
+        // --- Associação de Eventos ---
+
+        if (userForm) userForm.addEventListener("submit", this.handleFormSubmit);
+        if (inputFoto) inputFoto.addEventListener("change", this.handleImagePreview);
+        if (avatarPreview) avatarPreview.addEventListener("click", () => inputFoto.click());
+        if (logoutBtn) logoutBtn.addEventListener("click", App.auth.logout);
+        if (editarPerfilBtn) editarPerfilBtn.addEventListener("click", () => window.location.href = "/perfil.html");
+        if (deleteConfirmBtn) deleteConfirmBtn.addEventListener("click", () => App.api.confirmDelete());
+        
+        
+        
+        passwordToggles.forEach(toggle => {
+            toggle.addEventListener('click', function() {
+                // Pega o ID do input alvo a partir do atributo data-target
+                const targetId = this.dataset.target;
+                const passwordInput = document.getElementById(targetId);
+                const icon = this.querySelector('i');
+
+                if (passwordInput && icon) {
+                    // Verifica o tipo atual e faz a troca
+                    if (passwordInput.type === 'password') {
+                        passwordInput.type = 'text';
+                        icon.classList.remove('fa-eye');
+                        icon.classList.add('fa-eye-slash');
+                    } else {
+                        passwordInput.type = 'password';
+                        icon.classList.remove('fa-eye-slash');
+                        icon.classList.add('fa-eye');
+                    }
+                }
+            });
+        });
+        
+        // --- LÓGICA PARA FECHAR MODAIS (MOVIDA PARA DENTRO DA FUNÇÃO) ---
+        if (addUserBtn) {
+            addUserBtn.addEventListener("click", () => {
+                // Chama a função para abrir o modal em modo de "criação" (false)
+                App.ui.openModal(false);
+            });
+        }
+
+        allCloseButtons.forEach(button => {
+          button.addEventListener('click', () => {
+            App.ui.closeModal();
+            App.ui.closeDeleteModal();
+          });
+        }); // CORRIGIDO: de }), para });
+
+        // CORRIGIDO: Erro de digitação "allModalOverlaysforEach" para "allModalOverlays.forEach"
+        allModalOverlays.forEach(overlay => {
+            overlay.addEventListener('click', (event) => {
+                if (event.target === overlay) {
+                    App.ui.closeModal();
+                    App.ui.closeDeleteModal();
+                }
+            });
+        }); // CORRIGIDO: de }), para });
+
+      }, // CORRIGIDO: A função setupEventListeners termina aqui.
+
+      handleImagePreview(e) {
+        const file = e.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = (event) => {
+            document.getElementById('avatar-preview-img').src = event.target.result;
+          };
+          reader.readAsDataURL(file);
+        }
+      },
+
+      async handleFormSubmit(e) {
+        e.preventDefault();
+        
+        if (!App.validation.isUserFormValid()) {
+          App.ui.showPopup('Por favor, corrija os campos destacados em vermelho.');
+          return;
+        }
+
+        const formData = new FormData(e.target);
+        const { currentUserId } = App.state;
+
+        try {
+          const url = currentUserId ? `http://localhost:3000/usuarios/${currentUserId}` : "http://localhost:3000/usuarios";
+          const method = currentUserId ? "PUT" : "POST";
+          
+          const response = await App.auth.fetchAutenticado(url, { method, body: formData });
+          const result = await response.json();
+          
+          App.ui.showPopup(`Usuário ${currentUserId ? 'atualizado' : 'criado'} com sucesso!`);
+          App.ui.closeModal();
+          App.api.carregarUsuarios();
+
+          const { usuarioLogado } = App.state;
+          if (currentUserId && usuarioLogado && usuarioLogado.CPF === result.CPF) {
+             localStorage.setItem('usuarioLogado', JSON.stringify({ ...usuarioLogado, ...result }));
+          }
+
+        } catch (error) {
+          console.error("Erro ao enviar formulário:", error);
+          App.ui.showPopup("Erro ao processar a solicitação.");
+        }
+      },
+    },
 
 
-async function renovarToken() {
-  const usuarioJSON = localStorage.getItem("usuarioLogado");
-  if (!usuarioJSON) return null;
-
-  try {
-    const usuario = JSON.parse(usuarioJSON);
-    const refreshToken = usuario.refreshToken;
-
-    const res = await fetch('http://localhost:3000/autenticacao/refresh-token', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ refreshToken })
-    });
-
-    if (!res.ok) throw new Error('Erro ao renovar token');
-
-    const { token } = await res.json();
-
-    localStorage.setItem('token', token);
-
-    return token;
-  } catch (err) {
-    console.error('Falha ao renovar token:', err);
-    return null;
-  }
-}
-
-async function fetchAutenticado(url, options = {}) {
-  let token = localStorage.getItem('token');
-  const usuarioJSON = localStorage.getItem('usuarioLogado');
-
-  if (!usuarioJSON) {
-    return fetch(url, options); 
-  }
-
-if (isTokenExpirado(token)) {
-  token = await renovarToken();
-  if (!token) {
-    showPopup('Sessão expirada. Faça login novamente.');
-    localStorage.removeItem('token');
-    localStorage.removeItem('usuarioLogado');
-    window.location.href = '/autenticacao.html';
-    return;
-  }
-}
-
-
-  const headers = {
-    ...options.headers,
-    'Authorization': `Bearer ${token}`
+    // ----------------------------------------------------------------
+    // 7. MÓDULO DE UTILITÁRIOS
+    // ----------------------------------------------------------------
+    utils: {
+      bufferToBase64(buffer) {
+        let binary = "";
+        const bytes = new Uint8Array(buffer.data); // Assumindo que o buffer está em { type: 'Buffer', data: [...] }
+        for (let i = 0; i < bytes.length; i++) {
+          binary += String.fromCharCode(bytes[i]);
+        }
+        return btoa(binary);
+      },
+    },
   };
 
-  const finalOptions = { ...options, headers };
-
-  return fetch(url, finalOptions);
-}
-const usuario = JSON.parse(localStorage.getItem('usuarioLogado')); 
-
-if (usuario) {
-  const loginLink = document.getElementById('login-link');
-  const perfilArea = document.getElementById('perfil-area');
-  const nomeUsuario = document.getElementById('nome-usuario');
-  const fotoPerfil = document.getElementById('foto-perfil');
-
-  if (loginLink) loginLink.style.display = 'none';
-  if (perfilArea) perfilArea.style.display = 'flex';
-  if (nomeUsuario) nomeUsuario.textContent = usuario.nome?.split(" ")[0] || 'Perfil';
-  if (fotoPerfil && usuario.foto && usuario.foto.data) {
-    const fotoBase64 = bufferToBase64(usuario.foto.data);
-    fotoPerfil.src = `data:image/jpeg;base64, ${fotoBase64}`;
-  }
-}
-
+  // Expõe o App globalmente para ser acessível por `onclick` no HTML
+  window.App = App;
+  
+  // Inicia a aplicação
+  App.init();
+});

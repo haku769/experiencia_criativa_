@@ -7,29 +7,30 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="proposta.css"> 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="routes/sessao.js"></script>
 </head>
 <body>
     <header>
-    <div class="container">
-      <div class="logo">
-        <h1>Auto<span>Elite</span></h1>
-      </div>
-      <nav>
-        <ul>
-          <li><a href="index.html">Início</a></li>
-          <li><a href="veiculos.html">Veículos</a></li>
-          <li><a href="proposta.html">Faça sua Proposta</a></li>
-          <li id="CrudUsuario"><a href="CRUDusuario.html">CRUDusuario</a></li>
-          <li id="CrudVeiculos"><a href="CRUDveiculos.html">CRUDveiculos</a></li>
-          <li id="tickets"><a href="tickets.html">tickets</a></li>
-        </ul>
-      </nav>
-      <div class="login-button">
-        <a href="/autenticacao.html" class="btn-login" id="login-link"></a>
-        <div id="user-info" class="user-info"></div>
-      </div>
-    </div>
-        </header>
+        <div class="container">
+            <div class="logo">
+                <h1>Auto<span>Elite</span></h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Início</a></li>
+                    <li><a href="veiculos.html">Veículos</a></li>
+                    <li><a href="proposta.html">Faça sua Proposta</a></li>
+                    <li id="CrudUsuario"><a href="CRUDusuario.html">CRUDusuario</a></li>
+                    <li id="CrudVeiculos"><a href="CRUDveiculos.html">CRUDveiculos</a></li>
+                    <li id="tickets"><a href="tickets.html">tickets</a></li>
+                </ul>
+            </nav>
+            <div class="login-button">
+                <a href="/autenticacao.html" class="btn-login" id="login-link"></a>
+                <div id="user-info" class="user-info"></div>
+            </div>
+        </div>
+    </header>
 
     <main>
         <section class="proposta-section">
@@ -38,16 +39,20 @@
                 <p>Selecione o veículo de interesse e preencha os dados da sua oferta.</p>
                 
                 <form id="form-proposta" class="form-proposta">
+
                     <div class="form-group">
                         <label for="select-veiculo">Veículo de Interesse</label>
                         <select id="select-veiculo" required>
                             <option value="">Carregando veículos...</option>
                         </select>
-                    </div>
-
-                    <div class="form-group">
+                        <div id="display-preco" class="hidden">
+                            <p>Valor de referência do veículo:</p>
+                            <p id="preco-veiculo-texto"></p>
+                        </div>
+                    </div> <div class="form-group">
                         <label for="valor_proposta">Sua Oferta (R$)</label>
                         <input type="number" id="valor_proposta" min="1" step="any" placeholder="Ex: 85000" required>
+                        <div id="feedback-proposta" class="feedback-proposta"></div>
                     </div>
 
                     <div class="form-group">
@@ -56,23 +61,25 @@
                     </div>
 
                     <button type="submit" class="btn btn-primary">Enviar Proposta</button>
+
                 </form>
-            </div>
+                </div>
         </section>
-        <footer>
-             </footer>
+    </main>
 
-         <div id="popup-proposta" class="popup-overlay">
-             <div class="popup-content">
-                 <span class="popup-close" id="popup-close">&times;</span>
-                 <h2>Proposta Enviada com Sucesso!</h2>
-                 <p>Agradecemos o seu interesse. Em breve, nossa equipe entrará em contato com você através do seu e-mail para dar continuidade à negociação.</p>
-                 <button id="popup-btn-ok" class="btn btn-primary">OK</button>
-             </div>
-         </div>
+    <footer>
+        </footer>
+
+    <div id="popup-proposta" class="popup-overlay">
+        <div class="popup-content">
+            <span class="popup-close" id="popup-close">&times;</span>
+            <h2>Proposta Enviada com Sucesso!</h2>
+            <p>Agradecemos o seu interesse. Em breve, nossa equipe entrará em contato com você através do seu e-mail para dar continuidade à negociação.</p>
+            <button id="popup-btn-ok" class="btn btn-primary">OK</button>
+        </div>
+    </div>
+    <div id="toast-container"></div>
     
-
     <script src="proposta.js"></script>
-    <script src="routes/sessao.js"></script>
 </body>
 </html>
