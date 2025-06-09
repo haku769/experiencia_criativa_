@@ -50,21 +50,16 @@ telefoneInput.addEventListener('input', function(e) {
 
 
 // Máscara para CPF (formato: 000.000.000-00)
-const cpfInput = document.getElementById('cpf');
 cpfInput.addEventListener('input', function(e) {
-  let valor = e.target.value.replace(/\D/g, '');
+  const valorFormatado = e.target.value
+    .replace(/\D/g, '') // Remove não-dígitos
+    .slice(0, 11)      // Limita a 11 caracteres
+    .replace(/(\d{3})(\d)/, '$1.$2') // 1º ponto
+    .replace(/(\d{3})(\d)/, '$1.$2') // 2º ponto
+    .replace(/(\d{3})(\d{1,2})$/, '$1-$2'); // Hífen
 
-  if (valor.length > 11) {
-    valor = valor.slice(0, 11);
-  }
+  e.target.value = valorFormatado;
 
-  if (valor.length > 9) {
-    valor = valor.replace(/^(\d{3})(\d{3})(\d{3})(\d{0,2}).*/, '$1.$2.$3-$4');
-  } else if (valor.length > 6) {
-    valor = valor.replace(/^(\d{3})(\d{3})(\d{0,3}).*/, '$1.$2.$3');
-  } else if (valor.length > 3) {
-    valor = valor.replace(/^(\d{3})(\d{0,3}).*/, '$1.$2');
-  }
 
   e.target.value = valor;
 

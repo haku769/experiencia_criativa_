@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
  */
 async function verificarPermissaoEcarregarPropostas() {
     const container = document.getElementById('propostas-container');
-    const usuarioLogado = JSON.parse(localStorage.getItem('usuario'));
+    const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
 
     // Verificação de segurança no frontend
     if (!usuarioLogado) {

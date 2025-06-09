@@ -197,89 +197,61 @@ logout() {
             return true;
         },
 },
-// Dentro de App.auth em sessao.js
 
-    // ----------------------------------------------------------------
-    // 3.5 MÓDULO DE VALIDAÇÃO (Validações de Formulário)
-
-    // ... dentro do seu objeto App ...
-
-    // ----------------------------------------------------------------
-    // NOVO MÓDULO DE VALIDAÇÃO
-    // ----------------------------------------------------------------
-    validation: {
-      /**
-       * Verifica se a senha atende aos critérios de segurança.
-       * (Pelo menos 8 caracteres, 1 número, 1 símbolo)
-       */
-      isSenhaSegura(senha) {
+// ----------------------------------------------------------------
+// 3.5 MÓDULO DE VALIDAÇÃO
+// ----------------------------------------------------------------
+validation: {
+  
+    isSenhaSegura(senha) {
         const regex = /^(?=.*[0-9])(?=.*[!@#$%^&*()_+{}\[\]:;"'<>,.?/~\\-]).{8,}$/;
         return regex.test(senha);
-      },
-
-      /**
-       * Função final que verifica todos os campos do formulário antes de enviar.
-       * Retorna `true` se tudo estiver válido, `false` caso contrário.
-       * Também atualiza a cor das bordas para dar feedback visual.
-       */
-      isUserFormValid() {
-        let isFormValid = true;
-
-        // Pega todos os inputs
-        const nomeInput = document.getElementById('nome');
-        const telefoneInput = document.getElementById('telefone');
-        const cpfInput = document.getElementById('cpf');
-        const emailInput = document.getElementById('email');
-        const senhaInput = document.getElementById('senha');
-        const confirmarInput = document.getElementById('confirmar-senha');
-
-        // 1. Valida Nome
-        const isNomeValid = nomeInput.value.trim().length >= 3;
-        nomeInput.style.borderColor = isNomeValid ? 'green' : 'red';
-        if (!isNomeValid) isFormValid = false;
-
-        // 2. Valida Telefone
-        const isTelefoneValid = /^\(\d{2}\) \d{5}-\d{4}$/.test(telefoneInput.value);
-        telefoneInput.style.borderColor = isTelefoneValid ? 'green' : 'red';
-        if (!isTelefoneValid) isFormValid = false;
-        
-        // 3. Valida CPF
-        const isCpfValid = /^\d{3}\.\d{3}\.\d{3}-\d{2}$/.test(cpfInput.value);
-        cpfInput.style.borderColor = isCpfValid ? 'green' : 'red';
-        if (!isCpfValid) isFormValid = false;
-
-        // 4. Valida Email
-        const isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailInput.value);
-        emailInput.style.borderColor = isEmailValid ? 'green' : 'red';
-        if (!isEmailValid) isFormValid = false;
-
-        // 5. Valida Senha (com lógica para modo de edição)
-        const senha = senhaInput.value;
-        const confirmar = confirmarInput.value;
-        const isEditMode = !!App.state.currentUserId;
-        
-        let isSenhaValid = false;
-        // Se estiver editando e a senha estiver vazia, é válido (opcional).
-        if (isEditMode && senha === '' && confirmar === '') {
-            isSenhaValid = true;
-            senhaInput.style.borderColor = ''; // Limpa a borda
-            confirmarInput.style.borderColor = '';
-        } else {
-            // Se for criação OU se a senha for preenchida na edição, valida.
-            const senhaSegura = this.isSenhaSegura(senha);
-            const senhasCoincidem = senha === confirmar;
-            isSenhaValid = senhaSegura && senhasCoincidem;
-
-            senhaInput.style.borderColor = senhaSegura ? 'green' : 'red';
-            confirmarInput.style.borderColor = senhasCoincidem ? 'green' : 'red';
-        }
-        if (!isSenhaValid) isFormValid = false;
-
-        return isFormValid;
-      }
     },
 
-// ... continue com o restante do seu objeto App (módulo api, etc.)
+    isUserFormValid() {
+         let isFormValid = true;
+
+    const nome = document.getElementById('nome').value;
+    const telefone = document.getElementById('telefone').value;
+    const cpf = document.getElementById('cpf').value;
+    const email = document.getElementById('email').value;
+    const senha = document.getElementById('senha').value;
+    const confirmar = document.getElementById('confirmar-senha').value;
+    
+    // Validação do Nome
+    if (nome.trim().length < 3) isFormValid = false;
+    
+    // Validação do Email
+    if (!/^[^\s@]+@gmail\.com$/.test(email)) isFormValid = false;
+
+    // --- LÓGICA CORRIGIDA AQUI ---
+    // Só valida o formato do telefone SE o campo não estiver vazio.
+    if (telefone && !/^\(\d{2}\) \d{5}-\d{4}$/.test(telefone)) {
+        isFormValid = false;
+    }
+
+    // Só valida o formato do CPF SE o campo não estiver vazio.
+    if (cpf && !/^\d{3}\.\d{3}\.\d{3}-\d{2}$/.test(cpf)) {
+        isFormValid = false;
+    }
+
+    // Validação da Senha (a lógica aqui já está correta para o modo de edição)
+    const isEditMode = !!App.state.currentUserId;
+    if (!isEditMode || senha) {
+        if (!this.isSenhaSegura(senha) || senha !== confirmar) {
+            isFormValid = false;
+        }
+    }
+    
+    // Opcional: Removido o popup daqui para ser chamado dentro de handleFormSubmit,
+    // o que dá mais controle sobre a mensagem.
+    // if (!isFormValid) {
+    //      App.ui.showPopup('Por favor, corrija os campos inválidos antes de salvar.');
+    // }
+
+    return isFormValid;
+  }
+},
 
     // ----------------------------------------------------------------
     // 4. MÓDULO DE API (Comunicação com o Backend)
@@ -366,7 +338,7 @@ logout() {
             <td><img src="http://localhost:3000/usuarios/${usuario.CPF}/foto?t=${Date.now()}" class="avatar-table"></td>
             <td>${usuario.NOME}</td>
             <td>${usuario.EMAIL}</td>
-            <td>${usuario.FUNCAO || "Cliente"}</td>
+            <td>${App.utils.formatarFuncao(usuario.FUNCAO)}</td>
             <td>
               <button onclick="App.api.buscarUsuarioParaEdicao('${usuario.CPF}')">✏️</button>
               <button onclick="App.ui.openDeleteModal('${usuario.CPF}')">🗑️</button>
@@ -440,11 +412,6 @@ logout() {
     // ----------------------------------------------------------------
     // 6. MÓDULO DE EVENTOS
     // ----------------------------------------------------------------
-    // ... (início do seu objeto App)
-
-    // ----------------------------------------------------------------
-    // 6. MÓDULO DE EVENTOS
-    // ----------------------------------------------------------------
     events: {
       setupEventListeners() {
         // --- Seletores de elementos ---
@@ -458,6 +425,12 @@ logout() {
         const allModalOverlays = document.querySelectorAll(".modal-overlay");
         const addUserBtn = document.getElementById("btn-add-user");
         const passwordToggles = document.querySelectorAll(".password-piscar");
+        const cpfInput = document.getElementById("cpf");
+        const nomeInput = document.getElementById("nome");
+        const telefoneInput = document.getElementById("telefone");
+        const emailInput = document.getElementById("email");
+        const senhaInput = document.getElementById('senha');
+        const confirmarInput = document.getElementById('confirmar-senha');
 
         // --- Associação de Eventos ---
 
@@ -466,7 +439,13 @@ logout() {
         if (avatarPreview) avatarPreview.addEventListener("click", () => inputFoto.click());
         if (logoutBtn) logoutBtn.addEventListener("click", App.auth.logout);
         if (editarPerfilBtn) editarPerfilBtn.addEventListener("click", () => window.location.href = "/perfil.html");
-        if (deleteConfirmBtn) deleteConfirmBtn.addEventListener("click", () => App.api.confirmDelete());
+        if (deleteConfirmBtn) deleteConfirmBtn.addEventListener("click", () => App.api.confirmarDelete());
+        if (nomeInput) nomeInput.addEventListener('input', this.handleNomeInput);
+        if (telefoneInput) telefoneInput.addEventListener('input', this.handleTelefoneInput);
+        if (cpfInput) cpfInput.addEventListener("input", this.handleCpfInputFormatting);
+        if (emailInput) emailInput.addEventListener('input', this.handleEmailInput);
+        if (senhaInput) senhaInput.addEventListener('input', this.handlePasswordValidation);
+        if (confirmarInput) confirmarInput.addEventListener('input', this.handlePasswordValidation);
         
         
         
@@ -491,6 +470,9 @@ logout() {
                 }
             });
         });
+        
+        
+
         
         // --- LÓGICA PARA FECHAR MODAIS (MOVIDA PARA DENTRO DA FUNÇÃO) ---
         if (addUserBtn) {
@@ -518,7 +500,93 @@ logout() {
         }); // CORRIGIDO: de }), para });
 
       }, // CORRIGIDO: A função setupEventListeners termina aqui.
+       handleNomeInput(e) {
+        const nomeValido = e.target.value.trim().length >= 3;
+        e.target.style.borderColor = nomeValido ? 'green' : 'red';
+    },
 
+    /** Handler para o campo TELEFONE (máscara e validação) */
+    handleTelefoneInput(e) {
+        let valor = e.target.value.replace(/\D/g, '').slice(0, 11);
+        let valorFormatado = '';
+        if (valor.length > 0) {
+            valorFormatado = '(' + valor.substring(0, 2);
+            if (valor.length > 2) {
+                valorFormatado += ') ' + valor.substring(2, 7);
+            }
+            if (valor.length > 7) {
+                valorFormatado += '-' + valor.substring(7, 11);
+            }
+        }
+        e.target.value = valorFormatado;
+        const telefoneValido = /^\(\d{2}\) \d{5}-\d{4}$/.test(e.target.value);
+        e.target.style.borderColor = telefoneValido ? 'green' : 'red';
+    },
+
+    /** Handler para o campo CPF (máscara e validação) */
+    handleCpfInputFormatting(e) {
+        const valorFormatado = e.target.value
+            .replace(/\D/g, '').slice(0, 11)
+            .replace(/(\d{3})(\d)/, '$1.$2')
+            .replace(/(\d{3})(\d)/, '$1.$2')
+            .replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+        e.target.value = valorFormatado;
+        const cpfValido = /^\d{3}\.\d{3}\.\d{3}-\d{2}$/.test(e.target.value);
+        e.target.style.borderColor = cpfValido ? 'green' : 'red';
+    },
+
+    /** Handler para o campo EMAIL (sufixo e validação) */
+    handleEmailInput(e) {
+        let valor = e.target.value.replace(/@.*$/, '') + '@gmail.com';
+        e.target.value = valor;
+        const emailValido = /^[^\s@]+@gmail\.com$/.test(e.target.value);
+        e.target.style.borderColor = emailValido ? 'green' : 'red';
+    },
+
+    /** Handler para os campos de SENHA (validação de segurança e confirmação) */
+    handlePasswordValidation() {
+    const senhaInput = document.getElementById('senha');
+    const confirmarInput = document.getElementById('confirmar-senha');
+    const senha = senhaInput.value;
+    const confirmar = confirmarInput.value;
+
+    // --- Validação do primeiro campo de senha ---
+    // (A lógica aqui está boa, apenas verificando se é segura)
+    const senhaSegura = App.validation.isSenhaSegura(senha);
+    // Só pinta de vermelho ou verde se o campo não estiver vazio
+    if (senha.length > 0) {
+        senhaInput.style.borderColor = senhaSegura ? 'green' : 'red';
+    } else {
+        // Se estiver vazio, reseta a cor da borda
+        senhaInput.style.borderColor = ''; 
+    }
+
+    // --- LÓGICA CORRIGIDA para o campo de confirmação ---
+    if (confirmar.length > 0) {
+        // Só valida (e colore) se o campo tiver algo digitado
+        const confirmacaoCorreta = (senha === confirmar);
+        confirmarInput.style.borderColor = confirmacaoCorreta ? 'green' : 'red';
+    } else {
+        // Se o campo de confirmação estiver vazio, reseta a cor da borda
+        confirmarInput.style.borderColor = ''; 
+    }
+  },
+    
+    /** Handler para o clique no ícone de ver/ocultar senha */
+    togglePasswordVisibility() { // 'this' aqui é o elemento que foi clicado
+        const targetId = this.dataset.target;
+        const passwordInput = document.getElementById(targetId);
+        const icon = this.querySelector('i');
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            icon.classList.remove('fa-eye');
+            icon.classList.add('fa-eye-slash');
+        } else {
+            passwordInput.type = 'password';
+            icon.classList.remove('fa-eye-slash');
+            icon.classList.add('fa-eye');
+        }
+    },
       handleImagePreview(e) {
         const file = e.target.files[0];
         if (file) {
@@ -577,6 +645,22 @@ logout() {
         }
         return btoa(binary);
       },
+       /**
+     * Traduz o valor da função do backend para um formato amigável.
+     * @param {string} funcao - O valor vindo do banco ('admin', 'user', null).
+     * @returns {string} - O valor formatado para exibição ('Administrador', 'Cliente').
+     */
+    formatarFuncao(funcao) {
+        if (funcao === 'admin') {
+            return 'Administrador';
+        }
+        // Trata tanto 'user' quanto valores nulos/vazios como 'Cliente'.
+        if (funcao === 'user' || !funcao) {
+            return 'Cliente';
+        }
+        // Se houver outras funções, retorna como estão.
+        return funcao;
+    },
     },
   };
 
