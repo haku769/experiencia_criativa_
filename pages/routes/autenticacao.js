@@ -260,6 +260,36 @@ document.addEventListener('DOMContentLoaded', () => {
           AuthPage.ui.showPopup(`❌ ${error.message}`);
         }
       },
+      async register(formData) {
+    try {
+      // Mostra um feedback visual para o usuário
+      AuthPage.ui.showPopup('⏳ Registrando, por favor aguarde...');
+
+      const res = await fetch('http://localhost:3000/autenticacao/registro', { // Verifique se a URL está correta
+        method: 'POST',
+        body: formData // Não precisa de 'Content-Type' quando se usa FormData
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        // Usa a mensagem de erro do servidor, se existir, ou uma padrão
+        throw new Error(data.erro || 'Não foi possível completar o registro.');
+      }
+
+      AuthPage.ui.showPopup('✅ Registro realizado com sucesso! Você já pode fazer o login.');
+      
+      // Opcional: Limpa o formulário e muda para a aba de login
+      setTimeout(() => {
+        AuthPage.elements.registerForm.reset();
+        AuthPage.ui.handleTabClick(document.querySelector('[data-tab="login"]'));
+        document.getElementById('custom-popup-overlay')?.remove(); // Fecha o popup
+      }, 2500);
+
+    } catch (error) {
+      AuthPage.ui.showPopup(`❌ Erro: ${error.message}`);
+    }
+  }
     },
 
     // Funções de validação puras
