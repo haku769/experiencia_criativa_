@@ -20,43 +20,78 @@ document.addEventListener("DOMContentLoaded", () => {
     // ----------------------------------------------------------------
     // 2. INICIALIZAÇÃO
     // ----------------------------------------------------------------
-    init() {
-      // Carrega dados iniciais do localStorage
-      this.state.usuarioLogado = JSON.parse(localStorage.getItem("usuarioLogado"));
-      this.state.token = localStorage.getItem("token");
+    // Dentro do seu objeto App
+  init() {
 
-      // Configura a interface e os eventos
-      this.ui.updateHeader();
-      this.events.setupEventListeners();
 
-      // Carrega dados iniciais da API, se a página precisar
-      if (document.getElementById("users-table-body")) {
-        this.api.carregarUsuarios();
-      }
-    },
+    this.state.usuarioLogado = JSON.parse(localStorage.getItem("usuarioLogado"));
+    this.state.token = localStorage.getItem("token");
+
+    this.auth.verificarSessaoExpiradaAoCarregar();
+    // Carrega dados iniciais do localStorage (sem verificação de página)
+    this.state.usuarioLogado = JSON.parse(localStorage.getItem("usuarioLogado"));
+    this.state.token = localStorage.getItem("token");
+
+    // Configura a interface e os eventos
+    this.ui.updateHeader(); // Esta função já esconde/mostra os botões de admin, login, etc.
+    this.events.setupEventListeners();
+
+    // Carrega dados iniciais da API, se a página precisar
+    // IMPORTANTE: A chamada abaixo deve usar fetchAutenticado para ser protegida
+    if (document.getElementById("users-table-body")) {
+        this.api.carregarUsuarios(); // carregarUsuarios já usa fetchAutenticado
+    }
+  },
 
     // ----------------------------------------------------------------
     // 3. MÓDULO DE AUTENTICAÇÃO E AUTORIZAÇÃO
     // ----------------------------------------------------------------
-    auth: {
-  isLoggedIn() {
-    return !!App.state.usuarioLogado;
-  },
+  auth: {
+    
+  //  // Dentro de App.auth
+  //   verificarSessaoAoCarregar() {
+  //   const paginaAtual = window.location.pathname;
+  //   const paginaDeLogin = "/autenticacao.html";
 
-  isAdmin() {
-    return App.state.usuarioLogado?.funcao === "admin";
-  },
+  //   if (paginaAtual.endsWith(paginaDeLogin)) {
+  //       return; 
+  //   }
 
-  isTokenExpirado(token) {
-    if (!token) return true;
-    try {
-      const payload = JSON.parse(atob(token.split(".")[1]));
-      const agora = Math.floor(Date.now() / 1000);
-      return payload.exp < agora;
-    } catch (e) {
-      return true;
-    }
-  },
+  //   // 2. SE NÃO ESTAMOS NA PÁGINA DE LOGIN, verifica a sessão
+  //   // Lendo DIRETAMENTE do localStorage, pois o App.state ainda não foi carregado.
+  //   const usuarioNoStorage = localStorage.getItem("usuarioLogado");
+  //   const tokenNoStorage = localStorage.getItem("token");
+
+  //   // 3. Redireciona se não houver dados ou se o token estiver expirado
+  //   if (!usuarioNoStorage || !tokenNoStorage || this.isTokenExpirado(tokenNoStorage)) {
+  //       // Garante a limpeza completa antes de redirecionar
+  //       localStorage.removeItem("usuarioLogado");
+  //       localStorage.removeItem("token");
+        
+  //       window.location.href = paginaDeLogin;
+  //   }
+  // },
+    isLoggedIn() {
+        // Carrega o usuário do App.state, que é preenchido no init
+        return !!App.state.usuarioLogado;
+    },
+
+    isAdmin() {
+        return App.state.usuarioLogado?.funcao === "admin";
+    },
+
+    isTokenExpirado(token) {
+        if (!token) return true;
+        try {
+            const payload = JSON.parse(atob(token.split(".")[1]));
+            const agora = Math.floor(Date.now() / 1000);
+            return payload.exp < agora;
+        } catch (e) {
+            return true;
+        }
+    },
+    
+
 
   async renovarToken() {
     if (!App.state.usuarioLogado?.refreshToken) return null;
@@ -75,52 +110,94 @@ document.addEventListener("DOMContentLoaded", () => {
       return null;
     }
   },
+  verificarSessaoExpiradaAoCarregar() {
+    const paginaDeLogin = "/autenticacao.html";
+    const paginaAtual = window.location.pathname;
 
-  async fetchAutenticado(url, options = {}) {
-    if (!App.auth.isLoggedIn()) {
-      return fetch(url, options); // Permite chamadas públicas
+    // 1. Ignora a própria página de login para evitar loops de redirecionamento.
+    if (paginaAtual.endsWith(paginaDeLogin)) {
+        return;
     }
 
-    if (App.auth.isTokenExpirado(App.state.token)) {
-      const novoToken = await App.auth.renovarToken();
-      if (!novoToken) {
-        App.ui.showPopup("Sessão expirada. Faça login novamente.");
-        App.auth.logout();
-        // A linha abaixo foi adicionada para o redirecionamento
-        window.location.href = "/autenticacao.html"; 
-        return Promise.reject(new Error("Sessão expirada."));
-      }
+    // 2. Pega o token diretamente do localStorage para a verificação inicial.
+    const token = localStorage.getItem("token");
+
+    // 3. Se NÃO HÁ token, o usuário é um visitante. Permite a navegação.
+    if (!token) {
+        return;
     }
+
+    // 4. Se HÁ um token, mas ele está expirado...
+    if (this.isTokenExpirado(token)) {
+        // ...a sessão está inválida. Limpa tudo e redireciona para o login.
+        
+        // (Opcional) Mostra um popup antes de redirecionar para que o usuário entenda o que aconteceu.
+        App.ui.showPopup("Sua sessão expirou. Por favor, faça o login novamente.");
+        
+        // Desativa a interação com a página enquanto o popup é exibido
+        document.body.style.pointerEvents = 'none';
+
+        // Usa a função logout para garantir a limpeza e o redirecionamento após um breve delay.
+        setTimeout(() => {
+            this.logout(); 
+        }, 2500); // Delay de 2.5 segundos para o usuário ler o popup.
+    }
+},
     
+  // Dentro de App.auth
+
+async fetchAutenticado(url, options = {}) {
+    // 1. Verifica se o token atual é inválido (expirado ou inexistente).
+    if (this.isTokenExpirado(App.state.token)) {
+
+        // 2. Se o token for inválido, tenta renová-lo silenciosamente.
+        //    Isso só funcionará se o usuário já esteve logado e possui um refreshToken.
+        const novoToken = await this.renovarToken();
+
+        // 3. Se a renovação falhar (seja por refresh token inválido ou por nunca ter logado),
+        //    significa que o usuário NÃO tem uma sessão válida para prosseguir.
+        if (!novoToken) {
+            // Mostra um aviso claro ao usuário.
+            App.ui.showPopup("Para realizar esta ação, você precisa fazer login.");
+            
+            // Redireciona para a página de autenticação.
+            window.location.href = "/autenticacao.html";
+            
+            // Rejeita a promise para interromper a cadeia de execução do código que a chamou.
+            return Promise.reject(new Error("Sessão inválida ou expirada."));
+        }
+    }
+
+    // 4. Se chegamos aqui, o usuário tem um token válido (seja o original ou um recém-renovado).
+    //    Prosseguimos com a requisição, adicionando o cabeçalho de autorização.
     const headers = { ...options.headers, Authorization: `Bearer ${App.state.token}` };
-    // Para FormData, não se define Content-Type
     if (!(options.body instanceof FormData)) {
         headers['Content-Type'] = 'application/json';
     }
     
     return fetch(url, { ...options, headers });
-  },
-
-  logout() {
+},
+// Dentro de App.auth em sessao.js
+logout() {
     localStorage.removeItem("usuarioLogado");
     localStorage.removeItem("token");
-    // O reload pode ser removido se o redirecionamento sempre ocorrer onde o logout é chamado
-    // window.location.reload(); 
-  },
-
-  protectAdminRoute() {
-    if (!this.isLoggedIn() || !this.isAdmin()) {
-      window.location.href = "/autenticacao.html";
-      return false;
-    }
-    // A verificação duplicada abaixo pode ser removida
-    /* if (!this.isAdmin()) {
-      window.location.href = "/index.html";
-      return false;
-    } */
-    return true;
-  },
+    localStorage.removeItem("refreshToken"); // Muito importante remover este também!
+    window.location.href = "/autenticacao.html";
 },
+ protectAdminRoute() {
+            if (!this.isLoggedIn()) {
+                window.location.href = "/autenticacao.html";
+                return false;
+            }
+            if (!this.isAdmin()) {
+                App.ui.showPopup("Acesso negado. Você não tem permissão para ver esta página.", "error");
+                setTimeout(() => { window.location.href = "/index.html"; }, 2000);
+                return false;
+            }
+            return true;
+        },
+},
+// Dentro de App.auth em sessao.js
 
     // ----------------------------------------------------------------
     // 3.5 MÓDULO DE VALIDAÇÃO (Validações de Formulário)

@@ -259,3 +259,73 @@ body {
     gap: 1rem;
   }
 }
+/* Adicione este CSS ao seu arquivo de estilos (ex: style.css) */
+
+/* Estilo base para a caixa do popup */
+.custom-popup-box {
+    background-color: #fff;
+    padding: 25px 30px;
+    border-radius: 10px;
+    box-shadow: 0 5px 25px rgba(0,0,0,0.3);
+    max-width: 400px;
+    width: 90%;
+    text-align: center;
+    border-top: 5px solid #6c757d; /* Borda padrão (cinza) */
+    animation: fadeIn 0.3s ease-out;
+}
+
+/* Variação para popup de ERRO */
+.custom-popup-box.error {
+    border-top-color: #dc3545; /* Vermelho */
+}
+.custom-popup-box.error .popup-icon {
+    color: #dc3545;
+}
+
+/* Variação para popup de SUCESSO */
+.custom-popup-box.success {
+    border-top-color: #28a745; /* Verde */
+}
+.custom-popup-box.success .popup-icon {
+    color: #28a745;
+}
+
+/* Estilo para o ícone */
+.popup-icon {
+    font-size: 3em;
+    margin-bottom: 15px;
+}
+
+/* Estilo para a mensagem */
+.popup-message {
+    font-size: 1.1em;
+    line-height: 1.5;
+    color: #333;
+}
+
+/* Estilo para o botão */
+.popup-button {
+    margin-top: 20px;
+    padding: 12px 30px;
+    border: none;
+    background-color: #333;
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.2s;
+}
+.popup-button:hover {
+    background-color: #555;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}

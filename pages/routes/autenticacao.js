@@ -100,18 +100,29 @@ document.addEventListener('DOMContentLoaded', () => {
         input.classList.add(isValid ? 'is-valid' : 'is-invalid');
       },
       
-      showPopup(message) {
-        document.getElementById('custom-popup-overlay')?.remove();
-        const overlay = document.createElement('div');
-        overlay.id = 'custom-popup-overlay';
-        Object.assign(overlay.style, { position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'rgba(0,0,0,0.6)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 10000 });
-        const popup = document.createElement('div');
-        Object.assign(popup.style, { backgroundColor: '#fff', padding: '30px', borderRadius: '10px', boxShadow: '0 4px 20px rgba(0,0,0,0.3)', maxWidth: '400px', textAlign: 'center' });
-        popup.innerHTML = `<div>${message}</div><button style="margin-top:20px;padding:10px 20px;border:none;background-color:#333;color:#fff;border-radius:5px;cursor:pointer;">Fechar</button>`;
-        popup.querySelector('button').onclick = () => overlay.remove();
-        overlay.onclick = (e) => { if (e.target === overlay) overlay.remove(); };
-        document.body.appendChild(overlay);
-      }
+      // Dentro do objeto AuthPage.ui
+    showPopup(message) {
+    document.getElementById('custom-popup-overlay')?.remove();
+    const overlay = document.createElement('div');
+    overlay.id = 'custom-popup-overlay';
+    Object.assign(overlay.style, { position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'rgba(0,0,0,0.6)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 10000 });
+    
+    const popup = document.createElement('div');
+    Object.assign(popup.style, { backgroundColor: '#fff', padding: '30px', borderRadius: '10px', boxShadow: '0 4px 20px rgba(0,0,0,0.3)', maxWidth: '400px', textAlign: 'center' });
+    popup.innerHTML = `<div>${message}</div><button style="margin-top:20px;padding:10px 20px;border:none;background-color:#333;color:#fff;border-radius:5px;cursor:pointer;">Fechar</button>`;
+    
+    popup.querySelector('button').onclick = () => overlay.remove();
+    overlay.onclick = (e) => { if (e.target === overlay) overlay.remove(); };
+
+    // ==========================================================
+    // LINHA CRÍTICA ADICIONADA AQUI:
+    // Diz ao navegador para colocar a caixa do popup DENTRO do overlay.
+    overlay.appendChild(popup); 
+    // ==========================================================
+
+    // Agora, adiciona o overlay (que já contém a caixa) à página.
+    document.body.appendChild(overlay);
+  }
     },
 
     // Lógica de eventos e validação
@@ -203,6 +214,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Funções de API
     api: {
+      // Dentro do objeto AuthPage.api
       async login(credentials) {
         try {
           const res = await fetch('http://localhost:3000/autenticacao/login', {
@@ -210,35 +222,44 @@ document.addEventListener('DOMContentLoaded', () => {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(credentials)
           });
+
+          // Se a resposta NÃO for OK (erro de senha, usuário não existe, etc.)
+          if (!res.ok) {
+            let errorMessage = 'Credenciais inválidas ou erro no servidor.'; // Mensagem padrão
+
+            // Tenta extrair uma mensagem de erro mais específica do corpo da resposta
+            try {
+              const errorData = await res.json();
+              if (errorData && errorData.erro) {
+                errorMessage = errorData.erro; // Usa a mensagem do servidor se ela existir
+              }
+            } catch (e) {
+              // Se o corpo da resposta não for JSON ou estiver vazio, ignora o erro
+              // e simplesmente usa a mensagem padrão. O importante é não quebrar.
+              console.error("A resposta de erro do servidor não era JSON:", e);
+            }
+            // Lança o erro com uma mensagem garantida
+            throw new Error(errorMessage);
+          }
+
+          // Se a resposta for OK, continua com o fluxo de sucesso
           const data = await res.json();
-          if (!res.ok) throw new Error(data.erro);
           
           localStorage.setItem('usuarioLogado', JSON.stringify(data.usuario));
           localStorage.setItem('token', data.token);
           localStorage.setItem('refreshToken', data.refreshToken);
-          AuthPage.ui.showPopup('✅ Login realizado com sucesso!');
-          window.location.href = '/index.html';
+          
+          // Mostra o popup de sucesso e redireciona APÓS o usuário fechar
+          AuthPage.ui.showPopup('✅ Login realizado com sucesso! Redirecionando...');
+          setTimeout(() => {
+              window.location.href = '/index.html';
+          }, 2000); // Espera 2 segundos antes de redirecionar
 
         } catch (error) {
-          AuthPage.ui.showPopup(`❌ Erro: ${error.message}`);
+          // Este `catch` agora sempre receberá um erro com uma .message válida
+          AuthPage.ui.showPopup(`❌ ${error.message}`);
         }
       },
-      async register(formData) {
-        try {
-          const res = await fetch('http://localhost:3000/autenticacao/registro', {
-            method: 'POST',
-            body: formData
-          });
-          const data = await res.json();
-          if (!res.ok) throw new Error(data.erro);
-
-          AuthPage.ui.showPopup('✅ Conta criada com sucesso! Faça o login.');
-          document.querySelector('[data-tab="login"]').click();
-          
-        } catch (error) {
-          AuthPage.ui.showPopup(`❌ Erro: ${error.message}`);
-        }
-      }
     },
 
     // Funções de validação puras

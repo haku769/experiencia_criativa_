@@ -431,7 +431,7 @@ authRouter.post('/login', (req, res) => {
         email: usuario.EMAIL
       },
       JWT_SECRET,
-      { expiresIn: '5s' }
+      { expiresIn: '1H' }
     );
 
     const refreshToken = jwt.sign(
