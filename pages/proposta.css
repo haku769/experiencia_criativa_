@@ -297,3 +297,129 @@
         opacity: 0;
     }
 }
+/* ==========================================================
+   ESTILOS PARA O POPUP DE FEEDBACK
+   ========================================================== */
+
+/* Fundo escurecido que cobre a tela inteira */
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.6); /* Cor preta com 60% de opacidade */
+    z-index: 1000; /* Garante que fique sobre todo o conteúdo */
+    
+    /* Flexbox para centralizar o conteúdo do popup */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    /* Efeito de transição */
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+/* Classe para mostrar o popup */
+.popup-overlay.is-visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* O contêiner do conteúdo do popup */
+.popup-content {
+    background-color: #fff;
+    padding: 30px 40px;
+    border-radius: 10px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    max-width: 450px;
+    width: 90%;
+    
+    /* Animação de surgimento */
+    transform: scale(0.9);
+    transition: transform 0.3s ease;
+}
+
+.popup-overlay.is-visible .popup-content {
+    transform: scale(1);
+}
+
+/* Estilo do ícone (Font Awesome) */
+.popup-content .popup-icon {
+    font-size: 50px;
+    margin-bottom: 15px;
+}
+.popup-content .popup-icon.success {
+    color: #28a745; /* Verde */
+}
+.popup-content .popup-icon.error {
+    color: #dc3545; /* Vermelho */
+}
+
+/* Estilo das mensagens */
+.popup-content .popup-message {
+    font-size: 1.4em;
+    font-weight: bold;
+    color: #333;
+    margin: 0 0 10px 0;
+}
+
+.popup-content .popup-secondary-message {
+    font-size: 1.1em;
+    color: #555;
+    margin: 0 0 25px 0;
+}
+
+/* Estilo do botão de fechar */
+.popup-content .popup-close-button {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 12px 30px;
+    font-size: 1em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.popup-content .popup-close-button:hover {
+    background-color: #0056b3;
+}
+#valor_proposta {
+    width: 100%;
+    padding: 18px 20px; /* Mais espaço interno para o texto */
+    font-size: 1.8em; /* Deixa o número bem visível */
+    font-weight: bold; /* Fonte em negrito */
+    text-align: center; /* Centraliza o valor digitado */
+    color: #333; /* Cor do texto */
+    
+    border: 2px solid #e0e0e0; /* Borda sutil e clara */
+    border-radius: 8px; /* Cantos arredondados para um visual suave */
+    
+    background-color: #f9f9f9; /* Fundo levemente acinzentado */
+    
+    /* Sombra interna para dar uma sensação de profundidade */
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.06);
+    
+    /* Transição suave para os efeitos de foco */
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Efeito quando o usuário clica no campo */
+#valor_proposta:focus {
+    outline: none; /* Remove a borda azul padrão do navegador */
+    border-color: #007BFF; /* Destaca a borda com a cor primária */
+    
+    /* Adiciona um brilho sutil ao redor do campo */
+    box-shadow: 0 0 10px rgba(0, 123, 255, 0.2);
+}
+
+/* Estilo para o placeholder (texto de exemplo) */
+#valor_proposta::placeholder {
+    color: #bbb;
+    font-weight: normal;
+}

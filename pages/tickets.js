@@ -1,9 +1,6 @@
-// ==========================================================
-//     SCRIPT EXCLUSIVO PARA A PÁGINA ADMIN-PROPOSTAS.HTML
-// ==========================================================
-
 document.addEventListener('DOMContentLoaded', () => {
     verificarPermissaoEcarregarPropostas();
+    configurarPopups(); // Configura apenas os popups de feedback persistentes
 });
 
 /**
@@ -13,7 +10,6 @@ async function verificarPermissaoEcarregarPropostas() {
     const container = document.getElementById('propostas-container');
     const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
 
-    // Verificação de segurança no frontend
     if (!usuarioLogado) {
         container.innerHTML = '<div class="error-message">Acesso negado. Esta página é restrita a administradores.</div>';
         return;
@@ -32,7 +28,6 @@ async function verificarPermissaoEcarregarPropostas() {
             container.appendChild(criarCardProposta(proposta));
         });
     } else {
-        // A função apiFetch já terá mostrado um erro, mas podemos adicionar um fallback.
         container.innerHTML = '<div class="error-message">Ocorreu um erro ao carregar as propostas.</div>';
     }
 }
@@ -42,7 +37,6 @@ async function verificarPermissaoEcarregarPropostas() {
  */
 function criarCardProposta(proposta) {
     const card = document.createElement('div');
-    // Adiciona uma classe baseada no status para estilização com CSS
     card.className = `proposta-card status-${proposta.status.toLowerCase().replace(' ', '-')}`;
     card.dataset.id = proposta.id;
 
@@ -69,16 +63,19 @@ function criarCardProposta(proposta) {
                     <option value="Aceita" ${proposta.status === 'Aceita' ? 'selected' : ''}>Aceita</option>
                     <option value="Recusada" ${proposta.status === 'Recusada' ? 'selected' : ''}>Recusada</option>
                 </select>
-                <button class="btn btn-sm btn-primary">Salvar Status</button>
+                <button class="btn btn-sm btn-primary btn-save">Salvar Status</button>
+                <button class="btn btn-sm btn-danger btn-delete">Deletar</button>
             </div>
         </div>
     `;
 
-    // Adiciona o evento para o botão 'Salvar Status' dentro deste card
-    const btnSalvar = card.querySelector('button');
-    btnSalvar.addEventListener('click', () => {
+    card.querySelector('.btn-save').addEventListener('click', () => {
         const selectStatus = card.querySelector('.status-select');
         atualizarStatusProposta(proposta.id, selectStatus.value, card);
+    });
+
+    card.querySelector('.btn-delete').addEventListener('click', () => {
+        deletarProposta(proposta.id, card);
     });
 
     return card;
@@ -94,38 +91,122 @@ async function atualizarStatusProposta(propostaId, novoStatus, cardElement) {
     });
 
     if (resultado) {
-        mostrarMensagem('Status da proposta atualizado!', 'sucesso');
-        // Atualiza visualmente o card
+        showFeedbackPopup('Sucesso!', 'Status da proposta atualizado!', 'success');
         cardElement.querySelector('.proposta-status').textContent = novoStatus;
         cardElement.className = `proposta-card status-${novoStatus.toLowerCase().replace(' ', '-')}`;
     }
 }
 
+/**
+ * Mostra um popup de confirmação e deleta a proposta se confirmado.
+ */
+function deletarProposta(propostaId, cardElement) {
+    showConfirmPopup(
+        'Tem certeza que deseja deletar esta proposta? Esta ação não pode ser desfeita.',
+        async () => { // Esta função será executada se o usuário clicar em "Confirmar"
+            const resultado = await apiFetch(`/api/propostas/${propostaId}`, {
+                method: 'DELETE'
+            });
 
-// --- FUNÇÕES DE APOIO (TOKEN, API, MENSAGEM) ---
-// Cole aqui as mesmas funções que usamos nos outros scripts
+            if (resultado) {
+                showFeedbackPopup('Sucesso!', 'Proposta deletada com sucesso!', 'success');
+                cardElement.remove();
+            }
+        }
+    );
+}
+
+// --- FUNÇÕES DE APOIO (TOKEN, API, POPUPS) ---
 
 function getToken() { return localStorage.getItem('token'); }
 
 async function apiFetch(url, options = {}) {
     const token = getToken();
-    if (!token) return null;
+    if (!token) {
+        showFeedbackPopup('Erro de Autenticação', 'Sua sessão expirou. Faça login novamente.', 'error');
+        return null;
+    }
     const headers = { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` };
     options.headers = { ...headers, ...options.headers };
+
     try {
         const response = await fetch('http://localhost:3000' + url, options);
         if (!response.ok) {
             const errData = await response.json().catch(() => ({}));
-            throw new Error(errData.erro || "Erro na requisição.");
+            throw new Error(errData.erro || "Ocorreu um erro na requisição.");
         }
-        return response.status === 204 ? { success: true } : response.json();
+        if (response.status === 204 || response.headers.get('content-length') === '0') {
+            return { success: true };
+        }
+        return await response.json();
     } catch (error) {
         console.error("Erro de API:", error.message);
-        mostrarMensagem(error.message, "erro");
+        showFeedbackPopup('Erro de API', error.message, 'error');
         return null;
     }
 }
 
-function mostrarMensagem(texto, tipo) {
-    // ... seu código da função mostrarMensagem ...
+/**
+ * Exibe um popup de feedback (sucesso ou erro).
+ */
+function showFeedbackPopup(title, message, type = 'success') {
+    const popup = document.getElementById('feedback-popup');
+    if (!popup) return;
+
+    popup.querySelector('#feedback-title').textContent = title;
+    popup.querySelector('#feedback-message').textContent = message;
+    const icon = popup.querySelector('#feedback-icon');
+    icon.className = `popup-icon fas ${type === 'success' ? 'fa-check-circle' : 'fa-times-circle'} ${type}`;
+
+    popup.classList.add('is-visible');
+}
+
+/**
+ * Exibe um popup de confirmação com ações de "Confirmar" e "Cancelar".
+ * Garante que os listeners de clique sejam limpos e recriados a cada chamada.
+ */
+function showConfirmPopup(message, onConfirm) {
+    const popup = document.getElementById('confirm-popup');
+    if (!popup) return;
+
+    popup.querySelector('#confirm-message').textContent = message;
+    
+    const btnConfirm = popup.querySelector('#btn-confirm');
+    const btnCancel = popup.querySelector('.btn-cancel');
+
+    // Clonar os botões é a maneira mais segura de remover todos os listeners antigos.
+    const newBtnConfirm = btnConfirm.cloneNode(true);
+    btnConfirm.parentNode.replaceChild(newBtnConfirm, btnConfirm);
+
+    const newBtnCancel = btnCancel.cloneNode(true);
+    btnCancel.parentNode.replaceChild(newBtnCancel, btnCancel);
+    
+    // Adiciona o listener para o novo botão de confirmação
+    newBtnConfirm.addEventListener('click', () => {
+        popup.classList.remove('is-visible');
+        onConfirm(); // Executa a ação de confirmação
+    });
+    
+    // Adiciona o listener para o novo botão de cancelar
+    newBtnCancel.addEventListener('click', () => {
+        popup.classList.remove('is-visible');
+    });
+
+    popup.classList.add('is-visible');
+}
+
+/**
+ * Adiciona os eventos para fechar o popup de feedback.
+ */
+function configurarPopups() {
+    // Esta função agora lida apenas com o popup de feedback geral.
+    const feedbackPopup = document.getElementById('feedback-popup');
+    if (feedbackPopup) {
+        const btnClose = feedbackPopup.querySelector('.popup-close-button');
+        if (btnClose) {
+            btnClose.addEventListener('click', () => {
+                feedbackPopup.classList.remove('is-visible');
+            });
+        }
+    }
 }

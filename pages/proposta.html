@@ -22,7 +22,7 @@
                     <li><a href="proposta.html">Faça sua Proposta</a></li>
                     <li id="CrudUsuario"><a href="CRUDusuario.html">CRUDusuario</a></li>
                     <li id="CrudVeiculos"><a href="CRUDveiculos.html">CRUDveiculos</a></li>
-                    <li id="tickets"><a href="tickets.html">tickets</a></li>
+                    <li id="tickets"><a href="tickets.html">Tickets</a></li>
                 </ul>
             </nav>
             <div class="login-button">
@@ -51,7 +51,7 @@
                         </div>
                     </div> <div class="form-group">
                         <label for="valor_proposta">Sua Oferta (R$)</label>
-                        <input type="number" id="valor_proposta" min="1" step="any" placeholder="Ex: 85000" required>
+                        <input type="text" inputmode="numeric" id="valor_proposta" placeholder="Ex: 85.000" required>
                         <div id="feedback-proposta" class="feedback-proposta"></div>
                     </div>
 
@@ -79,6 +79,14 @@
         </div>
     </div>
     <div id="toast-container"></div>
+    <div class="popup-overlay" id="feedback-popup">
+    <div class="popup-content">
+        <i class="popup-icon" id="popup-icon"></i>
+        <p class="popup-message" id="popup-message"></p>
+        <p class="popup-secondary-message" id="popup-secondary-message"></p>
+        <button class="popup-close-button" id="popup-close-button">Fechar</button>
+    </div>
+</div>
     
     <script src="proposta.js"></script>
 </body>

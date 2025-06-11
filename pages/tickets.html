@@ -23,7 +23,7 @@
           <li><a href="proposta.html">Faça a sua Proposta</a></li>
           <li id="CrudUsuario"><a href="CRUDusuario.html">CRUDusuario</a></li>
           <li id="CrudVeiculos"><a href="CRUDveiculos.html">CRUDveiculos</a></li>
-          <li id="tickets"><a href="tickets.html">tickets</a></li>
+          <li id="tickets"><a href="tickets.html">Tickets</a></li>
         </ul>
       </nav>
       <div class="login-button">
@@ -51,7 +51,74 @@
     </main>
 
     <footer>
+      <div class="container">
+        <div class="footer-grid">
+            <div class="footer-about">
+                <h3>Auto<span>Elite</span></h3>
+                <p>Há mais de 15 anos oferecendo os melhores veículos e serviços para nossos clientes.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            <div class="footer-links">
+                <h4>Links Rápidos</h4>
+                <ul>
+                    <li><a href="index.html">Início</a></li>
+                    <li><a href="veiculos.html">Veículos</a></li>
+                    <li><a href="contatos.html">Contato</a></li>
+                </ul>
+            </div>
+            <div class="footer-contact">
+                <h4>Contato</h4>
+                <ul>
+                    <li><i class="fas fa-map-marker-alt"></i> Av. Brasil, 1500 - São Paulo, SP</li>
+                    <li><i class="fas fa-phone"></i> (11) 3456-7890</li>
+                    <li><i class="fas fa-envelope"></i> contato@autoelite.com.br</li>
+                    <li><i class="fas fa-clock"></i> Seg-Sex: 8h às 18h | Sáb: 9h às 14h</li>
+                </ul>
+            </div>
+            <div class="footer-newsletter">
+                <h4>Newsletter</h4>
+                <p>Receba nossas ofertas e novidades por e-mail</p>
+                <form class="newsletter-form">
+                    <input type="email" placeholder="Seu e-mail">
+                    <button type="submit" class="btn">Assinar</button>
+                </form>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 AutoElite. Todos os direitos reservados.</p>
+            <div class="footer-bottom-links">
+                <a href="#">Política de Privacidade</a>
+                <a href="#">Termos de Uso</a>
+            </div>
+        </div>
+    </div>
         </footer>
+        <div class="popup-overlay" id="feedback-popup">
+        <div class="popup-content">
+            <i class="popup-icon" id="feedback-icon"></i>
+            <h3 id="feedback-title"></h3>
+            <p id="feedback-message"></p>
+            <button class="popup-close-button">Fechar</button>
+        </div>
+    </div>
+
+    <!-- Popup de Confirmação (para deletar) -->
+    <div class="popup-overlay" id="confirm-popup">
+        <div class="popup-content">
+            <i class="popup-icon fas fa-exclamation-triangle warning"></i>
+            <h3>Confirmar Ação</h3>
+            <p id="confirm-message"></p>
+            <div class="popup-actions">
+                <button class="btn btn-secondary btn-cancel">Cancelar</button>
+                <button class="btn btn-danger" id="btn-confirm">Confirmar</button>
+            </div>
+        </div>
+    </div>
 
     <script src="tickets.js"></script>
 </body>

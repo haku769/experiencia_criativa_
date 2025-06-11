@@ -431,7 +431,7 @@ authRouter.post('/login', (req, res) => {
         email: usuario.EMAIL
       },
       JWT_SECRET,
-      { expiresIn: '1H' }
+      { expiresIn: '1h' }
     );
 
     const refreshToken = jwt.sign(
@@ -863,6 +863,22 @@ app.put('/api/propostas/:id', autenticarToken, (req, res) => {
             return res.status(404).json({ erro: 'Proposta não encontrada.' });
         }
         res.status(200).json({ mensagem: 'Status da proposta atualizado com sucesso!' });
+    });
+});
+app.delete('/api/propostas/:id', autenticarToken, (req, res) => {
+    const { id } = req.params;
+
+    const query = 'DELETE FROM Propostas WHERE id = ?';
+    db.query(query, [id], (err, results) => {
+        if (err) {
+            console.error('❌ Erro ao deletar proposta:', err);
+            return res.status(500).json({ erro: 'Erro ao deletar proposta.' });
+        }
+        // Se nenhuma linha foi afetada, a proposta com o ID fornecido não existe.
+        if (results.affectedRows === 0) {
+            return res.status(404).json({ erro: 'Proposta não encontrada.' });
+        }
+        res.status(200).json({ mensagem: 'Proposta deletada com sucesso!' });
     });
 });
 // ===================
